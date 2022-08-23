@@ -2,9 +2,9 @@ package com.cgi.hexagon.businessrules.user;
 
 public class UserService {
 
-    final private UserLoader loader;
+    final private IUserService loader;
 
-    public UserService(UserLoader loader) {
+    public UserService(IUserService loader) {
         this.loader = loader;
     }
 

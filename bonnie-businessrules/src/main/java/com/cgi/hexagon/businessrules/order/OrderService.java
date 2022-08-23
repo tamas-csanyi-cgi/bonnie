@@ -2,9 +2,9 @@ package com.cgi.hexagon.businessrules.order;
 
 public class OrderService {
 
-    final private OrderLoader loader;
+    final private IOrderService loader;
 
-    public OrderService(OrderLoader loader) {
+    public OrderService(IOrderService loader) {
         this.loader = loader;
     }
 

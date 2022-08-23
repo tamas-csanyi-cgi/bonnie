@@ -1,7 +1,7 @@
 package com.cgi.hexagon.businessrules;
 
 import com.cgi.hexagon.businessrules.order.Order;
-import com.cgi.hexagon.businessrules.order.OrderLoader;
+import com.cgi.hexagon.businessrules.order.IOrderService;
 import com.cgi.hexagon.businessrules.order.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,13 +12,13 @@ import static org.mockito.Mockito.when;
 
 class OrderServiceTest {
 
-    OrderLoader orderLoader;
+    IOrderService orderLoader;
 
     OrderService orderService;
 
     @BeforeEach
     public void setup() {
-        orderLoader = Mockito.mock(OrderLoader.class);
+        orderLoader = Mockito.mock(IOrderService.class);
         orderService = new OrderService(orderLoader);
     }
 

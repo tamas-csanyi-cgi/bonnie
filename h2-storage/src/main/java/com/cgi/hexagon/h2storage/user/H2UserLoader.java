@@ -1,14 +1,14 @@
 package com.cgi.hexagon.h2storage.user;
 
 import com.cgi.hexagon.businessrules.user.User;
-import com.cgi.hexagon.businessrules.user.UserLoader;
+import com.cgi.hexagon.businessrules.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
 @Primary
-public class H2UserLoader implements UserLoader {
+public class H2UserLoader implements IUserService {
 
     private H2UserRepository repository;
     private UserMapper mapper;
