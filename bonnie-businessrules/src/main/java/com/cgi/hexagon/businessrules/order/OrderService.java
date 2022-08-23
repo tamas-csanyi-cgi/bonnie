@@ -16,9 +16,10 @@ public class OrderService {
         return loader.releaseOrder(id);
     }
 
-    public boolean claimOrder(long id) {
-        return loader.releaseOrder(id);
+    public boolean claimOrder(long orderId, long userId) {
+        return loader.claimOrder(orderId, userId);
     }
+
 
 
 }

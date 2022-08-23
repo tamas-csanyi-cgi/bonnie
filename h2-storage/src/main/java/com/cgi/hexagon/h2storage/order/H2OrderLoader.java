@@ -52,6 +52,7 @@ public class H2OrderLoader implements OrderLoader {
         return false;
     }
 
+    @Override
     public boolean updateOrderStatus(long id, Status status) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
@@ -61,11 +62,11 @@ public class H2OrderLoader implements OrderLoader {
         }
         return false;
     }
-
-    boolean setTrackingNumber(long id, String trackingNr) {
+    @Override
+    public boolean setTrackingNumber(long id, String trackingNr) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
-            order.set(status);
+            order.setTrackingNr(trackingNr);
             repository.save(order);
             return true;
         }

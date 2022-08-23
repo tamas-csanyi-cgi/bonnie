@@ -1,6 +1,5 @@
 package com.cgi.hexagon.h2storage.order;
 
-import com.cgi.hexagon.businessrules.Order;
 import com.cgi.hexagon.businessrules.Status;
 import org.springframework.data.annotation.Id;
 
