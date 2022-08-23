@@ -2,14 +2,14 @@ package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.order.Order;
-import com.cgi.hexagon.businessrules.order.OrderLoader;
+import com.cgi.hexagon.businessrules.order.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
 @Primary
-public class H2OrderLoader implements OrderLoader {
+public class H2OrderLoader implements IOrderService {
 
     private H2OrderRepository repository;
     private OrderMapper mapper;

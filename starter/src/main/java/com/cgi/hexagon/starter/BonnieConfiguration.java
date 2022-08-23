@@ -2,9 +2,9 @@ package com.cgi.hexagon.starter;
 
 
 import com.cgi.hexagon.bonnierest.BonnieRestConfiguration;
-import com.cgi.hexagon.businessrules.order.OrderLoader;
+import com.cgi.hexagon.businessrules.order.IOrderService;
 import com.cgi.hexagon.businessrules.order.OrderService;
-import com.cgi.hexagon.businessrules.user.UserLoader;
+import com.cgi.hexagon.businessrules.user.IUserService;
 import com.cgi.hexagon.businessrules.user.UserService;
 import com.cgi.hexagon.h2storage.H2StorageApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Import;
 public class BonnieConfiguration {
 
     @Bean
-    OrderService orderService(OrderLoader orderStorage) {
+    OrderService orderService(IOrderService orderStorage) {
         return new OrderService(orderStorage);
     }
 
     @Bean
-    UserService userService(UserLoader userStorage) { return new UserService(userStorage); }
+    UserService userService(IUserService userStorage) { return new UserService(userStorage); }
 }
