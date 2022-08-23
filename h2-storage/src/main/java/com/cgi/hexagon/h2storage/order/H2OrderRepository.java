@@ -1,4 +1,4 @@
-package com.cgi.hexagon.h2storage;
+package com.cgi.hexagon.h2storage.order;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

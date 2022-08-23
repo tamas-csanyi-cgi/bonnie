@@ -1,4 +1,4 @@
-package com.cgi.hexagon.h2storage;
+package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Order;
 import org.springframework.stereotype.Component;

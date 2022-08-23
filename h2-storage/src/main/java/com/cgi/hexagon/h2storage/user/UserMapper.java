@@ -1,4 +1,4 @@
-package com.cgi.hexagon.h2storage;
+package com.cgi.hexagon.h2storage.user;
 
 import com.cgi.hexagon.businessrules.User;
 import org.springframework.stereotype.Component;
