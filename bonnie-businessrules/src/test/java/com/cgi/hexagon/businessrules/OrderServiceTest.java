@@ -1,5 +1,8 @@
 package com.cgi.hexagon.businessrules;
 
+import com.cgi.hexagon.businessrules.order.Order;
+import com.cgi.hexagon.businessrules.order.OrderLoader;
+import com.cgi.hexagon.businessrules.order.OrderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

@@ -1,4 +1,4 @@
-package com.cgi.hexagon.businessrules;
+package com.cgi.hexagon.businessrules.user;
 
 public interface UserLoader {
 

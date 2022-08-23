@@ -1,7 +1,7 @@
 package com.cgi.hexagon.bonnierest;
 
-import com.cgi.hexagon.businessrules.Order;
-import com.cgi.hexagon.businessrules.OrderService;
+import com.cgi.hexagon.businessrules.order.Order;
+import com.cgi.hexagon.businessrules.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

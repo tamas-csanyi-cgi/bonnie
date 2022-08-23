@@ -1,7 +1,8 @@
 package com.cgi.hexagon.h2storage.order;
 
-import com.cgi.hexagon.businessrules.Order;
-import com.cgi.hexagon.businessrules.OrderLoader;
+import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.order.Order;
+import com.cgi.hexagon.businessrules.order.OrderLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -24,13 +25,51 @@ public class H2OrderLoader implements OrderLoader {
     }
 
 
-
     @Override
     public Order load(long id) {
         return mapper.fromEntity(repository.findById(id).orElseThrow(() -> new IllegalStateException("Order not found")));
     }
 
+    @Override
+    public boolean releaseOrder(long id) {
+        if (repository.findById(id).isPresent()) {
+            AssemblyOrder order = repository.findById(id).get();
+            order.setAssembler(null);
+            repository.save(order);
+            return true;
+        }
+        return false;
+    }
 
+    @Override
+    public boolean claimOrder(long id, long userId) {
+        if (repository.findById(id).isPresent()) {
+            AssemblyOrder order = repository.findById(id).get();
+            order.setAssembler(""+userId);
+            repository.save(order);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean updateOrderStatus(long id, Status status) {
+        if (repository.findById(id).isPresent()) {
+            AssemblyOrder order = repository.findById(id).get();
+            order.setStatus(status);
+            repository.save(order);
+            return true;
+        }
+        return false;
+    }
+
+    boolean setTrackingNumber(long id, String trackingNr) {
+        if (repository.findById(id).isPresent()) {
+            AssemblyOrder order = repository.findById(id).get();
+            order.set(status);
+            repository.save(order);
+            return true;
+        }
+        return false;
+    }
 
 }

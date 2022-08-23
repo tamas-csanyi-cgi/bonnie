@@ -1,4 +1,4 @@
-package com.cgi.hexagon.businessrules;
+package com.cgi.hexagon.businessrules.order;
 
 public class OrderService {
 
@@ -10,6 +10,14 @@ public class OrderService {
 
     public Order loadOrder(long id){
         return loader.load(id);
+    }
+
+    public boolean releaseOrder(long id) {
+        return loader.releaseOrder(id);
+    }
+
+    public boolean claimOrder(long id) {
+        return loader.releaseOrder(id);
     }
 
 

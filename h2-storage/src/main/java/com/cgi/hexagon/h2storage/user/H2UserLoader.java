@@ -1,7 +1,7 @@
 package com.cgi.hexagon.h2storage.user;
 
-import com.cgi.hexagon.businessrules.User;
-import com.cgi.hexagon.businessrules.UserLoader;
+import com.cgi.hexagon.businessrules.user.User;
+import com.cgi.hexagon.businessrules.user.UserLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
