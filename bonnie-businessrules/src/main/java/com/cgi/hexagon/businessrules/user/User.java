@@ -1,4 +1,6 @@
-package com.cgi.hexagon.businessrules;
+package com.cgi.hexagon.businessrules.user;
+
+import com.cgi.hexagon.businessrules.Role;
 
 public class User {
 

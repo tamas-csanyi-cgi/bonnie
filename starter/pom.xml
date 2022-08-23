@@ -28,11 +28,6 @@
         </dependency>
         <dependency>
             <groupId>com.cgi.hexagon</groupId>
-            <artifactId>bonnie-inmem-storage</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.cgi.hexagon</groupId>
             <artifactId>h2-storage</artifactId>
         </dependency>
         <dependency>
