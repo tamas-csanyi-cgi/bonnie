@@ -1,6 +1,6 @@
 package com.cgi.hexagon.businessrules.user;
 
-public interface UserLoader {
+public interface IUserService {
 
     User load(long id);
 }
