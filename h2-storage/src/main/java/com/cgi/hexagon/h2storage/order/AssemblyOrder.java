@@ -1,5 +1,6 @@
 package com.cgi.hexagon.h2storage.order;
 
+import com.cgi.hexagon.businessrules.Order;
 import com.cgi.hexagon.businessrules.Status;
 import org.springframework.data.annotation.Id;
 
@@ -16,7 +17,9 @@ public class AssemblyOrder{
 
     Status status;
 
-    String assembler = null;
+    String assembler;
+
+    String trackingNr;
 
     public AssemblyOrder(long id) {
         this.id = id;
@@ -98,5 +101,18 @@ public class AssemblyOrder{
 
     public void setAssembler(String assembler) {
         this.assembler = assembler;
+    }
+
+    public String getTrackingNr() {
+        return trackingNr;
+    }
+
+    public void setTrackingNr(String trackingNr) {
+        this.trackingNr = trackingNr;
+    }
+
+    public AssemblyOrder withTrackingNr (String trackingNr) {
+        this.setTrackingNr(trackingNr);
+        return this;
     }
 }

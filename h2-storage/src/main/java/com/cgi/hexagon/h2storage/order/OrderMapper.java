@@ -12,7 +12,8 @@ public class OrderMapper {
                 .withStatus(order.getStatus())
                 .withGoodsId(order.getGoodsId())
                 .withAssembler(order.getAssembler())
-                .withQuantity(order.getQuantity());
+                .withQuantity(order.getQuantity())
+                .withTrackingNr(order.getTrackingNr());
     }
 
     public Order fromEntity(AssemblyOrder orderEntity) {
@@ -22,6 +23,7 @@ public class OrderMapper {
                 .withStatus(orderEntity.getStatus())
                 .withGoodsId(orderEntity.getGoodsId())
                 .withAssembler(orderEntity.getAssembler())
-                .withQuantity(orderEntity.getQuantity());
+                .withQuantity(orderEntity.getQuantity())
+                .withTrackingNr(orderEntity.getTrackingNr());
     }
 }

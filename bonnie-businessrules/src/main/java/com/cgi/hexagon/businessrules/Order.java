@@ -5,14 +5,13 @@ import java.util.Objects;
 public class Order {
 
     long id;
-
     String shopId;
     String goodsId;
     int quantity;
     Status status;
-    String assembler = null;
+    String assembler;
 
-
+    String trackingNr;
 
     public Order() {
     }
@@ -92,6 +91,19 @@ public class Order {
 
     public Order withAssembler(String assembler) {
         this.setAssembler(assembler);
+        return this;
+    }
+
+    public String getTrackingNr() {
+        return trackingNr;
+    }
+
+    public void setTrackingNr(String trackingNr) {
+        this.trackingNr = trackingNr;
+    }
+
+    public Order withTrackingNr (String trackingNr) {
+        this.setTrackingNr(trackingNr);
         return this;
     }
 
