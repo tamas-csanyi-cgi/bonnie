@@ -1,11 +1,8 @@
 package com.cgi.hexagon.h2storage.order;
 
-import com.cgi.hexagon.businessrules.Role;
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.IOrderService;
-import com.cgi.hexagon.h2storage.user.AssemblyUser;
-import com.cgi.hexagon.h2storage.user.H2UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -34,6 +31,7 @@ public class H2OrderLoader implements IOrderService {
         return mapper.fromEntity(repository.findById(id).orElseThrow(() -> new IllegalStateException("Order not found")));
     }
 
+
     @Override
     public boolean releaseOrder(long id) {
         if (repository.findById(id).isPresent()) {
@@ -49,9 +47,11 @@ public class H2OrderLoader implements IOrderService {
     public boolean claimOrder(long id, long userId) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
-            order.setAssembler(""+userId);
-            repository.save(order);
-            return true;
+            if (null == order.getAssembler()) {
+                order.setAssembler("" + userId);
+                repository.save(order);
+                return true;
+            }
         }
         return false;
     }

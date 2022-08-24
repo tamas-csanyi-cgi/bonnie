@@ -1,8 +1,6 @@
 package com.cgi.hexagon.bonnierest;
 
 import com.cgi.hexagon.bonnierest.model.OrderRequest;
-import com.cgi.hexagon.bonnierest.model.UserRequest;
-import com.cgi.hexagon.businessrules.Role;
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.OrderService;
