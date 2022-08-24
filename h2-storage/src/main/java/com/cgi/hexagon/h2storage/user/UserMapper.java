@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public AssemblyUser fromUser(User user) {
-        return new AssemblyUser(user.getId())
+        return new AssemblyUser()
+                .withId(user.getId())
                 .withName(user.getName())
                 .withPassword(user.getPassword())
                 .withRole(user.getRole());

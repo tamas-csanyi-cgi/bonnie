@@ -3,9 +3,14 @@ package com.cgi.hexagon.h2storage.order;
 import com.cgi.hexagon.businessrules.Status;
 import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
+@Entity
 public class AssemblyOrder{
 
     @Id
+    @GeneratedValue
     long id;
 
     String shopId;
@@ -22,6 +27,9 @@ public class AssemblyOrder{
 
     public AssemblyOrder(long id) {
         this.id = id;
+    }
+
+    public AssemblyOrder() {
     }
 
     public long getId() {

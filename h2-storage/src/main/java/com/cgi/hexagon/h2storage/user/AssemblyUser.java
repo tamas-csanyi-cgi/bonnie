@@ -3,9 +3,19 @@ package com.cgi.hexagon.h2storage.user;
 import com.cgi.hexagon.businessrules.Role;
 import org.springframework.data.annotation.Id;
 
+import javax.annotation.processing.Generated;
+import javax.persistence.*;
+import java.util.UUID;
+
+@Entity
+/*@SequenceGenerator(
+        name         = "UserSeq",
+        sequenceName = "SEQ"
+)*/
 public class AssemblyUser {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSeq")
     long id;
 
     String name;
@@ -14,8 +24,7 @@ public class AssemblyUser {
 
     Role role;
 
-    public AssemblyUser(long id) {
-        this.id = id;
+    public AssemblyUser() {
     }
 
     public AssemblyUser withId(long id) {
