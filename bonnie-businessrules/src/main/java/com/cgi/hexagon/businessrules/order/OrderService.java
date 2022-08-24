@@ -1,25 +1,33 @@
 package com.cgi.hexagon.businessrules.order;
 
-public class OrderService {
+import com.cgi.hexagon.businessrules.Status;
 
-    final private IOrderService loader;
+public class OrderService{
+
+    final private IOrderService orderServiceIf;
 
     public OrderService(IOrderService loader) {
-        this.loader = loader;
+        this.orderServiceIf = loader;
     }
 
     public Order loadOrder(long id){
-        return loader.load(id);
+        return orderServiceIf.load(id);
     }
 
     public boolean releaseOrder(long id) {
-        return loader.releaseOrder(id);
+        return orderServiceIf.releaseOrder(id);
     }
 
     public boolean claimOrder(long orderId, long userId) {
-        return loader.claimOrder(orderId, userId);
+        return orderServiceIf.claimOrder(orderId, userId);
     }
 
+    public boolean setTrackingNumber(long id, String trackingNr) {
+        return orderServiceIf.setTrackingNumber(id, trackingNr);
+    }
 
+    public long createOrder(String productId, int quantity, long assignedTo, Status status) {
+        return orderServiceIf.createOrder(productId, quantity, assignedTo, status);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.cgi.hexagon.businessrules.order;
 
+import com.cgi.hexagon.businessrules.Role;
 import com.cgi.hexagon.businessrules.Status;
 
 public interface IOrderService {
@@ -13,5 +14,7 @@ public interface IOrderService {
     boolean updateOrderStatus(long id, Status status);
 
     boolean setTrackingNumber(long id, String trackingNr);
+
+    long createOrder(String productId, int quantity, long assignedTo, Status status);
     
 }

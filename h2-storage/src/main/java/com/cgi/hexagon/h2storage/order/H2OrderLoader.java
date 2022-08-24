@@ -1,8 +1,11 @@
 package com.cgi.hexagon.h2storage.order;
 
+import com.cgi.hexagon.businessrules.Role;
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.IOrderService;
+import com.cgi.hexagon.h2storage.user.AssemblyUser;
+import com.cgi.hexagon.h2storage.user.H2UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class H2OrderLoader implements IOrderService {
 
     private H2OrderRepository repository;
+
     private OrderMapper mapper;
 
     @Autowired
@@ -72,5 +76,14 @@ public class H2OrderLoader implements IOrderService {
         }
         return false;
     }
+
+    @Override
+    public long createOrder(String productId, int quantity, long assignedTo, Status status) {
+        AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
+                .withAssembler(""+assignedTo).withStatus(status);
+        repository.save(aOrder);
+        return aOrder.id;
+    }
+
 
 }
