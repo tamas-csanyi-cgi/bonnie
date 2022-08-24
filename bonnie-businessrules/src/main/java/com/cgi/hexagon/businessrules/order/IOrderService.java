@@ -1,6 +1,5 @@
 package com.cgi.hexagon.businessrules.order;
 
-import com.cgi.hexagon.businessrules.Role;
 import com.cgi.hexagon.businessrules.Status;
 
 public interface IOrderService {

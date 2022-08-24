@@ -3,19 +3,13 @@ package com.cgi.hexagon.h2storage.user;
 import com.cgi.hexagon.businessrules.Role;
 import org.springframework.data.annotation.Id;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
-/*@SequenceGenerator(
-        name         = "UserSeq",
-        sequenceName = "SEQ"
-)*/
 public class AssemblyUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UserSeq")
+    @GeneratedValue
     long id;
 
     String name;
