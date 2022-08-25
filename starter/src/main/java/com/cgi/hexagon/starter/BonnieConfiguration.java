@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Import;
 public class BonnieConfiguration {
 
     @Bean
-    OrderService orderService(IOrderService orderStorage) {
-        return new OrderService(orderStorage);
+    OrderService orderService(IOrderService orderStorage, UserService userService) {
+        return new OrderService(orderStorage, userService);
     }
 
     @Bean

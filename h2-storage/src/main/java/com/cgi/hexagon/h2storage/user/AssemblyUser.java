@@ -41,7 +41,6 @@ public class AssemblyUser {
         return this;
     }
 
-
     public long getId() {
         return id;
     }

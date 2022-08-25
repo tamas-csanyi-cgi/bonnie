@@ -19,4 +19,9 @@ public class UserService {
     public long createUser(String name, String password, Role role) {
         return userServiceIf.createUser(name, password, role);
     }
+
+    public boolean save(User user) {
+        return userServiceIf.save(user);
+    }
+
 }
