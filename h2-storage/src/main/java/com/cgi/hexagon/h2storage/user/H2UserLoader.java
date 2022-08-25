@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.UUID;
-
 @Component
 @Primary
 public class H2UserLoader implements IUserService {
@@ -24,8 +20,13 @@ public class H2UserLoader implements IUserService {
         this.mapper = mapper;
     }
 
-    public void save(User o) {
-        repository.save(mapper.fromUser(o));
+    public boolean save(User o) {
+        try {
+            repository.save(mapper.fromUser(o));
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
     }
 
 

@@ -21,8 +21,13 @@ public class H2OrderLoader implements IOrderService {
         this.mapper = mapper;
     }
 
-    public void save(Order o) {
-        repository.save(mapper.fromOrder(o));
+    public boolean save(Order o) {
+        try{
+            repository.save(mapper.fromOrder(o));
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
     }
 
 
@@ -33,10 +38,11 @@ public class H2OrderLoader implements IOrderService {
 
 
     @Override
-    public boolean releaseOrder(long id) {
+    public boolean release(long id) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
             order.setAssembler(null);
+            order.setStatus(Status.NEW);
             repository.save(order);
             return true;
         }
@@ -44,11 +50,12 @@ public class H2OrderLoader implements IOrderService {
     }
 
     @Override
-    public boolean claimOrder(long id, long userId) {
+    public boolean claim(long id, long userId) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
             if (null == order.getAssembler()) {
                 order.setAssembler("" + userId);
+                order.setStatus(Status.CLAIMED);
                 repository.save(order);
                 return true;
             }
@@ -57,7 +64,7 @@ public class H2OrderLoader implements IOrderService {
     }
 
     @Override
-    public boolean updateOrderStatus(long id, Status status) {
+    public boolean updateStatus(long id, Status status) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
             order.setStatus(status);
@@ -66,10 +73,12 @@ public class H2OrderLoader implements IOrderService {
         }
         return false;
     }
+
     @Override
     public boolean setTrackingNumber(long id, String trackingNr) {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
+            order.setStatus(Status.SHIPPED);
             order.setTrackingNr(trackingNr);
             repository.save(order);
             return true;
@@ -78,12 +87,11 @@ public class H2OrderLoader implements IOrderService {
     }
 
     @Override
-    public long createOrder(String productId, int quantity, long assignedTo, Status status) {
+    public long create(String productId, int quantity, long assignedTo, Status status) {
         AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
                 .withAssembler(""+assignedTo).withStatus(status);
         repository.save(aOrder);
         return aOrder.id;
     }
-
 
 }

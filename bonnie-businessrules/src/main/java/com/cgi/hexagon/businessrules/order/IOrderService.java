@@ -6,14 +6,16 @@ public interface IOrderService {
 
     Order load(long id);
 
-    boolean releaseOrder(long id);
+    boolean save (Order order);
 
-    boolean claimOrder(long id, long userId);
+    boolean release(long id);
 
-    boolean updateOrderStatus(long id, Status status);
+    boolean claim(long id, long userId);
+
+    boolean updateStatus(long id, Status status);
 
     boolean setTrackingNumber(long id, String trackingNr);
 
-    long createOrder(String productId, int quantity, long assignedTo, Status status);
+    long create(String productId, int quantity, long assignedTo, Status status);
     
 }
