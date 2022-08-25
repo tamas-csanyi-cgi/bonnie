@@ -20,7 +20,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/order/get/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable long id) {
         try {
             Order order = orderService.loadOrder(id);

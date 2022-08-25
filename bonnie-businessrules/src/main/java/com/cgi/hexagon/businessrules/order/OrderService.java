@@ -1,13 +1,17 @@
 package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.user.UserService;
 
 public class OrderService{
 
     final private IOrderService orderServiceIf;
 
-    public OrderService(IOrderService loader) {
+    final private UserService userService;
+
+    public OrderService(IOrderService loader, UserService userService) {
         this.orderServiceIf = loader;
+        this.userService = userService;
     }
 
     public Order loadOrder(long id){
