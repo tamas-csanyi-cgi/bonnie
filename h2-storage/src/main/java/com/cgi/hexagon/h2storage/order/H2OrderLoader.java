@@ -30,6 +30,9 @@ public class H2OrderLoader implements IOrderService {
         }
     }
 
+    public Order findByAssembler(long assembler) {
+        return mapper.fromEntity(repository.findByAssembler(""+assembler));
+    }
 
     @Override
     public Order load(long id) {

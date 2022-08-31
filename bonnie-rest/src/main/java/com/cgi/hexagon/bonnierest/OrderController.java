@@ -72,4 +72,8 @@ public class OrderController {
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
+    public void receive() {
+
+    }
+
 }
