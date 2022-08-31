@@ -1,5 +1,7 @@
 package com.cgi.hexagon.businessrules.order;
 
+import com.cgi.hexagon.businessrules.ISender;
+import com.cgi.hexagon.businessrules.SendRequest;
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.user.User;
 import com.cgi.hexagon.businessrules.user.UserService;
@@ -8,12 +10,14 @@ public class OrderService{
 
     final private IOrderService orderServiceIf;
 
-
     final private UserService userService;
 
-    public OrderService(IOrderService loader, UserService userService) {
+    final private ISender sender;
+
+    public OrderService(IOrderService loader, UserService userService, ISender sender) {
         this.orderServiceIf = loader;
         this.userService = userService;
+        this.sender = sender;
     }
 
     public Order loadOrder(long id){
@@ -54,6 +58,7 @@ public class OrderService{
                 order.setStatus(Status.SHIPPED);
                 order.setTrackingNr(trackingNr);
                 orderServiceIf.save(order);
+                sender.send(new SendRequest(id, Status.SHIPPED, trackingNr));
                 return true;
             }
         }catch(Exception e) {}
@@ -69,6 +74,7 @@ public class OrderService{
             Order order = loadOrder(orderId);
             order.setStatus(status);
             orderServiceIf.save(order);
+            sender.send(new SendRequest(orderId, status));
             return true;
         }catch (Exception e) {
             return false;

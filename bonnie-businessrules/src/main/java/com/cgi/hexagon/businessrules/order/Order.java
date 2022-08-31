@@ -18,6 +18,12 @@ public class Order {
     public Order() {
     }
 
+    public Order(String shopId, String goodsId, int quantity) {
+        this.shopId = shopId;
+        this.goodsId = goodsId;
+        this.quantity = quantity;
+    }
+
     public long getId() {
         return id;
     }

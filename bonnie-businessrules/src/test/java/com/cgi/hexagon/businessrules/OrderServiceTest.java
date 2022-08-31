@@ -19,10 +19,12 @@ class OrderServiceTest {
 
     UserService userService;
 
+    ISender sender;
+
     @BeforeEach
     public void setup() {
         orderLoader = Mockito.mock(IOrderService.class);
-        orderService = new OrderService(orderLoader, userService);
+        orderService = new OrderService(orderLoader, userService, sender);
     }
 
     @Test
