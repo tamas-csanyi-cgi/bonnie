@@ -1,6 +1,7 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.order.Order;
+import com.cgi.hexagon.businessrules.order.OrderMetadata;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,8 +13,7 @@ public class OrderMapper {
                 .withStatus(order.getStatus())
                 .withGoodsId(order.getGoodsId())
                 .withAssembler(order.getAssembler())
-                .withQuantity(order.getQuantity())
-                .withTrackingNr(order.getTrackingNr());
+                .withQuantity(order.getQuantity());
     }
 
     public Order fromEntity(AssemblyOrder orderEntity) {
@@ -24,6 +24,6 @@ public class OrderMapper {
                 .withGoodsId(orderEntity.getGoodsId())
                 .withAssembler(orderEntity.getAssembler())
                 .withQuantity(orderEntity.getQuantity())
-                .withTrackingNr(orderEntity.getTrackingNr());
+                .withMetadata(new OrderMetadata());
     }
 }

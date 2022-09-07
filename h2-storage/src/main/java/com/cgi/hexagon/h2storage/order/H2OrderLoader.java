@@ -82,7 +82,6 @@ public class H2OrderLoader implements IOrderService {
         if (repository.findById(id).isPresent()) {
             AssemblyOrder order = repository.findById(id).get();
             order.setStatus(Status.SHIPPED);
-            order.setTrackingNr(trackingNr);
             repository.save(order);
             return true;
         }

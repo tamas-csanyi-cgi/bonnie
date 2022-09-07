@@ -6,14 +6,14 @@ import java.util.Objects;
 
 public class Order {
 
-    long id;
-    String shopId;
-    String goodsId;
-    int quantity;
-    Status status;
-    String assembler;
+    private long id;
+    private String shopId;
+    private String goodsId;
+    private int quantity;
+    private Status status;
+    private String assembler;
 
-    String trackingNr;
+    private OrderMetadata metadata;
 
     public Order() {
     }
@@ -102,16 +102,16 @@ public class Order {
         return this;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
+    public OrderMetadata getMetadata() {
+        return metadata;
     }
 
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
+    public void setMetadata(OrderMetadata metadata) {
+        this.metadata = metadata;
     }
 
-    public Order withTrackingNr (String trackingNr) {
-        this.setTrackingNr(trackingNr);
+    public Order withMetadata (OrderMetadata metadata) {
+        this.setMetadata(metadata);
         return this;
     }
 

@@ -1,10 +1,13 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.order.Order;
+import com.cgi.hexagon.businessrules.order.OrderMetadata;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Transient;
 
 @Entity
 public class AssemblyOrder{
@@ -23,7 +26,7 @@ public class AssemblyOrder{
 
     String assembler;
 
-    String trackingNr;
+    //transient OrderMetadata metadata;
 
     public AssemblyOrder(long id) {
         this.id = id;
@@ -70,6 +73,11 @@ public class AssemblyOrder{
         return this;
     }
 
+    /*public AssemblyOrder withMetadata(OrderMetadata metadata) {
+        this.setMetadata(metadata);
+        return this;
+    }*/
+
     public String getShopId() {
         return shopId;
     }
@@ -110,16 +118,11 @@ public class AssemblyOrder{
         this.assembler = assembler;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
+    /*public OrderMetadata getMetadata() {
+        return metadata;
     }
 
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
-    }
-
-    public AssemblyOrder withTrackingNr (String trackingNr) {
-        this.setTrackingNr(trackingNr);
-        return this;
-    }
+    public void setMetadata(OrderMetadata metadata) {
+        this.metadata = metadata;
+    }*/
 }

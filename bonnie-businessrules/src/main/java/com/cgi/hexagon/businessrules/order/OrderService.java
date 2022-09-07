@@ -31,6 +31,7 @@ public class OrderService{
                 order.setAssembler(null);
                 order.setStatus(Status.NEW);
                 orderServiceIf.save(order);
+                sender.send(fromOrder(order));
                 return true;
             }
         }catch (Exception e) {}
@@ -39,12 +40,13 @@ public class OrderService{
 
     public boolean claimOrder(long orderId, long userId) {
         Order order = loadOrder(orderId);
-        if (null == order.getAssembler() && order.status == Status.NEW) {
+        if (null == order.getAssembler() && order.getStatus() == Status.NEW) {
             User user = userService.loadUser(userId);
             if (null != user) {
                 order.setAssembler("" + userId);
                 order.setStatus(Status.CLAIMED);
                 orderServiceIf.save(order);
+                sender.send(fromOrder(order));
                 return true;
             }
         }
@@ -56,9 +58,9 @@ public class OrderService{
             Order order = loadOrder(id);
             if (order.getStatus() == Status.ASSEMBLED) {
                 order.setStatus(Status.SHIPPED);
-                order.setTrackingNr(trackingNr);
+                order.setMetadata(new OrderMetadata(trackingNr));
                 orderServiceIf.save(order);
-                sender.send(new SendRequest(id, Status.SHIPPED, trackingNr));
+                sender.send(fromOrder(order));
                 return true;
             }
         }catch(Exception e) {}
@@ -74,7 +76,7 @@ public class OrderService{
             Order order = loadOrder(orderId);
             order.setStatus(status);
             orderServiceIf.save(order);
-            sender.send(new SendRequest(orderId, status));
+            sender.send(fromOrder(order));
             return true;
         }catch (Exception e) {
             return false;
@@ -88,6 +90,14 @@ public class OrderService{
             return true;
         }
         return false;
+    }
+
+    public SendRequest fromOrder(Order order){
+        SendRequest sendRequest = new SendRequest();
+        sendRequest.setOrderId(order.getShopId());
+        sendRequest.setStatus(order.getStatus());
+        sendRequest.setMetadata(order.getMetadata());
+        return sendRequest;
     }
 
 }

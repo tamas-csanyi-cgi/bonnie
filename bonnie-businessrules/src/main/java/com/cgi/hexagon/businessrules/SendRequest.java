@@ -1,29 +1,32 @@
 package com.cgi.hexagon.businessrules;
 
+import com.cgi.hexagon.businessrules.order.Order;
+import com.cgi.hexagon.businessrules.order.OrderMetadata;
+
 public class SendRequest {
 
-    private long orderId;
+    private String orderId;
 
     private Status status;
 
-    private String trackingNr;
+    private OrderMetadata metadata;
 
-    public SendRequest(long orderId, Status status, String trackingNr) {
+    public SendRequest(String orderId, Status status, OrderMetadata metadata) {
         this.orderId = orderId;
         this.status = status;
-        this.trackingNr = trackingNr;
+        this.metadata = metadata;
     }
 
-    public SendRequest(long orderId, Status status) {
+    public SendRequest(String orderId, Status status) {
         this.orderId = orderId;
         this.status = status;
     }
 
-    public long getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -35,14 +38,26 @@ public class SendRequest {
         this.status = status;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
+    public OrderMetadata getMetadata() {
+        return metadata;
     }
 
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
+    public void setMetadata(OrderMetadata metadata) {
+        this.metadata = metadata;
     }
 
     public SendRequest() {
     }
+
+    @Override
+    public String toString() {
+        return "SendRequest{" +
+                "\r\n    orderId='" + orderId +'\'' +
+                ",\n" +
+                "    status=" + status +
+                ",\n" +
+                "    " + metadata.toString() +
+                "\n}";
+    }
+
 }
