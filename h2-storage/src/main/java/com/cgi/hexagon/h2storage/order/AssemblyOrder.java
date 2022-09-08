@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import java.util.Date;
 import java.util.Map;
 
 @Entity
@@ -24,6 +25,16 @@ public class AssemblyOrder{
     Status status;
 
     String assembler;
+
+    Date realizationDate;
+
+    public Date getRealizationDate() {
+        return realizationDate;
+    }
+
+    public void setRealizationDate(Date realizationDate) {
+        this.realizationDate = realizationDate;
+    }
 
     String metadata;
 
@@ -82,6 +93,11 @@ public class AssemblyOrder{
 
     public AssemblyOrder withMetadata(String metadata) {
         this.setMetadata(metadata);
+        return this;
+    }
+
+    public AssemblyOrder withRealizationDate(Date realizationDate) {
+        this.setRealizationDate(realizationDate);
         return this;
     }
 

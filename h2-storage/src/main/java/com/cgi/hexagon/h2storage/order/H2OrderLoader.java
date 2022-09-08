@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 @Primary
 public class H2OrderLoader implements IOrderService {
@@ -91,7 +93,7 @@ public class H2OrderLoader implements IOrderService {
     @Override
     public long create(String productId, int quantity, long assignedTo, Status status) {
         AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
-                .withAssembler(""+assignedTo).withStatus(status);
+                .withAssembler(""+assignedTo).withStatus(status).withRealizationDate(new Date());
         repository.save(aOrder);
         return aOrder.id;
     }

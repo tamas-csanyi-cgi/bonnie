@@ -6,7 +6,8 @@ create table assembly_order
     quantity integer,
     status varchar(255),
     assembler varchar(255),
-    metadata varchar(10000)
+    metadata varchar(10000),
+    realization_date date
 );
 
 create table assembly_user

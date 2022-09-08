@@ -16,7 +16,8 @@ public class OrderMapper {
                 .withGoodsId(order.getGoodsId())
                 .withAssembler(order.getAssembler())
                 .withQuantity(order.getQuantity())
-                .withMetadata(converter.convertToDatabaseColumn(order.getMetadata()));
+                .withMetadata(converter.convertToDatabaseColumn(order.getMetadata()))
+                .withRealizationDate(order.getRealizationDate());
     }
 
     public Order fromEntity(AssemblyOrder orderEntity) {
@@ -27,6 +28,7 @@ public class OrderMapper {
                 .withGoodsId(orderEntity.getGoodsId())
                 .withAssembler(orderEntity.getAssembler())
                 .withQuantity(orderEntity.getQuantity())
-                .withMetadata(converter.convertToEntityAttribute(orderEntity.getMetadata()));
+                .withMetadata(converter.convertToEntityAttribute(orderEntity.getMetadata()))
+                .withRealizationDate(orderEntity.getRealizationDate());
     }
 }
