@@ -2,6 +2,8 @@ package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 public class Order {
@@ -12,8 +14,9 @@ public class Order {
     private int quantity;
     private Status status;
     private String assembler;
+    private Date realizationDate;
 
-    private OrderMetadata metadata;
+    private Map<String, Object> metadata;
 
     public Order() {
     }
@@ -102,16 +105,29 @@ public class Order {
         return this;
     }
 
-    public OrderMetadata getMetadata() {
+    public Map<String, Object> getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(OrderMetadata metadata) {
+    public void setMetadata(Map<String, Object> metadata) {
         this.metadata = metadata;
     }
 
-    public Order withMetadata (OrderMetadata metadata) {
+    public Order withMetadata (Map<String, Object> metadata) {
         this.setMetadata(metadata);
+        return this;
+    }
+
+    public Date getRealizationDate() {
+        return realizationDate;
+    }
+
+    public void setRealizationDate(Date realizationDate) {
+        this.realizationDate = realizationDate;
+    }
+
+    public Order withRealizationDate(Date realizationDate) {
+        this.setRealizationDate(realizationDate);
         return this;
     }
 

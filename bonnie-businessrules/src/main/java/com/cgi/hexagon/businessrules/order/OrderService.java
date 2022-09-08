@@ -6,6 +6,11 @@ import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.user.User;
 import com.cgi.hexagon.businessrules.user.UserService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class OrderService{
 
     final private IOrderService orderServiceIf;
@@ -13,6 +18,9 @@ public class OrderService{
     final private UserService userService;
 
     final private ISender sender;
+
+    String pattern = "dd-MM-yyyy hh:mm:ss";
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
     public OrderService(IOrderService loader, UserService userService, ISender sender) {
         this.orderServiceIf = loader;
@@ -30,6 +38,9 @@ public class OrderService{
             if (order.getStatus() == Status.CLAIMED){
                 order.setAssembler(null);
                 order.setStatus(Status.NEW);
+                Map<String, Object> metadata = new HashMap<>();
+                metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
+                order.setMetadata(metadata);
                 orderServiceIf.save(order);
                 sender.send(fromOrder(order));
                 return true;
@@ -45,6 +56,9 @@ public class OrderService{
             if (null != user) {
                 order.setAssembler("" + userId);
                 order.setStatus(Status.CLAIMED);
+                Map<String, Object> metadata = new HashMap<>();
+                metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
+                order.setMetadata(metadata);
                 orderServiceIf.save(order);
                 sender.send(fromOrder(order));
                 return true;
@@ -58,7 +72,10 @@ public class OrderService{
             Order order = loadOrder(id);
             if (order.getStatus() == Status.ASSEMBLED) {
                 order.setStatus(Status.SHIPPED);
-                order.setMetadata(new OrderMetadata(trackingNr));
+                Map<String, Object> metadata = new HashMap<>();
+                metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
+                metadata.put("trackingNr", trackingNr);
+                order.setMetadata(metadata);
                 orderServiceIf.save(order);
                 sender.send(fromOrder(order));
                 return true;
@@ -75,6 +92,9 @@ public class OrderService{
         try{
             Order order = loadOrder(orderId);
             order.setStatus(status);
+            Map<String, Object> metadata = new HashMap<>();
+            metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
+            order.setMetadata(metadata);
             orderServiceIf.save(order);
             sender.send(fromOrder(order));
             return true;

@@ -7,13 +7,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderMapper {
 
+    MapConverter converter = new MapConverter();
+
     public AssemblyOrder fromOrder(Order order) {
         return new AssemblyOrder(order.getId())
                 .withShopId(order.getShopId())
                 .withStatus(order.getStatus())
                 .withGoodsId(order.getGoodsId())
                 .withAssembler(order.getAssembler())
-                .withQuantity(order.getQuantity());
+                .withQuantity(order.getQuantity())
+                .withMetadata(converter.convertToDatabaseColumn(order.getMetadata()));
     }
 
     public Order fromEntity(AssemblyOrder orderEntity) {
@@ -24,6 +27,6 @@ public class OrderMapper {
                 .withGoodsId(orderEntity.getGoodsId())
                 .withAssembler(orderEntity.getAssembler())
                 .withQuantity(orderEntity.getQuantity())
-                .withMetadata(new OrderMetadata());
+                .withMetadata(converter.convertToEntityAttribute(orderEntity.getMetadata()));
     }
 }

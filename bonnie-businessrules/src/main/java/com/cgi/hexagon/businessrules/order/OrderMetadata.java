@@ -1,36 +1,39 @@
 package com.cgi.hexagon.businessrules.order;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OrderMetadata {
+public class OrderMetadata implements Serializable {
 
-    Date timestamp;
+    Date lastUpdated;
     String trackingNr;
+    String shippingAddress;
+
 
     public OrderMetadata(String trackingNr) {
-        this.timestamp = new Date();
+        this.lastUpdated = new Date();
         this.trackingNr = trackingNr;
     }
 
     public OrderMetadata() {
-        this.timestamp = new Date();
+        this.lastUpdated = new Date();
     }
 
-    public OrderMetadata(Date timestamp, String trackingNr) {
-        this.timestamp = timestamp;
+    public OrderMetadata(Date lastUpdated, String trackingNr) {
+        this.lastUpdated = lastUpdated;
         this.trackingNr = trackingNr;
     }
 
-    public OrderMetadata(Date timestamp) {
-        this.timestamp = timestamp;
+    public OrderMetadata(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getLastUpdated() {
+        return lastUpdated;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public String getTrackingNr() {
@@ -41,21 +44,23 @@ public class OrderMetadata {
         this.trackingNr = trackingNr;
     }
 
+    public String getShippingAddress() { return shippingAddress;}
+
+    public void setShippingAddress(String shippingAddress) {this.shippingAddress = shippingAddress;}
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("OrderMetadata{").append("\n")
-                .append("        timestamp=").append(timestamp).append("\n");
+
+        sb.append("OrderMetadata{")
+                .append("\n").append("        lastUpdated=").append(lastUpdated)
+                .append(",\n").append("        shippingAddress='").append(shippingAddress).append('\'');
+
         if (trackingNr!=null) {
-            sb.append("        trackingNr='").append(trackingNr).append("\'\n");
+            sb.append(",\n").append("        trackingNr='").append(trackingNr).append('\'');
         }
-        sb.append("    }");
+
+        sb.append("\n").append("    }");
         return sb.toString();
-        /*return "OrderMetadata{" +
-                "\n" +
-                "        timestamp=" + timestamp +
-                ",\n" +
-                "        trackingNr='" + trackingNr + '\'' +
-                "\n    }";*/
     }
 }

@@ -11,6 +11,6 @@ public class Sender implements ISender {
     MessagingService messagingService;
     @Override
     public void send(SendRequest request) {
-        messagingService.sendMessage("test-topic", request.toString());
+        messagingService.sendMessage("test-topic", request);
     }
 }

@@ -5,7 +5,8 @@ create table assembly_order
     goods_id varchar(255),
     quantity integer,
     status varchar(255),
-    assembler varchar(255)
+    assembler varchar(255),
+    metadata varchar(10000)
 );
 
 create table assembly_user

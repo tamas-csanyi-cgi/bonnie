@@ -3,15 +3,17 @@ package com.cgi.hexagon.businessrules;
 import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.OrderMetadata;
 
+import java.util.Map;
+
 public class SendRequest {
 
     private String orderId;
 
     private Status status;
 
-    private OrderMetadata metadata;
+    private Map<String, Object> metadata;
 
-    public SendRequest(String orderId, Status status, OrderMetadata metadata) {
+    public SendRequest(String orderId, Status status, Map<String, Object> metadata) {
         this.orderId = orderId;
         this.status = status;
         this.metadata = metadata;
@@ -38,11 +40,11 @@ public class SendRequest {
         this.status = status;
     }
 
-    public OrderMetadata getMetadata() {
+    public Map<String, Object> getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(OrderMetadata metadata) {
+    public void setMetadata(Map<String, Object> metadata) {
         this.metadata = metadata;
     }
 
