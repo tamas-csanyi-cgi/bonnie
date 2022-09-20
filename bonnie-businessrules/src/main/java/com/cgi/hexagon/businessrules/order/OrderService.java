@@ -1,10 +1,10 @@
 package com.cgi.hexagon.businessrules.order;
 
-import com.cgi.hexagon.businessrules.ISender;
+import com.cgi.hexagon.businessrules.MessageService;
 import com.cgi.hexagon.businessrules.SendRequest;
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.user.User;
-import com.cgi.hexagon.businessrules.user.UserService;
+import com.cgi.hexagon.businessrules.user.UserStorage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,19 +13,19 @@ import java.util.Map;
 
 public class OrderService{
 
-    final private IOrderService orderServiceIf;
+    final private OrderStorage orderServiceIf;
 
-    final private UserService userService;
+    final private UserStorage userStorage;
 
-    final private ISender sender;
+    final private MessageService messageService;
 
     String pattern = "dd-MM-yyyy hh:mm:ss";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-    public OrderService(IOrderService loader, UserService userService, ISender sender) {
+    public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService) {
         this.orderServiceIf = loader;
-        this.userService = userService;
-        this.sender = sender;
+        this.userStorage = userStorage;
+        this.messageService = messageService;
     }
 
     public Order loadOrder(long id){
@@ -42,7 +42,7 @@ public class OrderService{
                 metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                 order.setMetadata(metadata);
                 orderServiceIf.save(order);
-                sender.send(fromOrder(order));
+                messageService.send(fromOrder(order));
                 return true;
             }
         }catch (Exception e) {}
@@ -52,15 +52,15 @@ public class OrderService{
     public boolean claimOrder(long orderId, long userId) {
         Order order = loadOrder(orderId);
         if (null == order.getAssembler() && order.getStatus() == Status.NEW) {
-            User user = userService.loadUser(userId);
+            User user = userStorage.load(userId);
             if (null != user) {
-                order.setAssembler("" + userId);
+                order.setAssembler(user);
                 order.setStatus(Status.CLAIMED);
                 Map<String, Object> metadata = new HashMap<>();
                 metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                 order.setMetadata(metadata);
                 orderServiceIf.save(order);
-                sender.send(fromOrder(order));
+                messageService.send(fromOrder(order));
                 return true;
             }
         }
@@ -68,19 +68,22 @@ public class OrderService{
     }
 
     public boolean setTrackingNumber(long id, String trackingNr) {
-        try{
-            Order order = loadOrder(id);
-            if (order.getStatus() == Status.ASSEMBLED) {
-                order.setStatus(Status.SHIPPED);
-                Map<String, Object> metadata = new HashMap<>();
-                metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
-                metadata.put("trackingNr", trackingNr);
-                order.setMetadata(metadata);
-                orderServiceIf.save(order);
-                sender.send(fromOrder(order));
-                return true;
+        if (null != trackingNr && !trackingNr.isEmpty()) {
+            try {
+                Order order = loadOrder(id);
+                if (order.getStatus() == Status.ASSEMBLED) {
+                    order.setStatus(Status.SHIPPED);
+                    Map<String, Object> metadata = new HashMap<>();
+                    metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
+                    metadata.put("trackingNr", trackingNr);
+                    order.setMetadata(metadata);
+                    orderServiceIf.save(order);
+                    messageService.send(fromOrder(order));
+                    return true;
+                }
+            } catch (Exception e) {
             }
-        }catch(Exception e) {}
+        }
         return false;
     }
 
@@ -96,7 +99,7 @@ public class OrderService{
             metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
             order.setMetadata(metadata);
             orderServiceIf.save(order);
-            sender.send(fromOrder(order));
+            messageService.send(fromOrder(order));
             return true;
         }catch (Exception e) {
             return false;
@@ -114,7 +117,7 @@ public class OrderService{
 
     public SendRequest fromOrder(Order order){
         SendRequest sendRequest = new SendRequest();
-        sendRequest.setOrderId(order.getShopId());
+        sendRequest.setOrderId(Long.valueOf(order.getShopId()));
         sendRequest.setStatus(order.getStatus());
         sendRequest.setMetadata(order.getMetadata());
         return sendRequest;

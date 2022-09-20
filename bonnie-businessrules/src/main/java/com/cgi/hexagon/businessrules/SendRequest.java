@@ -1,34 +1,31 @@
 package com.cgi.hexagon.businessrules;
 
-import com.cgi.hexagon.businessrules.order.Order;
-import com.cgi.hexagon.businessrules.order.OrderMetadata;
-
 import java.util.Map;
 
 public class SendRequest {
 
-    private String orderId;
+    private long orderId;
 
     private Status status;
 
     private Map<String, Object> metadata;
 
-    public SendRequest(String orderId, Status status, Map<String, Object> metadata) {
+    public SendRequest(long orderId, Status status, Map<String, Object> metadata) {
         this.orderId = orderId;
         this.status = status;
         this.metadata = metadata;
     }
 
-    public SendRequest(String orderId, Status status) {
+    public SendRequest(long orderId, Status status) {
         this.orderId = orderId;
         this.status = status;
     }
 
-    public String getOrderId() {
+    public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
 

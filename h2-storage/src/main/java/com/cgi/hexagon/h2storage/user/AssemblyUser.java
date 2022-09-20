@@ -1,22 +1,36 @@
 package com.cgi.hexagon.h2storage.user;
 
 import com.cgi.hexagon.businessrules.Role;
+import com.cgi.hexagon.h2storage.order.AssemblyOrder;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class AssemblyUser {
 
     @Id
     @GeneratedValue
-    long id;
+    long userId;
 
     String name;
 
     String password;
 
     Role role;
+
+    @OneToMany(targetEntity = AssemblyOrder.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "asd", referencedColumnName = "user_id")
+    private Set<AssemblyOrder> orders;
+
+    public Set<AssemblyOrder> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<AssemblyOrder> orders) {
+        this.orders = orders;
+    }
 
     public AssemblyUser() {
     }
@@ -41,12 +55,17 @@ public class AssemblyUser {
         return this;
     }
 
-    public long getId() {
-        return id;
+    public AssemblyUser withOrder(Set<AssemblyOrder> orders) {
+        this.orders = orders;
+        return this;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public long getId() {
+        return userId;
+    }
+
+    public void setId(long userId) {
+        this.userId = userId;
     }
 
     public String getName() {

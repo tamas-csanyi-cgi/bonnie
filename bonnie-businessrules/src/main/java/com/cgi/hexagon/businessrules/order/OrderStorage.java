@@ -2,7 +2,7 @@ package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
 
-public interface IOrderService {
+public interface OrderStorage {
 
     Order load(long id);
 

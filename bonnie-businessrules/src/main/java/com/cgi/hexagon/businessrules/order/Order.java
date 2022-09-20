@@ -1,6 +1,7 @@
 package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.user.User;
 
 import java.util.Date;
 import java.util.Map;
@@ -13,7 +14,7 @@ public class Order {
     private String goodsId;
     private int quantity;
     private Status status;
-    private String assembler;
+    private User assembler;
     private Date realizationDate;
 
     private Map<String, Object> metadata;
@@ -92,15 +93,15 @@ public class Order {
         return this;
     }
 
-    public String getAssembler() {
+    public User getAssembler() {
         return assembler;
     }
 
-    public void setAssembler(String assembler) {
+    public void setAssembler(User assembler) {
         this.assembler = assembler;
     }
 
-    public Order withAssembler(String assembler) {
+    public Order withAssembler(User assembler) {
         this.setAssembler(assembler);
         return this;
     }

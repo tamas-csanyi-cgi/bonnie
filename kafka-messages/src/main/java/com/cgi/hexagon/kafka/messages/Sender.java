@@ -1,9 +1,9 @@
 package com.cgi.hexagon.kafka.messages;
 
-import com.cgi.hexagon.businessrules.ISender;
+import com.cgi.hexagon.businessrules.MessageService;
 import com.cgi.hexagon.businessrules.SendRequest;
 
-public class Sender implements ISender {
+public class Sender implements MessageService {
 
     public Sender() {
         messagingService = new MessagingService();

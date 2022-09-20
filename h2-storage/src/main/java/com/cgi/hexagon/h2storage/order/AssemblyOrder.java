@@ -1,13 +1,11 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.h2storage.user.AssemblyUser;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.Map;
 
 @Entity
 public class AssemblyOrder{
@@ -24,7 +22,9 @@ public class AssemblyOrder{
 
     Status status;
 
-    String assembler;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "assembler", referencedColumnName = "user_id")
+    AssemblyUser assembler;
 
     Date realizationDate;
 
@@ -86,7 +86,7 @@ public class AssemblyOrder{
         return this;
     }
 
-    public AssemblyOrder withAssembler(String assembler) {
+    public AssemblyOrder withAssembler(AssemblyUser assembler) {
         this.setAssembler(assembler);
         return this;
     }
@@ -133,11 +133,11 @@ public class AssemblyOrder{
         this.status = status;
     }
 
-    public String getAssembler() {
+    public AssemblyUser getAssembler() {
         return assembler;
     }
 
-    public void setAssembler(String assembler) {
+    public void setAssembler(AssemblyUser assembler) {
         this.assembler = assembler;
     }
 

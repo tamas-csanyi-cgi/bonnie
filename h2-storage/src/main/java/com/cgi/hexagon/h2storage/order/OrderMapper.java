@@ -1,7 +1,7 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.order.Order;
-import com.cgi.hexagon.businessrules.order.OrderMetadata;
+import com.cgi.hexagon.h2storage.user.UserMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,12 +9,14 @@ public class OrderMapper {
 
     MapConverter converter = new MapConverter();
 
+    UserMapper userMapper = new UserMapper();
+
     public AssemblyOrder fromOrder(Order order) {
         return new AssemblyOrder(order.getId())
                 .withShopId(order.getShopId())
                 .withStatus(order.getStatus())
                 .withGoodsId(order.getGoodsId())
-                .withAssembler(order.getAssembler())
+                .withAssembler(userMapper.fromUser(order.getAssembler()))
                 .withQuantity(order.getQuantity())
                 .withMetadata(converter.convertToDatabaseColumn(order.getMetadata()))
                 .withRealizationDate(order.getRealizationDate());
@@ -26,7 +28,7 @@ public class OrderMapper {
                 .withShopId(orderEntity.getShopId())
                 .withStatus(orderEntity.getStatus())
                 .withGoodsId(orderEntity.getGoodsId())
-                .withAssembler(orderEntity.getAssembler())
+                .withAssembler(userMapper.fromEntity(orderEntity.getAssembler()))
                 .withQuantity(orderEntity.getQuantity())
                 .withMetadata(converter.convertToEntityAttribute(orderEntity.getMetadata()))
                 .withRealizationDate(orderEntity.getRealizationDate());
