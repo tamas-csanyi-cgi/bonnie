@@ -20,17 +20,15 @@ public class AssemblyUser {
 
     Role role;
 
-    @OneToMany(targetEntity = AssemblyOrder.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "asd", referencedColumnName = "user_id")
-    private Set<AssemblyOrder> orders;
+    //private Set<AssemblyOrder> orders;
 
-    public Set<AssemblyOrder> getOrders() {
-        return orders;
-    }
+    //public Set<AssemblyOrder> getOrders() {
+    //    return orders;
+    //}
 
-    public void setOrders(Set<AssemblyOrder> orders) {
-        this.orders = orders;
-    }
+    //public void setOrders(Set<AssemblyOrder> orders) {
+    //    this.orders = orders;
+    //}
 
     public AssemblyUser() {
     }
@@ -55,10 +53,10 @@ public class AssemblyUser {
         return this;
     }
 
-    public AssemblyUser withOrder(Set<AssemblyOrder> orders) {
+    /*public AssemblyUser withOrder(Set<AssemblyOrder> orders) {
         this.orders = orders;
         return this;
-    }
+    }*/
 
     public long getId() {
         return userId;

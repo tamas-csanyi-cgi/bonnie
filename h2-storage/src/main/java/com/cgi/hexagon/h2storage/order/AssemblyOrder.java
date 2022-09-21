@@ -14,17 +14,13 @@ public class AssemblyOrder{
     @GeneratedValue
     long id;
 
-    String shopId;
-
     String goodsId;
 
     int quantity;
 
     Status status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "assembler", referencedColumnName = "user_id")
-    AssemblyUser assembler;
+    Long assembler;
 
     Date realizationDate;
 
@@ -66,11 +62,6 @@ public class AssemblyOrder{
         return this;
     }
 
-    public AssemblyOrder withShopId(String shopId) {
-        this.setShopId(shopId);
-        return this;
-    }
-
     public AssemblyOrder withGoodsId(String goodsId) {
         this.setGoodsId(goodsId);
         return this;
@@ -86,7 +77,7 @@ public class AssemblyOrder{
         return this;
     }
 
-    public AssemblyOrder withAssembler(AssemblyUser assembler) {
+    public AssemblyOrder withAssembler(Long assembler) {
         this.setAssembler(assembler);
         return this;
     }
@@ -99,14 +90,6 @@ public class AssemblyOrder{
     public AssemblyOrder withRealizationDate(Date realizationDate) {
         this.setRealizationDate(realizationDate);
         return this;
-    }
-
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
     }
 
     public String getGoodsId() {
@@ -133,11 +116,11 @@ public class AssemblyOrder{
         this.status = status;
     }
 
-    public AssemblyUser getAssembler() {
+    public Long getAssembler() {
         return assembler;
     }
 
-    public void setAssembler(AssemblyUser assembler) {
+    public void setAssembler(Long assembler) {
         this.assembler = assembler;
     }
 

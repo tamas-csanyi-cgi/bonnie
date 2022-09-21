@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Primary
@@ -45,6 +47,12 @@ public class H2OrderStorage implements OrderStorage {
         return null;
     }
 
+    public List<Order> findAll() {
+        List<Order> result = new ArrayList<>();
+        orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
+        return result;
+    }
+
     @Override
     public Order load(long id) {
         return mapper.fromEntity(orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("Order not found")));
@@ -68,7 +76,7 @@ public class H2OrderStorage implements OrderStorage {
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
             if (null == order.getAssembler()) {
-                order.setAssembler(userMapper.fromUser(userStorage.load(userId)));
+                order.setAssembler(userId);
                 order.setStatus(Status.CLAIMED);
                 orderRepository.save(order);
                 return true;
@@ -102,7 +110,7 @@ public class H2OrderStorage implements OrderStorage {
     @Override
     public long create(String productId, int quantity, long assignedTo, Status status) {
         AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
-                .withAssembler(userMapper.fromUser(userStorage.load(assignedTo))).withStatus(status).withRealizationDate(new Date());
+                .withAssembler(assignedTo).withStatus(status).withRealizationDate(new Date());
         orderRepository.save(aOrder);
         return aOrder.id;
     }

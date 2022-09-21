@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Order {
 
     private long id;
-    private String shopId;
     private String goodsId;
     private int quantity;
     private Status status;
@@ -23,7 +22,6 @@ public class Order {
     }
 
     public Order(String shopId, String goodsId, int quantity) {
-        this.shopId = shopId;
         this.goodsId = goodsId;
         this.quantity = quantity;
     }
@@ -38,19 +36,6 @@ public class Order {
 
     public Order withId(long id) {
         this.setId(id);
-        return this;
-    }
-
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
-    }
-
-    public Order withShopId(String shopId) {
-        this.setShopId(shopId);
         return this;
     }
 

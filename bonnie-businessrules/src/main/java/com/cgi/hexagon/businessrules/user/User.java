@@ -10,14 +10,11 @@ public class User {
 
     String name;
 
-    String password;
-
     Role role;
 
-    public User(long id, String name, String password, Role role) {
+    public User(long id, String name, Role role) {
         this.id = id;
         this.name = name;
-        this.password = password;
         this.role = role;
     }
 
@@ -40,14 +37,6 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -63,11 +52,6 @@ public class User {
 
     public User withName(String name) {
         this.setName(name);
-        return this;
-    }
-
-    public User withPassword(String password) {
-        this.setPassword(password);
         return this;
     }
 

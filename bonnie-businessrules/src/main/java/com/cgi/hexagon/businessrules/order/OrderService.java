@@ -9,6 +9,7 @@ import com.cgi.hexagon.businessrules.user.UserStorage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class OrderService{
@@ -30,6 +31,10 @@ public class OrderService{
 
     public Order loadOrder(long id){
         return orderServiceIf.load(id);
+    }
+
+    public List<Order> getAllOrders () {
+        return orderServiceIf.findAll();
     }
 
     public boolean releaseOrder(long id) {
@@ -117,7 +122,7 @@ public class OrderService{
 
     public SendRequest fromOrder(Order order){
         SendRequest sendRequest = new SendRequest();
-        sendRequest.setOrderId(Long.valueOf(order.getShopId()));
+        sendRequest.setOrderId(Long.valueOf(order.getId()));
         sendRequest.setStatus(order.getStatus());
         sendRequest.setMetadata(order.getMetadata());
         return sendRequest;
