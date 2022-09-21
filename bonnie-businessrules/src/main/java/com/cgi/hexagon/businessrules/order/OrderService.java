@@ -47,7 +47,7 @@ public class OrderService{
                 metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                 order.setMetadata(metadata);
                 orderServiceIf.save(order);
-                messageService.send(fromOrder(order));
+                messageService.send(createSendRequest(order));
                 return true;
             }
         }catch (Exception e) {}
@@ -65,7 +65,7 @@ public class OrderService{
                 metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                 order.setMetadata(metadata);
                 orderServiceIf.save(order);
-                messageService.send(fromOrder(order));
+                messageService.send(createSendRequest(order));
                 return true;
             }
         }
@@ -83,7 +83,7 @@ public class OrderService{
                     metadata.put("trackingNr", trackingNr);
                     order.setMetadata(metadata);
                     orderServiceIf.save(order);
-                    messageService.send(fromOrder(order));
+                    messageService.send(createSendRequest(order));
                     return true;
                 }
             } catch (Exception e) {
@@ -104,7 +104,7 @@ public class OrderService{
             metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
             order.setMetadata(metadata);
             orderServiceIf.save(order);
-            messageService.send(fromOrder(order));
+            messageService.send(createSendRequest(order));
             return true;
         }catch (Exception e) {
             return false;
@@ -120,7 +120,7 @@ public class OrderService{
         return false;
     }
 
-    public SendRequest fromOrder(Order order){
+    public SendRequest createSendRequest(Order order){
         SendRequest sendRequest = new SendRequest();
         sendRequest.setOrderId(Long.valueOf(order.getId()));
         sendRequest.setStatus(order.getStatus());
