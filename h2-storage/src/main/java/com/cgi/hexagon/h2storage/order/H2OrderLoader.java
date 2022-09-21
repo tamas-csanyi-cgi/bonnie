@@ -1,11 +1,13 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Status;
-import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.IOrderService;
+import com.cgi.hexagon.businessrules.order.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Primary
@@ -21,17 +23,20 @@ public class H2OrderLoader implements IOrderService {
         this.mapper = mapper;
     }
 
-    public boolean save(Order o) {
+    public long save(Order o) {
         try{
             repository.save(mapper.fromOrder(o));
-            return true;
+            return o.getId();
         }catch (Exception e) {
-            return false;
+            return 0;
         }
     }
 
     public Order findByAssembler(long assembler) {
         return mapper.fromEntity(repository.findByAssembler(""+assembler));
+    }
+    public List<Order> findAllByShopId(String shopId) {
+        return mapper.fromEntities(repository.findAllByShopId(shopId));
     }
 
     @Override

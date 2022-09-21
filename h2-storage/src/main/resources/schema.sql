@@ -6,7 +6,8 @@ create table assembly_order
     quantity integer,
     status varchar(255),
     assembler varchar(255),
-    tracking_nr varchar(255)
+    tracking_nr varchar(255),
+    details varchar(255)
 );
 
 create table assembly_user

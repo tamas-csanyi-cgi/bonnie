@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 
 @Entity
-public class AssemblyOrder{
+public class AssemblyOrder {
 
     @Id
     @GeneratedValue
@@ -24,6 +24,8 @@ public class AssemblyOrder{
     String assembler;
 
     String trackingNr;
+
+    String details;
 
     public AssemblyOrder(long id) {
         this.id = id;
@@ -118,7 +120,20 @@ public class AssemblyOrder{
         this.trackingNr = trackingNr;
     }
 
-    public AssemblyOrder withTrackingNr (String trackingNr) {
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public AssemblyOrder withDetails(String details) {
+        this.setDetails(details);
+        return this;
+    }
+
+    public AssemblyOrder withTrackingNr(String trackingNr) {
         this.setTrackingNr(trackingNr);
         return this;
     }

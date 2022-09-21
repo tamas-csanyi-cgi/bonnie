@@ -43,11 +43,15 @@
             <groupId>com.cgi.hexagon</groupId>
             <artifactId>bonnie-businessrules</artifactId>
         </dependency>
-
         <dependency>
             <groupId>wsdl4j</groupId>
             <artifactId>wsdl4j</artifactId>
             <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
         </dependency>
 
     </dependencies>

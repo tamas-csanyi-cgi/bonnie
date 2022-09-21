@@ -12,8 +12,9 @@ public class Order {
     int quantity;
     Status status;
     String assembler;
-
     String trackingNr;
+
+    String details;
 
     public Order() {
     }
@@ -110,8 +111,21 @@ public class Order {
         this.trackingNr = trackingNr;
     }
 
-    public Order withTrackingNr (String trackingNr) {
+    public Order withTrackingNr(String trackingNr) {
         this.setTrackingNr(trackingNr);
+        return this;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Order withDetails(String details) {
+        this.setDetails(details);
         return this;
     }
 
@@ -120,11 +134,15 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && Objects.equals(goodsId, order.goodsId) && status == order.status && Objects.equals(assembler, order.assembler);
+        return id == order.id
+                && Objects.equals(goodsId, order.goodsId)
+                && status == order.status
+                && Objects.equals(assembler, order.assembler)
+                && Objects.equals(details, order.details);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, status, assembler);
+        return Objects.hash(id, goodsId, shopId, status, assembler);
     }
 }

@@ -2,8 +2,6 @@ package com.cgi.hexagon.businessrules.user;
 
 import com.cgi.hexagon.businessrules.Role;
 
-import java.util.UUID;
-
 public class UserService {
 
     final private IUserService userServiceIf;

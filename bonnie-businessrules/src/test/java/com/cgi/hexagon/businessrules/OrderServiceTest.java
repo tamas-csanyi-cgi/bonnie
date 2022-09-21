@@ -1,14 +1,14 @@
 package com.cgi.hexagon.businessrules;
 
-import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.IOrderService;
+import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.order.OrderService;
-import com.cgi.hexagon.businessrules.user.UserService;
+import com.cgi.hexagon.businessrules.user.IUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 class OrderServiceTest {
@@ -17,14 +17,14 @@ class OrderServiceTest {
 
     OrderService orderService;
 
-    UserService userService;
+    IUserService userService;
 
-    ISender sender;
+
 
     @BeforeEach
     public void setup() {
         orderLoader = Mockito.mock(IOrderService.class);
-        orderService = new OrderService(orderLoader, userService, sender);
+        orderService = new OrderService(orderLoader, userService);
     }
 
     @Test

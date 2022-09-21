@@ -2,11 +2,15 @@ package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
 
+import java.util.List;
+
 public interface IOrderService {
 
     Order load(long id);
 
-    boolean save (Order order);
+    long save (Order order);
+
+    List<Order> findAllByShopId(String shopId);
 
     boolean release(long id);
 
