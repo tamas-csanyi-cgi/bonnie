@@ -1,11 +1,9 @@
 package com.cgi.hexagon.h2storage.user;
 
 import com.cgi.hexagon.businessrules.Role;
-import com.cgi.hexagon.h2storage.order.AssemblyOrder;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class AssemblyUser {
@@ -19,16 +17,6 @@ public class AssemblyUser {
     String password;
 
     Role role;
-
-    //private Set<AssemblyOrder> orders;
-
-    //public Set<AssemblyOrder> getOrders() {
-    //    return orders;
-    //}
-
-    //public void setOrders(Set<AssemblyOrder> orders) {
-    //    this.orders = orders;
-    //}
 
     public AssemblyUser() {
     }
@@ -52,11 +40,6 @@ public class AssemblyUser {
         this.setRole(role);
         return this;
     }
-
-    /*public AssemblyUser withOrder(Set<AssemblyOrder> orders) {
-        this.orders = orders;
-        return this;
-    }*/
 
     public long getId() {
         return userId;
