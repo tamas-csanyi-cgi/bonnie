@@ -8,8 +8,10 @@ import com.cgi.hexagon.businessrules.user.UserStorage;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
-public class OrderService{
+@Slf4j
+public class OrderService {
 
     final private OrderStorage orderServiceIf;
 
@@ -35,7 +37,7 @@ public class OrderService{
         try {
             Order order = loadOrder(id);
             if (order.getStatus() == Status.CLAIMED){
-                order.setAssignedTo(null);
+                order.setAssembler(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderServiceIf.save(order)) {
@@ -89,6 +91,41 @@ public class OrderService{
 
     public long createOrder(String productId, int quantity, long assignedTo, Status status) {
         return orderServiceIf.create(productId, quantity, assignedTo, status);
+    }
+
+    public void createOrders(List<Order> orders) {
+        for (Order order : orders) {
+            createOrder(order);
+        }
+    }
+
+    public long createOrder(Order order) {
+        if (!isNewOrder(order)) {
+            log.error(" False or duplicated orderID in : {}", order.toString());
+            return -1;
+        }
+        if (order.getQuantity() < 1) {
+            log.error(" Invalid quantity in {}", order.toString());
+            return -1;
+        }
+        if (orderServiceIf.findAllByShopId( order.getShopId()).size()>0) {
+            log.error(" ShopId [{}] already exists {}", order.getShopId(), order.toString());
+            return -1;
+        }
+        order.setStatus(Status.NEW);
+        order.setAssembler(null);
+        return orderServiceIf.save(order);
+    }
+
+    public boolean isNewOrder(Order order) {
+        if (order.getId() <= 1)
+            return true;
+        try {
+            orderServiceIf.load(order.getId());
+        } catch (IllegalStateException e) {
+            return true;
+        }
+        return false;
     }
 
     public boolean updateStatus(long orderId, Status status) {

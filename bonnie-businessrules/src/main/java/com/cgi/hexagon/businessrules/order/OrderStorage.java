@@ -19,7 +19,5 @@ public interface OrderStorage {
     boolean setTrackingNumber(long id, String trackingNr);
 
     long create(String productId, int quantity, long assignedTo, Status status);
-
-    List<Order> findAll();
     
 }

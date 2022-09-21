@@ -163,11 +163,16 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && Objects.equals(goodsId, order.goodsId) && status == order.status && Objects.equals(assignedTo, order.assignedTo);
+        return id == order.id
+                && Objects.equals(goodsId, order.goodsId)
+                && status == order.status
+                && Objects.equals(assembler, order.assembler)
+                && Objects.equals( shopOderId, order.shopOderId)
+                && Objects.equals( metadata, order.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, status, assignedTo);
+        return Objects.hash(id, goodsId, status, assembler);
     }
 }
