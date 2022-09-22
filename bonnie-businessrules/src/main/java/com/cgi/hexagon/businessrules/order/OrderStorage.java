@@ -2,7 +2,9 @@ package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
 
-public interface IOrderService {
+import java.util.List;
+
+public interface OrderStorage {
 
     Order load(long id);
 
@@ -17,5 +19,7 @@ public interface IOrderService {
     boolean setTrackingNumber(long id, String trackingNr);
 
     long create(String productId, int quantity, long assignedTo, Status status);
+
+    List<Order> findAll();
     
 }

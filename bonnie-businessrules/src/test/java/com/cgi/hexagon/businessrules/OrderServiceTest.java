@@ -1,10 +1,10 @@
 package com.cgi.hexagon.businessrules;
 
 import com.cgi.hexagon.businessrules.order.Order;
-import com.cgi.hexagon.businessrules.order.IOrderService;
+import com.cgi.hexagon.businessrules.order.OrderStorage;
 import com.cgi.hexagon.businessrules.order.OrderService;
 import com.cgi.hexagon.businessrules.user.User;
-import com.cgi.hexagon.businessrules.user.UserService;
+import com.cgi.hexagon.businessrules.user.UserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,21 +22,21 @@ class OrderServiceTest {
 
     final String TRACING_NUMBER = "1";
 
-    IOrderService orderLoader;
+    OrderStorage orderLoader;
 
     OrderService orderService;
 
-    UserService userService;
+    UserStorage userStorage;
 
-    ISender sender;
+    MessageService sender;
 
     @BeforeEach
     public void setup() {
-        orderLoader = Mockito.mock(IOrderService.class);
+        orderLoader = Mockito.mock(OrderStorage.class);
         when(orderLoader.save(any())).thenReturn(true);
-        userService = Mockito.mock(UserService.class);
-        sender = Mockito.mock(ISender.class);
-        orderService = new OrderService(orderLoader, userService, sender);
+        userStorage = Mockito.mock(UserStorage.class);
+        sender = Mockito.mock(MessageService.class);
+        orderService = new OrderService(orderLoader, userStorage, sender);
     }
 
     @Test
@@ -98,7 +98,7 @@ class OrderServiceTest {
     public void expectClaimNewOrderReturnsTrue() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertEquals(true, orderService.claimOrder(ORDER_ID, USER_ID));
     }
@@ -107,7 +107,7 @@ class OrderServiceTest {
     public void expectClaimNewOrderReturnsFalseWhenUserDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
-        when(userService.loadUser(USER_ID)).thenReturn(null);
+        when(userStorage.load(USER_ID)).thenReturn(null);
 
         assertEquals(false, orderService.claimOrder(ORDER_ID, USER_ID));
     }
@@ -116,16 +116,16 @@ class OrderServiceTest {
     public void expectClaimNewOrderReturnsFalseWhenOrderStatusISNotNew() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.SHIPPED));
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertEquals(false, orderService.claimOrder(ORDER_ID, USER_ID));
     }
 
     @Test
     public void expectClaimNewOrderReturnsFalseWhenThereIsAnAssembler() {
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssembler("2"));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssembler(getUser()));
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertEquals(false, orderService.claimOrder(ORDER_ID, USER_ID));
     }
@@ -134,7 +134,7 @@ class OrderServiceTest {
     public void expectClaimOrderSavesWithAssembler() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         orderService.claimOrder(ORDER_ID, USER_ID);
 
@@ -145,7 +145,7 @@ class OrderServiceTest {
     public void expectClaimOrderSavesWithClaimedStatus() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         orderService.claimOrder(ORDER_ID, USER_ID);
 
@@ -172,7 +172,7 @@ class OrderServiceTest {
 
         orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
 
-       verify(orderLoader).save(argThat(order -> order.getTrackingNr() == TRACING_NUMBER));
+       verify(orderLoader).save(argThat(order -> order.getMetadata().get("trackingNr") == TRACING_NUMBER));
     }
 
     @Test
@@ -197,7 +197,7 @@ class OrderServiceTest {
 
         orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
 
-        verify(sender).send(argThat(sendRequest -> sendRequest.getOrderId() == ORDER_ID && sendRequest.getStatus() == Status.SHIPPED && TRACING_NUMBER.equals(sendRequest.getTrackingNr())));
+        verify(sender).send(argThat(sendRequest -> sendRequest.getOrderId() == ORDER_ID && sendRequest.getStatus() == Status.SHIPPED && TRACING_NUMBER.equals(sendRequest.getMetadata().get("trackingNr"))));
     }
 
     @Test
@@ -223,7 +223,7 @@ class OrderServiceTest {
     public void expectUpdateStatusReturnsTrue() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         when(orderLoader.save(any())).thenReturn(true);
 
@@ -234,7 +234,7 @@ class OrderServiceTest {
     public void expectUpdateStatusSetsStatus() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         orderService.updateStatus(ORDER_ID, Status.SHIPPED);
 
@@ -245,7 +245,7 @@ class OrderServiceTest {
     public void expectUpdateStatusCallsSender() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userService.loadUser(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         when(orderLoader.save(any())).thenReturn(true);
 
@@ -295,7 +295,6 @@ class OrderServiceTest {
         return new User()
                 .withId(USER_ID)
                 .withName("user")
-                .withPassword("password")
                 .withRole(Role.ASSEMBLER);
     }
 

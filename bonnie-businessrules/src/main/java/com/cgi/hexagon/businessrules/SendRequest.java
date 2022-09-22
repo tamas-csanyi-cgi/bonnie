@@ -1,17 +1,19 @@
 package com.cgi.hexagon.businessrules;
 
+import java.util.Map;
+
 public class SendRequest {
 
     private long orderId;
 
     private Status status;
 
-    private String trackingNr;
+    private Map<String, Object> metadata;
 
-    public SendRequest(long orderId, Status status, String trackingNr) {
+    public SendRequest(long orderId, Status status, Map<String, Object> metadata) {
         this.orderId = orderId;
         this.status = status;
-        this.trackingNr = trackingNr;
+        this.metadata = metadata;
     }
 
     public SendRequest(long orderId, Status status) {
@@ -35,14 +37,26 @@ public class SendRequest {
         this.status = status;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
+    public Map<String, Object> getMetadata() {
+        return metadata;
     }
 
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
+    public void setMetadata(Map<String, Object> metadata) {
+        this.metadata = metadata;
     }
 
     public SendRequest() {
     }
+
+    @Override
+    public String toString() {
+        return "SendRequest{" +
+                "\r\n    orderId='" + orderId +'\'' +
+                ",\n" +
+                "    status=" + status +
+                ",\n" +
+                "    " + metadata.toString() +
+                "\n}";
+    }
+
 }

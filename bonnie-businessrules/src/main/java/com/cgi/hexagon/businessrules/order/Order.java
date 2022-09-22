@@ -1,25 +1,27 @@
 package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.user.User;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 public class Order {
 
-    long id;
-    String shopId;
-    String goodsId;
-    int quantity;
-    Status status;
-    String assembler;
+    private long id;
+    private String goodsId;
+    private int quantity;
+    private Status status;
+    private User assembler;
+    private Date realizationDate;
 
-    String trackingNr;
+    private Map<String, Object> metadata;
 
     public Order() {
     }
 
     public Order(String shopId, String goodsId, int quantity) {
-        this.shopId = shopId;
         this.goodsId = goodsId;
         this.quantity = quantity;
     }
@@ -34,19 +36,6 @@ public class Order {
 
     public Order withId(long id) {
         this.setId(id);
-        return this;
-    }
-
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
-    }
-
-    public Order withShopId(String shopId) {
-        this.setShopId(shopId);
         return this;
     }
 
@@ -89,29 +78,42 @@ public class Order {
         return this;
     }
 
-    public String getAssembler() {
+    public User getAssembler() {
         return assembler;
     }
 
-    public void setAssembler(String assembler) {
+    public void setAssembler(User assembler) {
         this.assembler = assembler;
     }
 
-    public Order withAssembler(String assembler) {
+    public Order withAssembler(User assembler) {
         this.setAssembler(assembler);
         return this;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
+    public Map<String, Object> getMetadata() {
+        return metadata;
     }
 
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
+    public void setMetadata(Map<String, Object> metadata) {
+        this.metadata = metadata;
     }
 
-    public Order withTrackingNr (String trackingNr) {
-        this.setTrackingNr(trackingNr);
+    public Order withMetadata (Map<String, Object> metadata) {
+        this.setMetadata(metadata);
+        return this;
+    }
+
+    public Date getRealizationDate() {
+        return realizationDate;
+    }
+
+    public void setRealizationDate(Date realizationDate) {
+        this.realizationDate = realizationDate;
+    }
+
+    public Order withRealizationDate(Date realizationDate) {
+        this.setRealizationDate(realizationDate);
         return this;
     }
 

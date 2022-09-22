@@ -10,7 +10,7 @@ public class AssemblyUser {
 
     @Id
     @GeneratedValue
-    long id;
+    long userId;
 
     String name;
 
@@ -42,11 +42,11 @@ public class AssemblyUser {
     }
 
     public long getId() {
-        return id;
+        return userId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
