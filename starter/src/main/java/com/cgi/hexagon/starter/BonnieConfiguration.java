@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({BonnieRestConfiguration.class, H2StorageApplication.class, TopicConfig.class})
+@Import({TopicConfig.class, BonnieRestConfiguration.class, H2StorageApplication.class})
 public class BonnieConfiguration {
 
     @Bean

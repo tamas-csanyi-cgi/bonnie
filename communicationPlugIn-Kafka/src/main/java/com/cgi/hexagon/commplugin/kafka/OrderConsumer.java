@@ -8,6 +8,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -26,17 +27,16 @@ public class OrderConsumer {
         this.orderService = orderService;
     }
 
-    @KafkaListener(topics = "${spring.bonnie.kafka.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "${spring.bonnie.kafka.topic.order}", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(String message) {
         log.info("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
         List<OrderJson> jsonOrders;
-        if (message.startsWith("[")) //Json array
+        if (message.trim().startsWith("[")) //Json array
             jsonOrders = new JsonMapper().readAll(message);
-        else {
-            jsonOrders = new ArrayList<OrderJson>();
-            jsonOrders.add(new JsonMapper().read(message));
-        }
-        if( jsonOrders!= null && jsonOrders.size()>0)
-            orderService.createOrders( new OrderMapper().fromOrderJsonList( jsonOrders));
+        else
+            jsonOrders = Collections.singletonList(new JsonMapper().read(message));
+
+        if (jsonOrders != null && jsonOrders.size() > 0)
+            orderService.createOrders(new OrderMapper().fromOrderJsonList(jsonOrders));
     }
 }
