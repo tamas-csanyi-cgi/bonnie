@@ -57,6 +57,9 @@ public class OrderService{
 
     public boolean claimOrder(long orderId, long userId) {
         Order order = loadOrder(orderId);
+        if (order == null) {
+            return false;
+        }
         if (null == order.getAssembler() && order.getStatus() == Status.NEW) {
             User user = userStorage.load(userId);
             if (null != user) {

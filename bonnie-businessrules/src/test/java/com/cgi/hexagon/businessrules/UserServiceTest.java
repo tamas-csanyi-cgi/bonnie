@@ -1,8 +1,8 @@
 package com.cgi.hexagon.businessrules;
 
-import com.cgi.hexagon.businessrules.user.IUserService;
 import com.cgi.hexagon.businessrules.user.User;
 import com.cgi.hexagon.businessrules.user.UserService;
+import com.cgi.hexagon.businessrules.user.UserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -11,22 +11,22 @@ import static org.mockito.Mockito.verify;
 
 public class UserServiceTest {
 
-    IUserService iUserService;
+    UserStorage userStorage;
 
     UserService userService;
 
     @BeforeEach
     public void setup() {
-        iUserService = Mockito.mock(IUserService.class);
+        userStorage = Mockito.mock(UserStorage.class);
 
-        userService = new UserService(iUserService);
+        userService = new UserService(userStorage);
     }
 
     @Test
     public void expectLoadUserCallsLoad() {
         userService.loadUser(1L);
 
-        verify(iUserService).load(1L);
+        verify(userStorage).load(1L);
     }
 
     @Test
@@ -37,15 +37,15 @@ public class UserServiceTest {
 
         userService.createUser(name, password, role);
 
-        verify(iUserService).createUser(name, password, role);
+        verify(userStorage).createUser(name, password, role);
     }
 
     @Test
     public void expectSaveCallsSave() {
-        User user = new User(1L, "name", "password", Role.ADMIN);
+        User user = new User(1L, "name", Role.ADMIN);
 
         userService.save(user);
 
-        verify(iUserService).save(user);
+        verify(userStorage).save(user);
     }
 }
