@@ -46,9 +46,10 @@ public class OrderService{
                 Map<String, Object> metadata = new HashMap<>();
                 metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                 order.setMetadata(metadata);
-                orderServiceIf.save(order);
-                messageService.send(createSendRequest(order));
-                return true;
+                if (orderServiceIf.save(order)) {
+                    messageService.send(createSendRequest(order));
+                    return true;
+                }
             }
         }catch (Exception e) {}
         return false;
@@ -64,9 +65,10 @@ public class OrderService{
                 Map<String, Object> metadata = new HashMap<>();
                 metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                 order.setMetadata(metadata);
-                orderServiceIf.save(order);
-                messageService.send(createSendRequest(order));
-                return true;
+                if (orderServiceIf.save(order)) {
+                    messageService.send(createSendRequest(order));
+                    return true;
+                }
             }
         }
         return false;
@@ -82,12 +84,14 @@ public class OrderService{
                     metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
                     metadata.put("trackingNr", trackingNr);
                     order.setMetadata(metadata);
-                    orderServiceIf.save(order);
-                    messageService.send(createSendRequest(order));
-                    return true;
+                    if(orderServiceIf.save(order)) {
+                        messageService.send(createSendRequest(order));
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
-            } catch (Exception e) {
-            }
+            } catch(Exception e) {}
         }
         return false;
     }
@@ -103,19 +107,28 @@ public class OrderService{
             Map<String, Object> metadata = new HashMap<>();
             metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
             order.setMetadata(metadata);
-            orderServiceIf.save(order);
-            messageService.send(createSendRequest(order));
-            return true;
+            if(orderServiceIf.save(order)) {
+                messageService.send(new SendRequest(orderId, status));
+                return true;
+            } else {
+                return false;
+            }
         }catch (Exception e) {
             return false;
         }
     }
 
-    public boolean finnishOrder(long orderId) {
+    public boolean finishOrder(long orderId) {
         Order order = loadOrder(orderId);
-        if (order.getStatus() == Status.CLAIMED) {
-            updateStatus(orderId, Status.ASSEMBLED);
-            return true;
+        if (order != null && order.getStatus() == Status.CLAIMED) {
+            order.setStatus(Status.ASSEMBLED);
+            if (orderServiceIf.save(order)) {
+                messageService.send(new SendRequest(orderId, Status.ASSEMBLED));
+                return true;
+            } else {
+              return false;
+            }
+
         }
         return false;
     }

@@ -73,9 +73,9 @@ public class OrderController {
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
-    @PatchMapping(path = "/finnish/{orderId}")
-    public ResponseEntity<Boolean> finnishOrder(@PathVariable long orderId) {
-        boolean result = orderService.finnishOrder(orderId);
+    @PatchMapping(path = "/finish/{orderId}")
+    public ResponseEntity<Boolean> finishOrder(@PathVariable long orderId) {
+        boolean result = orderService.finishOrder(orderId);
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
