@@ -30,8 +30,7 @@ public class OrderService{
             if (order.getStatus() == Status.CLAIMED){
                 order.setAssembler(null);
                 order.setStatus(Status.NEW);
-                orderServiceIf.save(order);
-                return true;
+                return orderServiceIf.save(order);
             }
         }catch (Exception e) {}
         return false;
@@ -39,13 +38,16 @@ public class OrderService{
 
     public boolean claimOrder(long orderId, long userId) {
         Order order = loadOrder(orderId);
+        if (order == null) {
+            return false;
+        }
+
         if (null == order.getAssembler() && order.status == Status.NEW) {
             User user = userService.loadUser(userId);
             if (null != user) {
-                order.setAssembler("" + userId);
+                order.setAssembler(Long.toString(userId));
                 order.setStatus(Status.CLAIMED);
-                orderServiceIf.save(order);
-                return true;
+                return orderServiceIf.save(order);
             }
         }
         return false;
@@ -57,9 +59,12 @@ public class OrderService{
             if (order.getStatus() == Status.ASSEMBLED) {
                 order.setStatus(Status.SHIPPED);
                 order.setTrackingNr(trackingNr);
-                orderServiceIf.save(order);
-                sender.send(new SendRequest(id, Status.SHIPPED, trackingNr));
-                return true;
+                if(orderServiceIf.save(order)) {
+                    sender.send(new SendRequest(id, Status.SHIPPED, trackingNr));
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }catch(Exception e) {}
         return false;
@@ -73,19 +78,28 @@ public class OrderService{
         try{
             Order order = loadOrder(orderId);
             order.setStatus(status);
-            orderServiceIf.save(order);
-            sender.send(new SendRequest(orderId, status));
-            return true;
+            if(orderServiceIf.save(order)) {
+                sender.send(new SendRequest(orderId, status));
+                return true;
+            } else {
+                return false;
+            }
         }catch (Exception e) {
             return false;
         }
     }
 
-    public boolean finnishOrder(long orderId) {
+    public boolean finishOrder(long orderId) {
         Order order = loadOrder(orderId);
-        if (order.getStatus() == Status.CLAIMED) {
-            updateStatus(orderId, Status.ASSEMBLED);
-            return true;
+        if (order != null && order.getStatus() == Status.CLAIMED) {
+            order.setStatus(Status.ASSEMBLED);
+            if (orderServiceIf.save(order)) {
+                sender.send(new SendRequest(orderId, Status.ASSEMBLED));
+                return true;
+            } else {
+              return false;
+            }
+
         }
         return false;
     }
