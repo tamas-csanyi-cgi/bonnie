@@ -1,28 +1,25 @@
 package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.user.User;
 
+import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 public class Order {
 
-    long id;
-    String shopId;
-    String goodsId;
-    int quantity;
-    Status status;
-    String assembler;
-    String trackingNr;
+    private long id;
+    String shopId;        //fixme it's necesseary
+    private String goodsId;
+    private int quantity;
+    private Status status;
+    private User assembler;
+    private Date realizationDate;
 
-    String details;
+    private String metadata;
 
     public Order() {
-    }
-
-    public Order(String shopId, String goodsId, int quantity) {
-        this.shopId = shopId;
-        this.goodsId = goodsId;
-        this.quantity = quantity;
     }
 
     public long getId() {
@@ -90,42 +87,42 @@ public class Order {
         return this;
     }
 
-    public String getAssembler() {
+    public User getAssembler() {
         return assembler;
     }
 
-    public void setAssembler(String assembler) {
+    public void setAssembler(User assembler) {
         this.assembler = assembler;
     }
 
-    public Order withAssembler(String assembler) {
+    public Order withAssembler(User assembler) {
         this.setAssembler(assembler);
         return this;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
+    public String getMetadata() {
+        return metadata;
     }
 
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 
-    public Order withTrackingNr(String trackingNr) {
-        this.setTrackingNr(trackingNr);
+    public Order withMetadata(String metadata) {
+        this.setMetadata(metadata);
         return this;
     }
 
-    public String getDetails() {
-        return details;
+    public Date getRealizationDate() {
+        return realizationDate;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setRealizationDate(Date realizationDate) {
+        this.realizationDate = realizationDate;
     }
 
-    public Order withDetails(String details) {
-        this.setDetails(details);
+    public Order withRealizationDate(Date realizationDate) {
+        this.setRealizationDate(realizationDate);
         return this;
     }
 
@@ -138,11 +135,12 @@ public class Order {
                 && Objects.equals(goodsId, order.goodsId)
                 && status == order.status
                 && Objects.equals(assembler, order.assembler)
-                && Objects.equals(details, order.details);
+                && Objects.equals( shopId, order.shopId)
+                && Objects.equals( metadata, order.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, shopId, status, assembler);
+        return Objects.hash(id, shopId, goodsId, status, assembler);
     }
 }

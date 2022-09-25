@@ -4,9 +4,9 @@ import com.cgi.hexagon.businessrules.Role;
 
 public class UserService {
 
-    final private IUserService userServiceIf;
+    final private UserStorage userServiceIf;
 
-    public UserService(IUserService loader) {
+    public UserService(UserStorage loader) {
         this.userServiceIf = loader;
     }
 

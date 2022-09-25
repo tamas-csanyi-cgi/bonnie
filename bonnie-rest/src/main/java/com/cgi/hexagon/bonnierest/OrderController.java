@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/order")
 public class OrderController {
@@ -30,6 +32,17 @@ public class OrderController {
         try {
             Order order = orderService.loadOrder(id);
             return ResponseEntity.ok(order);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Order>> getAllOrders() {
+        try {
+            List<Order> orders = orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
@@ -60,9 +73,9 @@ public class OrderController {
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
-    @PatchMapping(path = "/finnish/{orderId}")
-    public ResponseEntity<Boolean> finnishOrder(@PathVariable long orderId) {
-        boolean result = orderService.finnishOrder(orderId);
+    @PatchMapping(path = "/finish/{orderId}")
+    public ResponseEntity<Boolean> finishOrder(@PathVariable long orderId) {
+        boolean result = orderService.finishOrder(orderId);
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 

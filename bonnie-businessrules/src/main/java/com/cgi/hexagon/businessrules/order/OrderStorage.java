@@ -4,11 +4,11 @@ import com.cgi.hexagon.businessrules.Status;
 
 import java.util.List;
 
-public interface IOrderService {
+public interface OrderStorage {
 
     Order load(long id);
 
-    long save (Order order);
+    boolean save(Order order);
 
     List<Order> findAllByShopId(String shopId);
 
@@ -21,5 +21,8 @@ public interface IOrderService {
     boolean setTrackingNumber(long id, String trackingNr);
 
     long create(String productId, int quantity, long assignedTo, Status status);
-    
+
+    List<Order> findAll();
+
+    long create(Order order);
 }

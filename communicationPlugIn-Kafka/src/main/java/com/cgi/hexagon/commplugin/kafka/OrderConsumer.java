@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -25,6 +27,7 @@ public class OrderConsumer {
     @Autowired
     public OrderConsumer(OrderService orderService) {
         this.orderService = orderService;
+        log.info("Kafka consumer is started for Group: [{}] and  Topic: [{}]");
     }
 
     @KafkaListener(topics = "${spring.bonnie.kafka.topic.order}", groupId = "${spring.kafka.consumer.group-id}")
@@ -35,8 +38,9 @@ public class OrderConsumer {
             jsonOrders = new JsonMapper().readAll(message);
         else
             jsonOrders = Collections.singletonList(new JsonMapper().read(message));
+        jsonOrders = jsonOrders.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
-        if (jsonOrders != null && jsonOrders.size() > 0)
+        if (jsonOrders.size() > 0)
             orderService.createOrders(new OrderMapper().fromOrderJsonList(jsonOrders));
     }
 }

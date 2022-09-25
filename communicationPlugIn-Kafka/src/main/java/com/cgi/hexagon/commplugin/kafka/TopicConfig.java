@@ -17,13 +17,13 @@ public class TopicConfig {
 
     @Bean
     public NewTopic bonnieOrderTopic() {
-        log.info(" [{}}] topic is creating.", topicOrders);
+        log.info(" [{}] topic is creating.", topicOrders);
         return TopicBuilder.name(topicOrders).build();
     }
-
     @Bean
     public NewTopic bonnieMessageTopic() {
-        log.info(" [{}}] topic is creating.", topicMessage);
+        log.info(" [{}] topic is creating.", topicMessage);
         return TopicBuilder.name(topicMessage).build();
     }
+
 }
