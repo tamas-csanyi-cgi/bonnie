@@ -21,7 +21,6 @@ public class OrderMapper {
 
     public AssemblyOrder fromOrder(Order order) {
         return new AssemblyOrder(order.getId())
-                .withShopId(order.getShopId())
                 .withStatus(order.getStatus())
                 .withGoodsId(order.getGoodsId())
                 .withAssembler(null == order.getAssembler() ? null : order.getAssembler().getId())
