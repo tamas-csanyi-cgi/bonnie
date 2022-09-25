@@ -8,7 +8,7 @@ public interface OrderStorage {
 
     Order load(long id);
 
-    boolean save (Order order);
+    boolean save(Order order);
 
     boolean release(long id);
 
@@ -19,5 +19,10 @@ public interface OrderStorage {
     boolean setTrackingNumber(long id, String trackingNr);
 
     long create(String productId, int quantity, long assignedTo, Status status);
-    
+
+    List<Order> findAll();
+
+    List<Order> findAllByShopId(String shopId);
+
+    long create(Order order);
 }

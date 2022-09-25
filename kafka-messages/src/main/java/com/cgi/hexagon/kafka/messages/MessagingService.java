@@ -18,6 +18,7 @@ public class MessagingService {
     }
 
     public boolean sendMessage(String topic, SendRequest request) {
+        //TODO topic always fix and comes from application.properties
         try {
             ProducerRecord pr = new ProducerRecord(topic, request);
             kp.send(pr);

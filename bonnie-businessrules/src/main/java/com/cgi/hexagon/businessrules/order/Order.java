@@ -22,12 +22,6 @@ public class Order {
     public Order() {
     }
 
-    public Order(String shopOderId, String goodsId, int quantity) {
-        this.shopOderId = shopOderId;
-        this.goodsId = goodsId;
-        this.quantity = quantity;
-    }
-
     public long getId() {
         return id;
     }
@@ -173,6 +167,6 @@ public class Order {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, status, assembler);
+        return Objects.hash(id, goodsId, shopOrderId, status, assembler, metadata);
     }
 }

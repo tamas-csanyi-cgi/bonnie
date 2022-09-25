@@ -8,6 +8,7 @@ import com.cgi.hexagon.businessrules.user.UserStorage;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,18 +26,18 @@ public class OrderService {
         this.messageService = messageService;
     }
 
-    public Order loadOrder(long id){
+    public Order loadOrder(long id) {
         return orderServiceIf.load(id);
     }
 
-    public List<Order> getAllOrders () {
+    public List<Order> getAllOrders() {
         return orderServiceIf.findAll();
     }
 
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);
-            if (order.getStatus() == Status.CLAIMED){
+            if (order.getStatus() == Status.CLAIMED) {
                 order.setAssembler(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -45,7 +46,8 @@ public class OrderService {
                     return true;
                 }
             }
-        }catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return false;
     }
 
@@ -77,14 +79,15 @@ public class OrderService {
                     order.setStatus(Status.SHIPPED);
                     order.setTrackingNr(trackingNr);
                     order.setLastUpdate(LocalDateTime.now());
-                    if(orderServiceIf.save(order)) {
+                    if (orderServiceIf.save(order)) {
                         messageService.send(createSendRequest(order));
                         return true;
                     } else {
                         return false;
                     }
                 }
-            } catch(Exception e) {}
+            } catch (Exception e) {
+            }
         }
         return false;
     }
@@ -100,6 +103,7 @@ public class OrderService {
     }
 
     public long createOrder(Order order) {
+        log.debug("orders arrived to Bonnie :-) ");
         if (!isNewOrder(order)) {
             log.error(" False or duplicated orderID in : {}", order.toString());
             return -1;
@@ -108,13 +112,19 @@ public class OrderService {
             log.error(" Invalid quantity in {}", order.toString());
             return -1;
         }
-        if (orderServiceIf.findAllByShopId( order.getShopId()).size()>0) {
+        if (orderServiceIf.findAllByShopId(order.getShopId()).size() > 0) {
             log.error(" ShopId [{}] already exists {}", order.getShopId(), order.toString());
             return -1;
         }
         order.setStatus(Status.NEW);
         order.setAssembler(null);
-        return orderServiceIf.save(order);
+        long id = orderServiceIf.save(order);
+        if (id > 0L) {
+            order.setId(id);
+            log.debug("Order is created {}", order.toString());
+        } else
+            log.error("Can't created an order: {}", order.toString());
+        return id;
     }
 
     public boolean isNewOrder(Order order) {

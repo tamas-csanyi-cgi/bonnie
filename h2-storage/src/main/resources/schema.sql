@@ -6,8 +6,10 @@ create table assembly_order
     quantity integer,
     status varchar(255),
     assembler varchar(255),
-    tracking_nr varchar(255)
-);
+    tracking_nr varchar(255),
+    metadata varchar(10000),
+    realization_date date
+ );
 
 create table assembly_user --ID under 100 for manual testing
 (
