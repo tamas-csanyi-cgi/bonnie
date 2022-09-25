@@ -1,0 +1,44 @@
+[
+  {
+    "shopId": "2022/00000123",
+    "goodsId": "Thermo3D PPE Kit",
+    "quantity": 4,
+    "metadata": {
+      "shipping_address": "Nothing-hill 123"
+    }
+  },
+  {
+    "shopId": "2022/00000242",
+    "goodsId": "Thermo3D PPE Kit",
+    "quantity": 2,
+    "metadata": {
+      "shipping_address": {
+        "City": "City",
+        "ZIP": "TRQ N563",
+        "Name": "NoBody & Co. Plc."
+      },
+      "comment": "ASAP pls."
+    }
+  },
+  {
+    "shopId": "2022/00000333",
+    "goodsId": "Thermo4D PPE Kit",
+    "quantity": 3,
+    "metadata": {
+      "shipping_address": "Nothing-hill 129"
+    }
+  },
+  {
+    "shopId": "2022/00000444",
+    "goodsId": "Thermo4D PPE Kit",
+    "quantity": 7,
+    "metadata": {
+      "shipping_address": {
+        "City": "City",
+        "ZIP": "TRQ N563",
+        "Name": "NoBody & Co. Ltd."
+      },
+      "comment": "ASAP pls."
+    }
+  }
+]

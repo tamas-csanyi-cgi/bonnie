@@ -9,7 +9,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.cgi.hexagon.commplugin.kafka</groupId>
     <artifactId>communicationPlugIn-Kafka</artifactId>
     <description>Kafka communication plugin for Bonnie</description>
 

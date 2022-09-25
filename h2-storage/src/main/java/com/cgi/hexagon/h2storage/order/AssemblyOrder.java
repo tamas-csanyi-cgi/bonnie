@@ -1,10 +1,11 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.h2storage.user.AssemblyUser;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class AssemblyOrder {
@@ -21,11 +22,27 @@ public class AssemblyOrder {
 
     Status status;
 
-    String assembler;
+    Long assembler;
 
-    String trackingNr;
+    Date realizationDate;
 
-    String details;
+    String metadata;
+
+    public Date getRealizationDate() {
+        return realizationDate;
+    }
+
+    public void setRealizationDate(Date realizationDate) {
+        this.realizationDate = realizationDate;
+    }
+
+    public String getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
+    }
 
     public AssemblyOrder(long id) {
         this.id = id;
@@ -45,6 +62,14 @@ public class AssemblyOrder {
     public AssemblyOrder withId(long id) {
         this.setId(id);
         return this;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     public AssemblyOrder withShopId(String shopId) {
@@ -67,17 +92,19 @@ public class AssemblyOrder {
         return this;
     }
 
-    public AssemblyOrder withAssembler(String assembler) {
+    public AssemblyOrder withAssembler(Long assembler) {
         this.setAssembler(assembler);
         return this;
     }
 
-    public String getShopId() {
-        return shopId;
+    public AssemblyOrder withMetadata(String metadata) {
+        this.setMetadata(metadata);
+        return this;
     }
 
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
+    public AssemblyOrder withRealizationDate(Date realizationDate) {
+        this.setRealizationDate(realizationDate);
+        return this;
     }
 
     public String getGoodsId() {
@@ -104,37 +131,12 @@ public class AssemblyOrder {
         this.status = status;
     }
 
-    public String getAssembler() {
+    public Long getAssembler() {
         return assembler;
     }
 
-    public void setAssembler(String assembler) {
+    public void setAssembler(Long assembler) {
         this.assembler = assembler;
     }
 
-    public String getTrackingNr() {
-        return trackingNr;
-    }
-
-    public void setTrackingNr(String trackingNr) {
-        this.trackingNr = trackingNr;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public AssemblyOrder withDetails(String details) {
-        this.setDetails(details);
-        return this;
-    }
-
-    public AssemblyOrder withTrackingNr(String trackingNr) {
-        this.setTrackingNr(trackingNr);
-        return this;
-    }
 }

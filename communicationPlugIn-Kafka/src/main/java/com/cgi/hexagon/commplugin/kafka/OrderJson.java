@@ -8,7 +8,8 @@ public class OrderJson {
     String shopId;
     String goodsId;
     int quantity;
-    JsonNode details;
+
+    JsonNode metadata;
 
     public OrderJson() {
     }
@@ -17,11 +18,11 @@ public class OrderJson {
     public OrderJson(@JsonProperty("shopId") String shopId,
                      @JsonProperty("goodsId") String goodsId,
                      @JsonProperty("quantity") int quantity,
-                     @JsonProperty("details") JsonNode details) {
+                     @JsonProperty("metadata") JsonNode metadata) {
         this.shopId = shopId;
         this.goodsId = goodsId;
         this.quantity = quantity;
-        this.details = details;
+        this.metadata = metadata;
     }
 
     public String getShopId() {
@@ -51,16 +52,16 @@ public class OrderJson {
         return this;
     }
 
-    public JsonNode getDetails() {
-        return details;
+    public JsonNode getMetadata() {
+        return metadata;
     }
 
-    public String getDetailsAsText() {
-        return details.asText();
+    public String getMetadataAsText() {
+        return metadata.toString();
     }
 
-    public OrderJson setDetails(JsonNode details) {
-        this.details = details;
+    public OrderJson setMetadata(JsonNode details) {
+        this.metadata = details;
         return this;
     }
 }

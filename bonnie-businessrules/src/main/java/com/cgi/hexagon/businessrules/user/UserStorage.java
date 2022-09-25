@@ -2,7 +2,7 @@ package com.cgi.hexagon.businessrules.user;
 
 import com.cgi.hexagon.businessrules.Role;
 
-public interface IUserService {
+public interface UserStorage {
 
     User load(long id);
 

@@ -10,7 +10,6 @@ public class UserMapper {
         return new AssemblyUser()
                 .withId(user.getId())
                 .withName(user.getName())
-                .withPassword(user.getPassword())
                 .withRole(user.getRole());
     }
 
@@ -18,7 +17,6 @@ public class UserMapper {
         return new User()
                 .withId(userEntity.getId())
                 .withName(userEntity.getName())
-                .withPassword(userEntity.getPassword())
                 .withRole(userEntity.getRole());
     }
 }
