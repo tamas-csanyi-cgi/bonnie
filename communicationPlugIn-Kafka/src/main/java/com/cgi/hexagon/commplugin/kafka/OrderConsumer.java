@@ -28,7 +28,6 @@ public class OrderConsumer {
     @Autowired
     public OrderConsumer(OrderService orderService) {
         this.orderService = orderService;
-        //    log.info("Kafka consumer is started for Group: [{}] and  Topic: [{}]", groupID, topicName);
     }
 
     @PostConstruct
