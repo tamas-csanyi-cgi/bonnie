@@ -22,7 +22,7 @@ public class TopicConfig {
     }
     @Bean
     public NewTopic bonnieMessageTopic() {
-        log.info(" [{}] topic is creating.", topicMessage);
+        log.debug(" [{}] topic is creating.", topicMessage);
         return TopicBuilder.name(topicMessage).build();
     }
 

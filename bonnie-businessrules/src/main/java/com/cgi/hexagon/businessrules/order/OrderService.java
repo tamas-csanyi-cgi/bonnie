@@ -107,12 +107,12 @@ public class OrderService {
 
     public void createOrders(List<Order> orders) {
         for (Order order : orders) {
-            order.setId( createOrder(order));
+            createOrder(order);
         }
     }
 
     public long createOrder(Order order) {
-        log.info( "orders arrived to Bonnie :-) ");
+        log.debug( "orders arrived to Bonnie :-) ");
         if (!isNewOrder(order)) {
             log.error(" False or duplicated orderID in : {}", order.toString());
             return -1;
@@ -127,7 +127,13 @@ public class OrderService {
         }
         order.setStatus(Status.NEW);
         order.setAssembler(null);
-        return orderServiceIf.create(order);
+        long id= orderServiceIf.create(order);
+        if (id > 0L){
+            order.setId( id);
+        log.debug("Order is created: {}", order.toString());
+        }else
+            log.error("Can't created order: {} ", order.toString());
+        return id;
     }
 
     public boolean isNewOrder(Order order) {

@@ -37,7 +37,7 @@ public class OrderConsumer {
 
     @KafkaListener(topics = "${spring.bonnie.kafka.topic.order}", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(String message) {
-        log.info("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
+        log.debug("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
         List<OrderJson> jsonOrders;
         if (message.trim().startsWith("[")) //Json array
             jsonOrders = new JsonMapper().readAll(message);
