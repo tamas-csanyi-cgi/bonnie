@@ -31,6 +31,6 @@ public class KafkaMessageService implements MessageService {
     @Override
     public void send(SendRequest request) {
         kafkaTemplate.send(topicName, new JsonMapper().write(request));
-        log.info("[{}] topic a message sent: {}", topicName, request);
+        log.debug("[{}] topic a message sent: {}", topicName, request);
     }
 }
