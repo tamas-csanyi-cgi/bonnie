@@ -1,6 +1,6 @@
 [
   {
-    "shopId": "2022/00000123",
+    "shopOrderId": "2022/00000123",
     "goodsId": "Thermo3D PPE Kit",
     "quantity": 4,
     "metadata": {
@@ -8,7 +8,7 @@
     }
   },
   {
-    "shopId": "2022/00000242",
+    "shopOrderId": "2022/00000242",
     "goodsId": "Thermo3D PPE Kit",
     "quantity": 2,
     "metadata": {
@@ -21,7 +21,7 @@
     }
   },
   {
-    "shopId": "2022/00000333",
+    "shopOrderId": "2022/00000333",
     "goodsId": "Thermo4D PPE Kit",
     "quantity": 3,
     "metadata": {
@@ -29,7 +29,7 @@
     }
   },
   {
-    "shopId": "2022/00000444",
+    "shopOrderId": "2022/00000444",
     "goodsId": "Thermo4D PPE Kit",
     "quantity": 7,
     "metadata": {

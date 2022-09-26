@@ -20,9 +20,9 @@ public interface OrderStorage {
 
     long create(String productId, int quantity, long assignedTo, Status status);
 
+    long create(Order order);
+
     List<Order> findAll();
 
-    List<Order> findAllByShopId(String shopId);
-
-    long create(Order order);
+    List<Order> findAllByShopOrderId(String shopOrderId);
 }

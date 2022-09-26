@@ -32,7 +32,7 @@ public class OrderMapper {
                 .withStatus(orderEntity.getStatus())
                 .withShopOderId(orderEntity.getShopOrderId())
                 .withGoodsId(orderEntity.getGoodsId())
-                .withAssembler(null == orderEntity.getAssignedTo() || 0 == orderEntity.getAssignedTo() ? null : userStorage.load(orderEntity.getAssignedTo()))
+                .withAssignedTo(null == orderEntity.getAssignedTo() || 0 == orderEntity.getAssignedTo() ? null : userStorage.load(orderEntity.getAssignedTo()))
                 .withQuantity(orderEntity.getQuantity())
                 .withMetadata(orderEntity.getMetadata())
                 .withPlacementDate(orderEntity.getPlacementDate())

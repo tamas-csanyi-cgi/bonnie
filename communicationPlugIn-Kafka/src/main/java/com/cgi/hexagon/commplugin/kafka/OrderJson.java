@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class OrderJson {
-    String shopId;
+    String shopOrderId;
     String goodsId;
     int quantity;
 
@@ -15,22 +15,22 @@ public class OrderJson {
     }
 
     @JsonCreator
-    public OrderJson(@JsonProperty("shopId") String shopId,
+    public OrderJson(@JsonProperty("shopOrderId") String shopOrderId,
                      @JsonProperty("goodsId") String goodsId,
                      @JsonProperty("quantity") int quantity,
                      @JsonProperty("metadata") JsonNode metadata) {
-        this.shopId = shopId;
+        this.shopOrderId = shopOrderId;
         this.goodsId = goodsId;
         this.quantity = quantity;
         this.metadata = metadata;
     }
 
-    public String getShopId() {
-        return shopId;
+    public String getShopOrderId() {
+        return shopOrderId;
     }
 
-    public OrderJson setShopId(String shopId) {
-        this.shopId = shopId;
+    public OrderJson setShopOrderId(String shopOrderId) {
+        this.shopOrderId = shopOrderId;
         return this;
     }
 

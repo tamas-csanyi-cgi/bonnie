@@ -4,11 +4,10 @@ import com.cgi.hexagon.businessrules.order.Order;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class OrderMapper {
     public Order fromOrderJson(OrderJson orderJson) {
-        return new Order().withShopId(orderJson.getShopId())
+        return new Order().withShopOderId(orderJson.getShopOrderId())
                 .withGoodsId(orderJson.getGoodsId())
                 .withQuantity(orderJson.getQuantity())
                 .withMetadata(orderJson.getMetadataAsText());

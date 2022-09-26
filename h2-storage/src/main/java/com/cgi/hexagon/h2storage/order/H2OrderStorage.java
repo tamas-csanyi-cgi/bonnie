@@ -61,9 +61,9 @@ public class H2OrderStorage implements OrderStorage {
         return result;
     }
    
-    public List<Order> findAllByShopId(String shopId) {
+    public List<Order> findAllByShopOrderId(String shopOrderId) {
         List<Order> result = new ArrayList<>();
-        orderRepository.findAllByShopId(shopId).forEach(order -> result.add(mapper.fromEntity(order)));
+        orderRepository.findAllByShopOrderId(shopOrderId).forEach(order -> result.add(mapper.fromEntity(order)));
         return result;
     }
 

@@ -95,8 +95,8 @@ public class Order {
         this.assignedTo = assignedTo;
     }
 
-    public Order withAssembler(User assembler) {
-        this.setAssignedTo(assembler);
+    public Order withAssignedTo(User assignedTo) {
+        this.setAssignedTo(assignedTo);
         return this;
     }
 
@@ -108,7 +108,7 @@ public class Order {
         this.metadata = metadata;
     }
 
-    public Order withMetadata (String metadata) {
+    public Order withMetadata(String metadata) {
         this.setMetadata(metadata);
         return this;
     }
@@ -160,13 +160,13 @@ public class Order {
         return id == order.id
                 && Objects.equals(goodsId, order.goodsId)
                 && status == order.status
-                && Objects.equals(assembler, order.assembler)
-                && Objects.equals( shopOderId, order.shopOderId)
-                && Objects.equals( metadata, order.metadata);
+                && Objects.equals(assignedTo, order.assignedTo)
+                && Objects.equals(shopOderId, order.shopOderId)
+                && Objects.equals(metadata, order.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, shopOrderId, status, assembler, metadata);
+        return Objects.hash(id, goodsId, shopOderId, status, assignedTo, metadata);
     }
 }
