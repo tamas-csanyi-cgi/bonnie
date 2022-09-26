@@ -3,26 +3,17 @@ package com.cgi.hexagon.h2storage.user;
 import com.cgi.hexagon.businessrules.Role;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "assembly_user")
 public class AssemblyUser implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
     private long id;
 
-    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
     private Role role;
 
     public AssemblyUser() {

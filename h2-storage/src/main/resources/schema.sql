@@ -14,10 +14,8 @@ create table assembly_order
     quantity integer,
     status varchar(20) NOT NULL DEFAULT 'NEW',
     tracking_nr varchar(255),
-    assigned_to integer references assembly_user (id),
+    assigned_to integer,
     metadata varchar(10000),
     placement_date TIMESTAMP WITH TIME ZONE,
     last_updated TIMESTAMP WITH TIME ZONE default now()
 );
-
-ALTER TABLE assembly_order  ADD CONSTRAINT assembly_order_quantity_CK CHECK (quantity > 0);

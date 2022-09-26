@@ -3,42 +3,28 @@ package com.cgi.hexagon.h2storage.order;
 import com.cgi.hexagon.businessrules.Status;
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "assembly_order")
 public class AssemblyOrder implements Serializable {
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
     private long id;
 
-    @Column(name = "shop_order_id")
     private String shopOrderId;
 
-    @Column(name = "goods_id")
     private String goodsId;
 
-    @Column(name = "quantity")
     private int quantity;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status;
 
-    @Column(name = "assigned_to")
     private Long assignedTo;
 
-    @Column(name = "placement_date")
     private LocalDateTime placementDate;
 
-    @Column(name = "tracking_nr")
     private String trackingNr;
 
-    @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
 
     private String metadata;
