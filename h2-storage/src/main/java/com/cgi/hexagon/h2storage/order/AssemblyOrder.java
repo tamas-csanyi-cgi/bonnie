@@ -1,46 +1,47 @@
 package com.cgi.hexagon.h2storage.order;
 
 import com.cgi.hexagon.businessrules.Status;
-import com.cgi.hexagon.h2storage.user.AssemblyUser;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
-public class AssemblyOrder{
+@Table(name = "assembly_order")
+public class AssemblyOrder implements Serializable {
 
     @Id
     @GeneratedValue
-    long id;
+    @Column(name = "id")
+    private long id;
 
-    String goodsId;
+    @Column(name = "shop_order_id")
+    private String shopOrderId;
 
-    int quantity;
+    @Column(name = "goods_id")
+    private String goodsId;
 
-    Status status;
+    @Column(name = "quantity")
+    private int quantity;
 
-    Long assembler;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 
-    Date realizationDate;
+    @Column(name = "assigned_to")
+    private Long assignedTo;
 
-    public Date getRealizationDate() {
-        return realizationDate;
-    }
+    @Column(name = "placement_date")
+    private LocalDateTime placementDate;
 
-    public void setRealizationDate(Date realizationDate) {
-        this.realizationDate = realizationDate;
-    }
+    @Column(name = "tracking_nr")
+    private String trackingNr;
 
-    String metadata;
+    @Column(name = "last_updated")
+    private LocalDateTime lastUpdated;
 
-    public String getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(String metadata) {
-        this.metadata = metadata;
-    }
+    private String metadata;
 
     public AssemblyOrder(long id) {
         this.id = id;
@@ -77,21 +78,6 @@ public class AssemblyOrder{
         return this;
     }
 
-    public AssemblyOrder withAssembler(Long assembler) {
-        this.setAssembler(assembler);
-        return this;
-    }
-
-    public AssemblyOrder withMetadata(String metadata) {
-        this.setMetadata(metadata);
-        return this;
-    }
-
-    public AssemblyOrder withRealizationDate(Date realizationDate) {
-        this.setRealizationDate(realizationDate);
-        return this;
-    }
-
     public String getGoodsId() {
         return goodsId;
     }
@@ -116,12 +102,81 @@ public class AssemblyOrder{
         this.status = status;
     }
 
-    public Long getAssembler() {
-        return assembler;
+    public String getMetadata() {
+        return metadata;
     }
 
-    public void setAssembler(Long assembler) {
-        this.assembler = assembler;
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 
+    public AssemblyOrder withMetadata(String metadata) {
+        this.setMetadata(metadata);
+        return this;
+    }
+
+    public Long getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(Long assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    public AssemblyOrder withAssignedTo(Long assignedTo) {
+        this.setAssignedTo(assignedTo);
+        return this;
+    }
+
+    public LocalDateTime getPlacementDate() {
+        return placementDate;
+    }
+
+    public void setPlacementDate(LocalDateTime placementDate) {
+        this.placementDate = placementDate;
+    }
+
+    public AssemblyOrder withPlacementDate(LocalDateTime placementDate) {
+        this.setPlacementDate(placementDate);
+        return this;
+    }
+
+    public String getShopOrderId() {
+        return shopOrderId;
+    }
+
+    public void setShopOrderId(String shopOrderId) {
+        this.shopOrderId = shopOrderId;
+    }
+
+    public AssemblyOrder withShopOderId(String shopOderId) {
+        this.setShopOrderId(shopOderId);
+        return this;
+    }
+
+    public String getTrackingNr() {
+        return trackingNr;
+    }
+
+    public void setTrackingNr(String trackingNr) {
+        this.trackingNr = trackingNr;
+    }
+
+    public AssemblyOrder withTrackingNr(String trackingNr) {
+        this.setTrackingNr(trackingNr);
+        return this;
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public AssemblyOrder withLastUpdated(LocalDateTime lastUpdated) {
+        this.setLastUpdated(lastUpdated);
+        return this;
+    }
 }

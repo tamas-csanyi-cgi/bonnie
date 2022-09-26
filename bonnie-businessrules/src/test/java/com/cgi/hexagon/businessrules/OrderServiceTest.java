@@ -61,7 +61,7 @@ class OrderServiceTest {
 
         orderService.releaseOrder(ORDER_ID);
 
-        verify(orderLoader).save(argThat(order -> order.getAssembler() == null));
+        verify(orderLoader).save(argThat(order -> order.getAssignedTo() == null));
     }
 
     @Test
@@ -146,7 +146,7 @@ class OrderServiceTest {
 
         orderService.claimOrder(ORDER_ID, USER_ID);
 
-        verify(orderLoader).save(argThat(order -> USER_ID == order.getAssembler().getId()));
+        verify(orderLoader).save(argThat(order -> USER_ID == order.getAssignedTo().getId()));
     }
 
     @Test
@@ -189,7 +189,7 @@ class OrderServiceTest {
 
         orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
 
-       verify(orderLoader).save(argThat(order -> order.getMetadata().get("trackingNr") == TRACING_NUMBER));
+       verify(orderLoader).save(argThat(order -> order.getTrackingNr().equals(TRACING_NUMBER)));
     }
 
     @Test
@@ -232,7 +232,10 @@ class OrderServiceTest {
 
         orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
 
-        verify(sender).send(argThat(sendRequest -> sendRequest.getOrderId() == ORDER_ID && sendRequest.getStatus() == Status.SHIPPED && TRACING_NUMBER.equals(sendRequest.getMetadata().get("trackingNr"))));
+        verify(sender).send(argThat(sendRequest ->
+                sendRequest.orderId() == ORDER_ID
+                        && sendRequest.status() == Status.SHIPPED
+                        && TRACING_NUMBER.equals(sendRequest.trackingNr())));
     }
 
     @Test
@@ -286,7 +289,8 @@ class OrderServiceTest {
 
         orderService.updateStatus(ORDER_ID, Status.SHIPPED);
 
-        verify(sender).send(argThat(sendRequest -> sendRequest.getStatus() == Status.SHIPPED && sendRequest.getOrderId() == ORDER_ID));
+        verify(sender).send(argThat(sendRequest ->
+                sendRequest.status() == Status.SHIPPED && sendRequest.orderId() == ORDER_ID));
     }
 
     @Test
@@ -317,7 +321,7 @@ class OrderServiceTest {
 
         orderService.finishOrder(ORDER_ID);
 
-        verify(sender).send(argThat(sendRequest -> sendRequest.getStatus() == Status.ASSEMBLED));
+        verify(sender).send(argThat(sendRequest -> sendRequest.status() == Status.ASSEMBLED));
     }
 
     @Test

@@ -6,11 +6,8 @@ import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.user.User;
 import com.cgi.hexagon.businessrules.user.UserStorage;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 public class OrderService{
 
@@ -19,9 +16,6 @@ public class OrderService{
     final private UserStorage userStorage;
 
     final private MessageService messageService;
-
-    String pattern = "dd-MM-yyyy hh:mm:ss";
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
     public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService) {
         this.orderServiceIf = loader;
@@ -41,11 +35,9 @@ public class OrderService{
         try {
             Order order = loadOrder(id);
             if (order.getStatus() == Status.CLAIMED){
-                order.setAssembler(null);
+                order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
-                Map<String, Object> metadata = new HashMap<>();
-                metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
-                order.setMetadata(metadata);
+                order.setLastUpdate(LocalDateTime.now());
                 if (orderServiceIf.save(order)) {
                     messageService.send(createSendRequest(order));
                     return true;
@@ -60,14 +52,12 @@ public class OrderService{
         if (order == null) {
             return false;
         }
-        if (null == order.getAssembler() && order.getStatus() == Status.NEW) {
+        if (null == order.getAssignedTo() && order.getStatus() == Status.NEW) {
             User user = userStorage.load(userId);
             if (null != user) {
-                order.setAssembler(user);
+                order.setAssignedTo(user);
                 order.setStatus(Status.CLAIMED);
-                Map<String, Object> metadata = new HashMap<>();
-                metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
-                order.setMetadata(metadata);
+                order.setLastUpdate(LocalDateTime.now());
                 if (orderServiceIf.save(order)) {
                     messageService.send(createSendRequest(order));
                     return true;
@@ -83,10 +73,8 @@ public class OrderService{
                 Order order = loadOrder(id);
                 if (order.getStatus() == Status.ASSEMBLED) {
                     order.setStatus(Status.SHIPPED);
-                    Map<String, Object> metadata = new HashMap<>();
-                    metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
-                    metadata.put("trackingNr", trackingNr);
-                    order.setMetadata(metadata);
+                    order.setTrackingNr(trackingNr);
+                    order.setLastUpdate(LocalDateTime.now());
                     if(orderServiceIf.save(order)) {
                         messageService.send(createSendRequest(order));
                         return true;
@@ -107,9 +95,7 @@ public class OrderService{
         try{
             Order order = loadOrder(orderId);
             order.setStatus(status);
-            Map<String, Object> metadata = new HashMap<>();
-            metadata.put("lastUpdated", simpleDateFormat.format(new Date()));
-            order.setMetadata(metadata);
+            order.setLastUpdate(LocalDateTime.now());
             if(orderServiceIf.save(order)) {
                 messageService.send(new SendRequest(orderId, status));
                 return true;
@@ -137,11 +123,7 @@ public class OrderService{
     }
 
     public SendRequest createSendRequest(Order order){
-        SendRequest sendRequest = new SendRequest();
-        sendRequest.setOrderId(Long.valueOf(order.getId()));
-        sendRequest.setStatus(order.getStatus());
-        sendRequest.setMetadata(order.getMetadata());
-        return sendRequest;
+        return new SendRequest(order.getId(), order.getStatus(), order.getTrackingNr(), order.getMetadata());
     }
 
 }

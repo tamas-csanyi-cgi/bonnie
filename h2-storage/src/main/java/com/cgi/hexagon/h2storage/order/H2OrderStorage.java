@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -63,7 +63,7 @@ public class H2OrderStorage implements OrderStorage {
     public boolean release(long id) {
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
-            order.setAssembler(null);
+            order.setAssignedTo(null);
             order.setStatus(Status.NEW);
             orderRepository.save(order);
             return true;
@@ -75,8 +75,8 @@ public class H2OrderStorage implements OrderStorage {
     public boolean claim(long id, long userId) {
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
-            if (null == order.getAssembler()) {
-                order.setAssembler(userId);
+            if (null == order.getAssignedTo()) {
+                order.setAssignedTo(userId);
                 order.setStatus(Status.CLAIMED);
                 orderRepository.save(order);
                 return true;
@@ -110,9 +110,9 @@ public class H2OrderStorage implements OrderStorage {
     @Override
     public long create(String productId, int quantity, long assignedTo, Status status) {
         AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
-                .withAssembler(assignedTo).withStatus(status).withRealizationDate(new Date());
+                .withAssignedTo(assignedTo).withStatus(status).withPlacementDate(LocalDateTime.now());
         orderRepository.save(aOrder);
-        return aOrder.id;
+        return aOrder.getId();
     }
 
 }

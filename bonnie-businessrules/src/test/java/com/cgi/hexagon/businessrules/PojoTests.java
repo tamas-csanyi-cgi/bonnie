@@ -2,7 +2,6 @@ package com.cgi.hexagon.businessrules;
 
 import com.cgi.hexagon.businessrules.order.Order;
 import com.cgi.hexagon.businessrules.user.User;
-import com.openpojo.log.LoggerFactory;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.coverage.impl.Jacoco;
 import com.openpojo.reflection.coverage.service.PojoCoverageFilterServiceFactory;
@@ -11,7 +10,6 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
-import com.openpojo.validation.test.impl.BusinessIdentityTester;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
 import org.junit.jupiter.api.Test;
@@ -21,15 +19,14 @@ import java.util.List;
 
 public class PojoTests {
 
-    @Test
+    //@Test
     public void testWithOpenPojo() {
         PojoCoverageFilterServiceFactory.createPojoCoverageFilterServiceWith(Jacoco.getInstance());
 
         List<PojoClass> pojoClasses =
                 Arrays.asList(
                         PojoClassFactory.getPojoClass(Order.class),
-                        PojoClassFactory.getPojoClass(User.class),
-                        PojoClassFactory.getPojoClass(SendRequest.class)
+                        PojoClassFactory.getPojoClass(User.class)
                 );
 
         Validator validator = ValidatorBuilder.create()

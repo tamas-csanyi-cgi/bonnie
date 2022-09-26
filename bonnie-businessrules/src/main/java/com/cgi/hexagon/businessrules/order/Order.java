@@ -3,25 +3,27 @@ package com.cgi.hexagon.businessrules.order;
 import com.cgi.hexagon.businessrules.Status;
 import com.cgi.hexagon.businessrules.user.User;
 
-import java.util.Date;
-import java.util.Map;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Order {
 
     private long id;
+    private String shopOderId;
     private String goodsId;
     private int quantity;
     private Status status;
-    private User assembler;
-    private Date realizationDate;
-
-    private Map<String, Object> metadata;
+    private User assignedTo;
+    private LocalDateTime placementDate;
+    private LocalDateTime lastUpdate;
+    private String trackingNr;
+    private String metadata;
 
     public Order() {
     }
 
-    public Order(String shopId, String goodsId, int quantity) {
+    public Order(String shopOderId, String goodsId, int quantity) {
+        this.shopOderId = shopOderId;
         this.goodsId = goodsId;
         this.quantity = quantity;
     }
@@ -36,6 +38,19 @@ public class Order {
 
     public Order withId(long id) {
         this.setId(id);
+        return this;
+    }
+
+    public String getShopOderId() {
+        return shopOderId;
+    }
+
+    public void setShopOderId(String shopOderId) {
+        this.shopOderId = shopOderId;
+    }
+
+    public Order withShopOderId(String shopOderId) {
+        setShopOderId(shopOderId);
         return this;
     }
 
@@ -78,42 +93,68 @@ public class Order {
         return this;
     }
 
-    public User getAssembler() {
-        return assembler;
+    public User getAssignedTo() {
+        return assignedTo;
     }
 
-    public void setAssembler(User assembler) {
-        this.assembler = assembler;
+    public void setAssignedTo(User assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     public Order withAssembler(User assembler) {
-        this.setAssembler(assembler);
+        this.setAssignedTo(assembler);
         return this;
     }
 
-    public Map<String, Object> getMetadata() {
+    public String getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(Map<String, Object> metadata) {
+    public void setMetadata(String metadata) {
         this.metadata = metadata;
     }
 
-    public Order withMetadata (Map<String, Object> metadata) {
+    public Order withMetadata (String metadata) {
         this.setMetadata(metadata);
         return this;
     }
 
-    public Date getRealizationDate() {
-        return realizationDate;
+    public LocalDateTime getPlacementDate() {
+        return placementDate;
     }
 
-    public void setRealizationDate(Date realizationDate) {
-        this.realizationDate = realizationDate;
+    public void setPlacementDate(LocalDateTime placementDate) {
+        this.placementDate = placementDate;
     }
 
-    public Order withRealizationDate(Date realizationDate) {
-        this.setRealizationDate(realizationDate);
+    public Order withPlacementDate(LocalDateTime placementDate) {
+        this.setPlacementDate(placementDate);
+        return this;
+    }
+
+    public String getTrackingNr() {
+        return trackingNr;
+    }
+
+    public void setTrackingNr(String trackingNr) {
+        this.trackingNr = trackingNr;
+    }
+
+    public Order withTrackingNr(String trackingNr) {
+        this.setTrackingNr(trackingNr);
+        return this;
+    }
+
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Order withLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
         return this;
     }
 
@@ -122,11 +163,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && Objects.equals(goodsId, order.goodsId) && status == order.status && Objects.equals(assembler, order.assembler);
+        return id == order.id && Objects.equals(goodsId, order.goodsId) && status == order.status && Objects.equals(assignedTo, order.assignedTo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, status, assembler);
+        return Objects.hash(id, goodsId, status, assignedTo);
     }
 }
