@@ -22,12 +22,6 @@ public class Order {
     public Order() {
     }
 
-    public Order(String shopOderId, String goodsId, int quantity) {
-        this.shopOderId = shopOderId;
-        this.goodsId = goodsId;
-        this.quantity = quantity;
-    }
-
     public long getId() {
         return id;
     }
@@ -101,8 +95,8 @@ public class Order {
         this.assignedTo = assignedTo;
     }
 
-    public Order withAssembler(User assembler) {
-        this.setAssignedTo(assembler);
+    public Order withAssignedTo(User assignedTo) {
+        this.setAssignedTo(assignedTo);
         return this;
     }
 
@@ -114,7 +108,7 @@ public class Order {
         this.metadata = metadata;
     }
 
-    public Order withMetadata (String metadata) {
+    public Order withMetadata(String metadata) {
         this.setMetadata(metadata);
         return this;
     }
@@ -163,11 +157,16 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && Objects.equals(goodsId, order.goodsId) && status == order.status && Objects.equals(assignedTo, order.assignedTo);
+        return id == order.id
+                && Objects.equals(goodsId, order.goodsId)
+                && status == order.status
+                && Objects.equals(assignedTo, order.assignedTo)
+                && Objects.equals(shopOderId, order.shopOderId)
+                && Objects.equals(metadata, order.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, status, assignedTo);
+        return Objects.hash(id, goodsId, shopOderId, status, assignedTo, metadata);
     }
 }

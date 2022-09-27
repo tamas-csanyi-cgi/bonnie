@@ -1,7 +1,5 @@
 package com.cgi.hexagon.bonnierest.model;
 
-import com.cgi.hexagon.businessrules.Status;
-
 public class OrderRequest {
 
     private String productId;

@@ -1,8 +1,8 @@
 package com.cgi.hexagon.kafka.messages;
 
-import com.cgi.hexagon.businessrules.SendRequest;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import com.cgi.hexagon.communicationplugin.SendRequest;
 
 import java.util.Properties;
 
@@ -18,6 +18,7 @@ public class MessagingService {
     }
 
     public boolean sendMessage(String topic, SendRequest request) {
+        //TODO topic always fix and comes from application.properties
         try {
             ProducerRecord pr = new ProducerRecord(topic, request);
             kp.send(pr);
