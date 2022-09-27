@@ -4,19 +4,21 @@ import com.cgi.hexagon.communicationplugin.SendRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 @Slf4j
-public class JsonMapper {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+public class JsonOrderMapper {
+    private final ObjectMapper objectMapper = JsonMapper.builder().addModule( new JavaTimeModule()).build();
 
     public OrderJson read(String jsonString) {
         try {
             return objectMapper.readValue(jsonString, OrderJson.class);
         } catch (JsonProcessingException e) {
-            log.error("Json conversion error in :" + jsonString, e);
+            log.error("Json conversion error in OrderJson :" + jsonString, e);
             return null;
         }
     }

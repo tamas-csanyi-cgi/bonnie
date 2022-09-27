@@ -124,7 +124,7 @@ public class OrderService {
             order.setId(id);
             log.debug("Order is created: {}", order.toString());
         } else
-            log.error("Can't created an order: {}", order.toString());
+            log.error("Can't created an order: {}", order);
         return id;
     }
 
@@ -140,17 +140,17 @@ public class OrderService {
     }
 
     public boolean updateStatus(long orderId, Status status) {
-        try{
+        try {
             Order order = loadOrder(orderId);
             order.setStatus(status);
             order.setLastUpdate(LocalDateTime.now());
-            if(orderStorage.save(order)) {
+            if (orderStorage.save(order)) {
                 messageService.send(new SendRequest(order.getShopOderId(), status));
                 return true;
             } else {
                 return false;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -163,15 +163,13 @@ public class OrderService {
                 messageService.send(new SendRequest(order.getShopOderId(), Status.ASSEMBLED));
                 return true;
             } else {
-              return false;
+                return false;
             }
-
         }
         return false;
     }
 
-    public SendRequest createSendRequest(Order order){
+    public SendRequest createSendRequest(Order order) {
         return new SendRequest(order.getShopOderId(), order.getStatus(), order.getMetadata());
     }
-
 }

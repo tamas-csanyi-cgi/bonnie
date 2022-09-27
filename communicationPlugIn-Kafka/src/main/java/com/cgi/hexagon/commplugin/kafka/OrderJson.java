@@ -1,14 +1,21 @@
 package com.cgi.hexagon.commplugin.kafka;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
+
+import java.time.LocalDateTime;
 
 public class OrderJson {
     String shopOrderId;
     String goodsId;
     int quantity;
-
+    //fixme  pattern has to be stored in .properties file, but
+    //  spring.jackson.date-format: yyyy.MM.dd HH:mm
+    //  is not working from there
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm")
+    LocalDateTime placementDate;
     JsonNode metadata;
 
     public OrderJson() {
@@ -18,10 +25,12 @@ public class OrderJson {
     public OrderJson(@JsonProperty("shopOrderId") String shopOrderId,
                      @JsonProperty("goodsId") String goodsId,
                      @JsonProperty("quantity") int quantity,
+                     @JsonProperty("placementDate") LocalDateTime placementDate,
                      @JsonProperty("metadata") JsonNode metadata) {
         this.shopOrderId = shopOrderId;
         this.goodsId = goodsId;
         this.quantity = quantity;
+        this.placementDate = placementDate;
         this.metadata = metadata;
     }
 
@@ -49,6 +58,15 @@ public class OrderJson {
 
     public OrderJson setQuantity(int quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public LocalDateTime getPlacementDate() {
+        return placementDate;
+    }
+
+    public OrderJson setPlacementDate(LocalDateTime placementDate) {
+        this.placementDate = placementDate;
         return this;
     }
 

@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 @Service
 public class KafkaMessageService implements MessageService {
 
-    private final JsonMapper jsonMapper= new JsonMapper();
+    private final JsonOrderMapper jsonOrderMapper = new JsonOrderMapper();
     @Autowired
     final private KafkaTemplate<String, String> kafkaTemplate;
     @Value("${spring.bonnie.kafka.topic.message}")
@@ -31,7 +31,7 @@ public class KafkaMessageService implements MessageService {
 
     @Override
     public void send(SendRequest request) {
-        kafkaTemplate.send(topicName, jsonMapper.write(request));
+        kafkaTemplate.send(topicName, jsonOrderMapper.write(request));
         log.debug("[{}] topic a message sent: {}", topicName, request);
     }
 }

@@ -8,7 +8,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class OrderConsumer {
 
     private OrderService orderService;
-    private JsonMapper jsonMapper= new JsonMapper();
+    private JsonOrderMapper jsonOrderMapper = new JsonOrderMapper();
     private OrderMapper orderMapper= new OrderMapper();
 
     @Value("${spring.bonnie.kafka.topic.order}")
@@ -42,9 +41,9 @@ public class OrderConsumer {
         log.debug("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
         List<OrderJson> jsonOrders;
         if (message.trim().startsWith("[")) //Json array
-            jsonOrders = jsonMapper.readAll(message);
+            jsonOrders = jsonOrderMapper.readAll(message);
         else
-            jsonOrders = Collections.singletonList(jsonMapper.read(message));
+            jsonOrders = Collections.singletonList(jsonOrderMapper.read(message));
         jsonOrders = jsonOrders.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
         if (jsonOrders.size() > 0)

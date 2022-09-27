@@ -3,6 +3,7 @@
     "shopOrderId": "2022/00000123",
     "goodsId": "Thermo3D PPE Kit",
     "quantity": 4,
+    "placementDate": "2022.02.22 20:22",
     "metadata": {
       "shipping_address": "Nothing-hill 123"
     }
@@ -11,6 +12,7 @@
     "shopOrderId": "2022/00000242",
     "goodsId": "Thermo3D PPE Kit",
     "quantity": 2,
+    "placementDate": "2022.02.22 20:22",
     "metadata": {
       "shipping_address": {
         "City": "City",
@@ -24,6 +26,7 @@
     "shopOrderId": "2022/00000333",
     "goodsId": "Thermo4D PPE Kit",
     "quantity": 3,
+    "placementDate": "2022.02.22 20:22",
     "metadata": {
       "shipping_address": "Nothing-hill 129"
     }
@@ -32,6 +35,7 @@
     "shopOrderId": "2022/00000444",
     "goodsId": "Thermo4D PPE Kit",
     "quantity": 7,
+    "placementDate": "02/02/2022 20:22",
     "metadata": {
       "shipping_address": {
         "City": "City",
