@@ -10,9 +10,9 @@ import java.util.List;
 
 @Slf4j
 public class JsonMapper {
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public OrderJson read(String jsonString) {
-        final ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(jsonString, OrderJson.class);
         } catch (JsonProcessingException e) {
@@ -22,7 +22,6 @@ public class JsonMapper {
     }
 
     public List<OrderJson> readAll(String jsonString) {
-        final ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(jsonString, new TypeReference<List<OrderJson>>() {
             });
@@ -33,7 +32,6 @@ public class JsonMapper {
     }
 
     public String write(SendRequest sendRequest) {
-        final ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writeValueAsString(sendRequest);
         } catch (JsonProcessingException e) {

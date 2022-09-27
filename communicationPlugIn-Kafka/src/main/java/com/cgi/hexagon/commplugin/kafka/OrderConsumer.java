@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 public class OrderConsumer {
 
     private OrderService orderService;
+    private JsonMapper jsonMapper= new JsonMapper();
+    private OrderMapper orderMapper= new OrderMapper();
 
     @Value("${spring.bonnie.kafka.topic.order}")
     private String topicName;
@@ -40,12 +42,12 @@ public class OrderConsumer {
         log.debug("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
         List<OrderJson> jsonOrders;
         if (message.trim().startsWith("[")) //Json array
-            jsonOrders = new JsonMapper().readAll(message);
+            jsonOrders = jsonMapper.readAll(message);
         else
-            jsonOrders = Collections.singletonList(new JsonMapper().read(message));
+            jsonOrders = Collections.singletonList(jsonMapper.read(message));
         jsonOrders = jsonOrders.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
         if (jsonOrders.size() > 0)
-            orderService.createOrders(new OrderMapper().fromOrderJsonList(jsonOrders));
+            orderService.createOrders(orderMapper.fromOrderJsonList(jsonOrders));
     }
 }
