@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class OrderMapper {
     public static Order fromOrderJson(OrderJson orderJson) {
-        return new Order().withShopOderId(orderJson.getShopOrderId())
+        return new Order().withShopOrderId(orderJson.getShopOrderId())
                 .withGoodsId(orderJson.getGoodsId())
                 .withQuantity(orderJson.getQuantity())
                 .withPlacementDate(orderJson.getPlacementDate())

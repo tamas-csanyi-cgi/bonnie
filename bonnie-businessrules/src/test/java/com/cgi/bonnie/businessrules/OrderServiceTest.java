@@ -10,11 +10,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class OrderServiceTest {
 
@@ -22,8 +23,8 @@ class OrderServiceTest {
     final long USER_ID = 1L;
 
     final String SHOP_ORDER_ID = "2022/Ord0001";
-    final String TRACING_NUMBER = "1";
 
+    final String TRACKING_NUMBER = "1";
     OrderStorage orderLoader;
 
     OrderService orderService;
@@ -175,23 +176,23 @@ class OrderServiceTest {
     public void expectSetTrackingNumberReturnsFalseWhenOrderDoesNotExists() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
 
-        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER));
+        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
     public void expectSetTrackingNumberReturnsFalseWhenOrderIsNotAssembled() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
-        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER));
+        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
     public void expectSetTrackingNumberSavesOrderWithTrackingNumber() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED));
 
-        orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
+        orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER);
 
-        verify(orderLoader).save(argThat(order -> order.getTrackingNr().equals(TRACING_NUMBER)));
+        verify(orderLoader).save(argThat(order -> order.getTrackingNr().equals(TRACKING_NUMBER)));
     }
 
     @Test
@@ -199,7 +200,7 @@ class OrderServiceTest {
         when(orderLoader.save(any())).thenReturn(false);
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED));
 
-        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER));
+        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
@@ -216,7 +217,7 @@ class OrderServiceTest {
     public void expectSetTrackingNumberSavesOrderWithShippedStatus() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED));
 
-        orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
+        orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER);
 
         verify(orderLoader).save(argThat(order -> order.getStatus() == Status.SHIPPED));
     }
@@ -225,27 +226,21 @@ class OrderServiceTest {
     public void expectSetTrackingNumberReturnsTrue() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED));
 
-        assertTrue(orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER));
+        assertTrue(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
-    /*
+    @Test
+    public void expectSetTrackingNumberCallsSender() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED));
+        doNothing().when(sender).send(any());
+        orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER);
 
-     //fixme sender.send(any...
+        verify(sender).send(argThat(sendRequest ->
+                sendRequest.shopOrderId().equals(SHOP_ORDER_ID)
+                        && sendRequest.status() == Status.SHIPPED
+                        && TRACKING_NUMBER.equals(sendRequest.trackingNr())));
+    }
 
-
-       @Test
-        public void expectSetTrackingNumberCallsSender() {
-
-           when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED));
-       when( sender.send( any())).thenReturn( true);
-           orderService.setTrackingNumber(ORDER_ID, TRACING_NUMBER);
-
-           verify(sender).send(argThat(sendRequest ->
-                   sendRequest.shopOrderId().equals( SHOP_ORDER_ID)
-                           && sendRequest.status() == Status.SHIPPED
-                           && TRACING_NUMBER.equals(sendRequest.trackingNr())));
-       }
-   */
     @Test
     public void expectCreateOrderCallsCreate() {
         final String productId = "1";
@@ -354,11 +349,73 @@ class OrderServiceTest {
         verify(orderLoader).findAll();
     }
 
+    @Test
+    public void expectCreateOrderReturnsErrorWhenQuantityIsInvalid() {
+        assertEquals(-1, orderService.createOrder(getOrder().withQuantity(-2)));
+    }
+
+    @Test
+    public void expectCreateOrderReturnsErrorWhenOrderIsNotNew() {
+        assertEquals(-1, orderService.createOrder(getOrder().withId(4)));
+    }
+
+    @Test
+    public void expectCreateOrderSuceedsWhenLoadFails() {
+        doThrow(new IllegalStateException()).when(orderLoader).load(2);
+
+        assertEquals(0, orderService.createOrder(getOrder().withId(2)));
+    }
+
+    @Test
+    public void expectCreateOrderReturnsErrorShowOrderIdAlreadyExists() {
+        when(orderLoader.findAllByShopOrderId(SHOP_ORDER_ID)).thenReturn(
+                Arrays.asList(
+                        getOrder(), getOrder()
+                )
+        );
+
+        assertEquals(-1, orderService.createOrder(getOrder().withQuantity(3).withShopOrderId(SHOP_ORDER_ID)));
+    }
+
+    @Test
+    public void expectCreateOrderSucceeds() {
+        final long ORDER_ID2 = 23;
+        when(orderLoader.create(any())).thenReturn(ORDER_ID2);
+
+        assertEquals(ORDER_ID2, orderService.createOrder(getOrder()));
+    }
+
+    @Test
+    public void expectCreateNewOrderCallsCreate() {
+        final long ORDER_ID2 = 23;
+        when(orderLoader.create(any())).thenReturn(ORDER_ID2);
+
+        orderService.createOrder(getOrder());
+
+        verify(orderLoader).create(argThat(order -> order.getStatus() == Status.NEW && order.getAssignedTo() == null));
+    }
+
+    @Test
+    public void expectCreateOrdersCallsCreate() {
+        orderService.createOrders(
+                Arrays.asList(
+                        getOrder(), getOrder()
+                )
+        );
+
+        assertEquals(2, Mockito.mockingDetails(orderLoader)
+                .getInvocations()
+                .stream()
+                .filter(invocation -> invocation.getMethod().getName().equals("create"))
+                .count());
+    }
+
     private Order getOrder() {
         return new Order()
                 .withStatus(Status.NEW)
                 .withId(ORDER_ID)
-                .withShopOderId(SHOP_ORDER_ID)
+                .withShopOrderId(SHOP_ORDER_ID)
+                .withQuantity(2)
                 .withGoodsId("awesome kit");
     }
 

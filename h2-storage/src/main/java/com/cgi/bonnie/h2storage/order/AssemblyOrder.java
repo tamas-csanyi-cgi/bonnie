@@ -135,8 +135,8 @@ public class AssemblyOrder implements Serializable {
         this.shopOrderId = shopOrderId;
     }
 
-    public AssemblyOrder withShopOderId(String shopOderId) {
-        this.setShopOrderId(shopOderId);
+    public AssemblyOrder withShopOrderId(String shopOrderId) {
+        this.setShopOrderId(shopOrderId);
         return this;
     }
 

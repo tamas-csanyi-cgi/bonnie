@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Order {
 
     private long id;
-    private String shopOderId;
+    private String shopOrderId;
     private String goodsId;
     private int quantity;
     private Status status;
@@ -35,16 +35,16 @@ public class Order {
         return this;
     }
 
-    public String getShopOderId() {
-        return shopOderId;
+    public String getShopOrderId() {
+        return shopOrderId;
     }
 
-    public void setShopOderId(String shopOderId) {
-        this.shopOderId = shopOderId;
+    public void setShopOrderId(String shopOrderId) {
+        this.shopOrderId = shopOrderId;
     }
 
-    public Order withShopOderId(String shopOderId) {
-        setShopOderId(shopOderId);
+    public Order withShopOrderId(String shopOrderId) {
+        setShopOrderId(shopOrderId);
         return this;
     }
 
@@ -161,12 +161,12 @@ public class Order {
                 && Objects.equals(goodsId, order.goodsId)
                 && status == order.status
                 && Objects.equals(assignedTo, order.assignedTo)
-                && Objects.equals(shopOderId, order.shopOderId)
+                && Objects.equals(shopOrderId, order.shopOrderId)
                 && Objects.equals(metadata, order.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, goodsId, shopOderId, status, assignedTo, metadata);
+        return Objects.hash(id, goodsId, shopOrderId, status, assignedTo, metadata);
     }
 }

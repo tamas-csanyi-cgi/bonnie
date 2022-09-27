@@ -17,7 +17,7 @@ public class OrderMapper {
     public AssemblyOrder fromOrder(Order order) {
         return new AssemblyOrder(order.getId())
                 .withStatus(order.getStatus())
-                .withShopOderId(order.getShopOderId())
+                .withShopOrderId(order.getShopOrderId())
                 .withGoodsId(order.getGoodsId())
                 .withAssignedTo(null == order.getAssignedTo() ? null : order.getAssignedTo().getId())
                 .withQuantity(order.getQuantity())
@@ -30,7 +30,7 @@ public class OrderMapper {
         return new Order()
                 .withId(orderEntity.getId())
                 .withStatus(orderEntity.getStatus())
-                .withShopOderId(orderEntity.getShopOrderId())
+                .withShopOrderId(orderEntity.getShopOrderId())
                 .withGoodsId(orderEntity.getGoodsId())
                 .withAssignedTo(null == orderEntity.getAssignedTo() || 0 == orderEntity.getAssignedTo() ? null : userStorage.load(orderEntity.getAssignedTo()))
                 .withQuantity(orderEntity.getQuantity())

@@ -82,7 +82,13 @@ public class OrderService {
                     order.setTrackingNr(trackingNr);
                     order.setLastUpdate(LocalDateTime.now());
                     if (orderStorage.save(order)) {
-                        messageService.send(createSendRequest(order));
+                        messageService.send(
+                                new SendRequest(
+                                        order.getShopOrderId(),
+                                        order.getStatus(),
+                                        order.getTrackingNr(),
+                                        order.getMetadata()));
+
                         return true;
                     } else {
                         return false;
@@ -114,8 +120,8 @@ public class OrderService {
             log.error(" Invalid quantity in {}", order);
             return -1;
         }
-        if (orderStorage.findAllByShopOrderId(order.getShopOderId()).size() > 0) {
-            log.error(" ShopOrderId [{}] already exists {}", order.getShopOderId(), order);
+        if (orderStorage.findAllByShopOrderId(order.getShopOrderId()).size() > 0) {
+            log.error(" ShopOrderId [{}] already exists {}", order.getShopOrderId(), order);
             return -1;
         }
         order.setStatus(Status.NEW);
@@ -129,7 +135,7 @@ public class OrderService {
         return id;
     }
 
-    public boolean isNewOrder(Order order) {
+    private boolean isNewOrder(Order order) {
         if (order.getId() <= 1)
             return true;
         try {
@@ -146,7 +152,7 @@ public class OrderService {
             order.setStatus(status);
             order.setLastUpdate(LocalDateTime.now());
             if (orderStorage.save(order)) {
-                messageService.send(new SendRequest(order.getShopOderId(), status));
+                messageService.send(new SendRequest(order.getShopOrderId(), status));
                 return true;
             } else {
                 return false;
@@ -161,7 +167,7 @@ public class OrderService {
         if (order != null && order.getStatus() == Status.CLAIMED) {
             order.setStatus(Status.ASSEMBLED);
             if (orderStorage.save(order)) {
-                messageService.send(new SendRequest(order.getShopOderId(), Status.ASSEMBLED));
+                messageService.send(new SendRequest(order.getShopOrderId(), Status.ASSEMBLED));
                 return true;
             } else {
                 return false;
@@ -171,6 +177,6 @@ public class OrderService {
     }
 
     public SendRequest createSendRequest(Order order) {
-        return new SendRequest(order.getShopOderId(), order.getStatus(), order.getMetadata());
+        return new SendRequest(order.getShopOrderId(), order.getStatus(), order.getMetadata());
     }
 }
