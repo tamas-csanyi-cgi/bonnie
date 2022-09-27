@@ -2,6 +2,8 @@ package com.cgi.hexagon.businessrules.user;
 
 import com.cgi.hexagon.businessrules.Role;
 
+import java.util.List;
+
 public class UserService {
 
     final private UserStorage userServiceIf;
@@ -21,5 +23,7 @@ public class UserService {
     public boolean save(User user) {
         return userServiceIf.save(user);
     }
+
+    public List<User> getAllUsers() {return userServiceIf.getAllUsers();}
 
 }
