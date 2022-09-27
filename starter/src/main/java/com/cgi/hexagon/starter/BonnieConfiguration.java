@@ -1,9 +1,8 @@
 package com.cgi.hexagon.starter;
 
-
 import com.cgi.hexagon.bonnierest.BonnieRestConfiguration;
-import com.cgi.hexagon.businessrules.order.OrderStorage;
 import com.cgi.hexagon.businessrules.order.OrderService;
+import com.cgi.hexagon.businessrules.order.OrderStorage;
 import com.cgi.hexagon.businessrules.user.UserService;
 import com.cgi.hexagon.businessrules.user.UserStorage;
 import com.cgi.hexagon.commplugin.kafka.KafkaMessageService;

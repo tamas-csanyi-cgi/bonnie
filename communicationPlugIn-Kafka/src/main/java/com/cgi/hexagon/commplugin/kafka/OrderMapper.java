@@ -10,6 +10,7 @@ public class OrderMapper {
         return new Order().withShopOderId(orderJson.getShopOrderId())
                 .withGoodsId(orderJson.getGoodsId())
                 .withQuantity(orderJson.getQuantity())
+                .withPlacementDate( orderJson.getPlacementDate())
                 .withMetadata(orderJson.getMetadataAsText());
     }
 

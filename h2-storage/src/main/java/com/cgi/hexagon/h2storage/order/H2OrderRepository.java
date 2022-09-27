@@ -8,5 +8,6 @@ import java.util.List;
 @Repository
 public interface H2OrderRepository extends CrudRepository<AssemblyOrder, Long> {
 
+    //public AssemblyOrder findByAssembler(User assembler);
     public List<AssemblyOrder> findAllByShopOrderId( String shopOrderId);
 }
