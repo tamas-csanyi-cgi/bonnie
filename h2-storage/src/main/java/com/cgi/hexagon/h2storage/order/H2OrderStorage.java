@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Primary
@@ -42,6 +43,14 @@ public class H2OrderStorage implements OrderStorage {
         }
     }
 
+    public long create(Order order) {
+        try {
+            return orderRepository.save(mapper.fromOrder(order)).getId();
+        } catch (Exception e) {
+            return 0L;
+        }
+    }
+
     public Order findByAssembler(User assembler) {
         //return mapper.fromEntity(orderRepository.findByAssembler(assembler));
         return null;
@@ -52,8 +61,12 @@ public class H2OrderStorage implements OrderStorage {
         orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
         return result;
     }
+   
+    public List<Order> findAllByShopOrderId(String shopOrderId) {
+        return orderRepository.findAllByShopOrderId(shopOrderId).stream().map(mapper::fromEntity).collect(Collectors.toList());
+    }
 
-    @Override
+
     public Order load(long id) {
         return mapper.fromEntity(orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("Order not found")));
     }
@@ -61,6 +74,7 @@ public class H2OrderStorage implements OrderStorage {
 
     @Override
     public boolean release(long id) {
+        //fixme it has to implement in core.   Here should only store
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
             order.setAssignedTo(null);
@@ -73,6 +87,7 @@ public class H2OrderStorage implements OrderStorage {
 
     @Override
     public boolean claim(long id, long userId) {
+        //fixme it has to implement in core.   Here should only store
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
             if (null == order.getAssignedTo()) {
@@ -87,6 +102,7 @@ public class H2OrderStorage implements OrderStorage {
 
     @Override
     public boolean updateStatus(long id, Status status) {
+        //fixme it has to implement in core.   Here should only store
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
             order.setStatus(status);
@@ -98,6 +114,7 @@ public class H2OrderStorage implements OrderStorage {
 
     @Override
     public boolean setTrackingNumber(long id, String trackingNr) {
+        //fixme it has to implement in core
         if (orderRepository.findById(id).isPresent()) {
             AssemblyOrder order = orderRepository.findById(id).get();
             order.setStatus(Status.SHIPPED);
@@ -109,6 +126,7 @@ public class H2OrderStorage implements OrderStorage {
 
     @Override
     public long create(String productId, int quantity, long assignedTo, Status status) {
+        //fixme it has to implement in core.   Here should only store
         AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
                 .withAssignedTo(assignedTo).withStatus(status).withPlacementDate(LocalDateTime.now());
         orderRepository.save(aOrder);
