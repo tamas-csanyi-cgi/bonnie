@@ -47,7 +47,7 @@ public class OrderService {
         try {
             Order order = loadOrder(id);
             User currentUser = getCurrentUser();
-            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo() == currentUser) {
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser.getId())) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -121,8 +121,7 @@ public class OrderService {
     }
 
     public List<Order> getMyOrders() {
-        String username = authUserStorage.getCurrentUsername();
-        User user = userStorage.getUserByUsername(username);
+        User user = userStorage.getUserByUsername(authUserStorage.getCurrentUsername());
         return orderStorage.findAllByAssembler(user.getId());
     }
 
@@ -188,8 +187,6 @@ public class OrderService {
             if (orderStorage.save(order)) {
                 messageService.send(new SendRequest(order.getShopOrderId(), Status.ASSEMBLED));
                 return true;
-            } else {
-                return false;
             }
         }
         return false;

@@ -43,6 +43,10 @@
             <artifactId>authentication</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.cgi.hexagon</groupId>
+            <artifactId>authentication</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.0</version>
