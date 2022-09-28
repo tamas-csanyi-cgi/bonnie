@@ -1,6 +1,7 @@
 package com.cgi.bonnie.businessrules.order;
 
 import com.cgi.bonnie.businessrules.Status;
+import com.cgi.hexagon.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
@@ -21,10 +22,13 @@ public class OrderService {
 
     final private MessageService messageService;
 
-    public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService) {
+    private final AuthUserStorage authUserStorage;
+
+    public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService, AuthUserStorage authUserStorage) {
         this.orderStorage = loader;
         this.userStorage = userStorage;
         this.messageService = messageService;
+        this.authUserStorage = authUserStorage;
     }
 
     public Order loadOrder(long id) {
@@ -42,7 +46,8 @@ public class OrderService {
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);
-            if (order.getStatus() == Status.CLAIMED) {
+            User currentUser = getCurrentUser();
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser.getId())) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -57,15 +62,15 @@ public class OrderService {
         return false;
     }
 
-    public boolean claimOrder(long orderId, long userId) {
+    public boolean claimOrder(long orderId) {
         Order order = loadOrder(orderId);
+        User currentUser = getCurrentUser();
         if (order == null) {
             return false;
         }
         if (null == order.getAssignedTo() && order.getStatus() == Status.NEW) {
-            User user = userStorage.load(userId);
-            if (null != user) {
-                order.setAssignedTo(user);
+            if (null != currentUser) {
+                order.setAssignedTo(currentUser);
                 order.setStatus(Status.CLAIMED);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderStorage.save(order)) {
@@ -78,10 +83,11 @@ public class OrderService {
     }
 
     public boolean setTrackingNumber(long id, String trackingNr) {
+        User currentUser = getCurrentUser();
         if (null != trackingNr && !trackingNr.isEmpty()) {
             try {
                 Order order = loadOrder(id);
-                if (order.getStatus() == Status.ASSEMBLED) {
+                if (order.getStatus() == Status.ASSEMBLED && order.getAssignedTo().equals(currentUser)) {
                     order.setStatus(Status.SHIPPED);
                     order.setTrackingNr(trackingNr);
                     order.setLastUpdate(LocalDateTime.now());
@@ -108,6 +114,15 @@ public class OrderService {
         for (Order order : orders) {
             createOrder(order);
         }
+    }
+
+    public List<Order> findAllByAssembler(Long id) {
+        return orderStorage.findAllByAssembler(id);
+    }
+
+    public List<Order> getMyOrders() {
+        User user = userStorage.getUserByUsername(authUserStorage.getCurrentUsername());
+        return orderStorage.findAllByAssembler(user.getId());
     }
 
     public long createOrder(Order order) {
@@ -147,24 +162,27 @@ public class OrderService {
     }
 
     public boolean updateStatus(long orderId, Status status) {
-        try {
+        try{
+            User currentUser = getCurrentUser();
             Order order = loadOrder(orderId);
-            order.setStatus(status);
-            order.setLastUpdate(LocalDateTime.now());
-            if (orderStorage.save(order)) {
-                messageService.send(new SendRequest(order.getShopOrderId(), status));
-                return true;
-            } else {
-                return false;
+            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED)) {
+                order.setStatus(status);
+                order.setLastUpdate(LocalDateTime.now());
+                if (orderStorage.save(order)) {
+                    messageService.send(new SendRequest(order.getShopOrderId(), status));
+                    return true;
+                }
             }
-        } catch (Exception e) {
+            return false;
+        }catch (Exception e) {
             return false;
         }
     }
 
     public boolean finishOrder(long orderId) {
+        User currentUser = getCurrentUser();
         Order order = loadOrder(orderId);
-        if (order != null && order.getStatus() == Status.CLAIMED) {
+        if (order != null && order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
             order.setStatus(Status.ASSEMBLED);
             if (orderStorage.save(order)) {
                 messageService.send(new SendRequest(order.getShopOrderId(), Status.ASSEMBLED));
@@ -179,4 +197,9 @@ public class OrderService {
     public SendRequest createSendRequest(Order order) {
         return new SendRequest(order.getShopOrderId(), order.getStatus(), order.getMetadata());
     }
+
+    private User getCurrentUser() {
+        return userStorage.getUserByUsername(authUserStorage.getCurrentUsername());
+    }
+
 }

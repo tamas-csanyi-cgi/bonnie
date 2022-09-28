@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface H2UserRepository extends CrudRepository<AssemblyUser, Long> {
 
+    public AssemblyUser findByName(String username);
 
 }

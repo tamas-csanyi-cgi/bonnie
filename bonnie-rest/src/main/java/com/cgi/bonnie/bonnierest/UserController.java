@@ -10,11 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
 
-    private UserService userService;
+    final private UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -26,6 +28,40 @@ public class UserController {
         try {
             User user = userService.loadUser(id);
             return ResponseEntity.ok(user);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/get/current/name")
+    public ResponseEntity<String> getCurrentUsername() {
+        try {
+            String name = userService.getCurrentUsername();
+            return ResponseEntity.ok(name);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/get/current")
+    public ResponseEntity<User> getCurrentUser() {
+        try {
+            User name = userService.getCurrentUser();
+            return ResponseEntity.ok(name);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    //for testing purposes
+    @GetMapping("/getAll")
+    public ResponseEntity<List<User>> getAllUsers() {
+        try {
+            List<User> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();

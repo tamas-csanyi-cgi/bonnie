@@ -65,6 +65,13 @@ public class H2OrderStorage implements OrderStorage {
         return orderRepository.findAllByStatus(status).stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Order> findAllByAssembler(Long user) {
+        List<Order> result = new ArrayList<>();
+        orderRepository.findAllByAssignedTo(user).forEach(order -> result.add(mapper.fromEntity(order)));
+        return result;
+    }
+
     public List<Order> findAllByShopOrderId(String shopOrderId) {
         return orderRepository.findAllByShopOrderId(shopOrderId).stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
