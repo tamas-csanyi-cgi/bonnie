@@ -2,12 +2,17 @@ package com.cgi.hexagon.businessrules.user;
 
 import com.cgi.hexagon.businessrules.Role;
 
+import java.util.List;
+
 public class UserService {
 
     final private UserStorage userServiceIf;
 
-    public UserService(UserStorage loader) {
+    final private AuthUserStorage authUserStorage;
+
+    public UserService(UserStorage loader, AuthUserStorage storage) {
         this.userServiceIf = loader;
+        this.authUserStorage = storage;
     }
 
     public User loadUser(long id){
@@ -21,5 +26,11 @@ public class UserService {
     public boolean save(User user) {
         return userServiceIf.save(user);
     }
+
+    public List<User> getAllUsers() {return userServiceIf.getAllUsers();}
+
+    public String getCurrentUsername() {return authUserStorage.getCurrentUsername();}
+
+    public User getCurrentUser() {return userServiceIf.getUserByUsername(authUserStorage.getCurrentUsername());}
 
 }

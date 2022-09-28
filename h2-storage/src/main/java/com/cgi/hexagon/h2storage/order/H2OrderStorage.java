@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Primary
@@ -61,9 +60,11 @@ public class H2OrderStorage implements OrderStorage {
         orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
         return result;
     }
-   
+
     public List<Order> findAllByShopOrderId(String shopOrderId) {
-        return orderRepository.findAllByShopOrderId(shopOrderId).stream().map(mapper::fromEntity).collect(Collectors.toList());
+        List<Order> result = new ArrayList<>();
+        orderRepository.findAllByShopOrderId(shopOrderId).forEach(order -> result.add(mapper.fromEntity(order)));
+        return result;
     }
 
 
@@ -110,6 +111,14 @@ public class H2OrderStorage implements OrderStorage {
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public List<Order> findAllByAssembler(Long user) {
+        List<Order> result = new ArrayList<>();
+        orderRepository.findAllByAssignedTo(user).forEach(order -> result.add(mapper.fromEntity(order)));
+        return result;
     }
 
     @Override

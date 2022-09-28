@@ -81,6 +81,12 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
+                <groupId>com.cgi.hexagon</groupId>
+                <artifactId>authentication</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>4.7.0</version>

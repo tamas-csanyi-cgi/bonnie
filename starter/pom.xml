@@ -44,6 +44,10 @@
             <artifactId>bonnie-businessrules</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.cgi.hexagon</groupId>
+            <artifactId>authentication</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.7</version>

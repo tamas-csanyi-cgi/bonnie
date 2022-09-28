@@ -63,7 +63,7 @@ public class OrderController {
 
     @PatchMapping(path = "/assign/{orderId}/{userId}")
     public ResponseEntity<Boolean> assignOrderToUser(@PathVariable long orderId, @PathVariable long userId) {
-        boolean result = orderService.claimOrder(orderId, userId);
+        boolean result = orderService.claimOrder(orderId);
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
@@ -83,6 +83,28 @@ public class OrderController {
     public ResponseEntity<Boolean> shipOrder(@PathVariable long orderId, @PathVariable String trackingNr) {
         boolean result = orderService.setTrackingNumber(orderId, trackingNr);
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+    }
+
+    @GetMapping("/getMine")
+    public ResponseEntity<List<Order>> getMyOrders() {
+        try {
+            List<Order> orders = orderService.getMyOrders();
+            return ResponseEntity.ok(orders);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/getUnassigned")
+    public ResponseEntity<List<Order>> getUnassignedOrders() {
+        try {
+            List<Order> orders = orderService.findAllByAssembler(null);
+            return ResponseEntity.ok(orders);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     public void receive() {
