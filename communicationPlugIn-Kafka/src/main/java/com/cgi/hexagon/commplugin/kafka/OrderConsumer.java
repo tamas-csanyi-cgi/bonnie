@@ -4,6 +4,7 @@ import com.cgi.hexagon.businessrules.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@Order(50)
 public class OrderConsumer {
 
     private OrderService orderService;

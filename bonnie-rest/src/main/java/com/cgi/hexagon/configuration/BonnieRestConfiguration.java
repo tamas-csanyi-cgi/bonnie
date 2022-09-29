@@ -1,4 +1,4 @@
-package com.cgi.hexagon.bonnierest;
+package com.cgi.hexagon.configuration;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
