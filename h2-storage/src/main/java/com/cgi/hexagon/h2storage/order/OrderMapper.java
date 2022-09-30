@@ -23,7 +23,8 @@ public class OrderMapper {
                 .withQuantity(order.getQuantity())
                 .withMetadata(order.getMetadata())
                 .withPlacementDate(order.getPlacementDate())
-                .withLastUpdated(order.getLastUpdate());
+                .withLastUpdated(order.getLastUpdate())
+                .withTrackingNr(order.getTrackingNr());
     }
 
     public Order fromEntity(AssemblyOrder orderEntity) {
@@ -36,7 +37,8 @@ public class OrderMapper {
                 .withQuantity(orderEntity.getQuantity())
                 .withMetadata(orderEntity.getMetadata())
                 .withPlacementDate(orderEntity.getPlacementDate())
-                .withLastUpdate(orderEntity.getLastUpdated());
+                .withLastUpdate(orderEntity.getLastUpdated())
+                .withTrackingNr(orderEntity.getTrackingNr());
     }
 
     public List<AssemblyOrder> fromOrders(Iterable<Order> orders) {
