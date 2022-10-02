@@ -24,5 +24,7 @@ public interface OrderStorage {
 
     List<Order> findAll();
 
+    List<Order> getUnclaimed();
+
     List<Order> findAllByShopOrderId(String shopOrderId);
 }

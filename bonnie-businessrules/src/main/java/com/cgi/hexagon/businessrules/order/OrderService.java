@@ -34,6 +34,10 @@ public class OrderService {
         return orderStorage.findAll();
     }
 
+    public List<Order> getUnclaimed(){ return orderStorage.getUnclaimed();
+
+    }
+
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);

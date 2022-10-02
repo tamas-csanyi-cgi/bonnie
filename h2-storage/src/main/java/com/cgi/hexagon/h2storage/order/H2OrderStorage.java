@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.cgi.hexagon.businessrules.Status.NEW;
+
 @Component
 @Primary
 public class H2OrderStorage implements OrderStorage {
@@ -59,6 +61,15 @@ public class H2OrderStorage implements OrderStorage {
     public List<Order> findAll() {
         List<Order> result = new ArrayList<>();
         orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
+        return result;
+    }
+
+    public List<Order> getUnclaimed() {
+        List<Order> result = new ArrayList<>();
+        for (AssemblyOrder order : orderRepository.findAll()) {
+            if (order.getStatus() == NEW && order.getAssignedTo() == null)
+                result.add(mapper.fromEntity(order));
+        }
         return result;
     }
    
