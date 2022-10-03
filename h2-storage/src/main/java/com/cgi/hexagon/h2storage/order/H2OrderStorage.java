@@ -64,12 +64,9 @@ public class H2OrderStorage implements OrderStorage {
         return result;
     }
 
-    public List<Order> getUnclaimed() {
+    public List<Order> findByStatus(Status status) {
         List<Order> result = new ArrayList<>();
-        for (AssemblyOrder order : orderRepository.findAll()) {
-            if (order.getStatus() == NEW && order.getAssignedTo() == null)
-                result.add(mapper.fromEntity(order));
-        }
+        orderRepository.findByStatus(status).forEach(order -> result.add(mapper.fromEntity(order)));
         return result;
     }
    
