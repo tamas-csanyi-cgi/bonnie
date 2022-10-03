@@ -34,8 +34,8 @@ public class OrderService {
         return orderStorage.findAll();
     }
 
-    public List<Order> getUnclaimed(){ return orderStorage.getUnclaimed();
-
+     public List<Order> findByStatus(Status status){
+        return orderStorage.findByStatus(status);
     }
 
     public boolean releaseOrder(long id) {
