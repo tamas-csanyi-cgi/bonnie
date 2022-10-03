@@ -49,16 +49,16 @@ public class OrderController {
         }
     }
 
-    @GetMapping(path="/getUnclaimed")
-    public ResponseEntity<List<Order>>  getUnclaimed() {
+    @GetMapping("/find/{status}")
+    public ResponseEntity<List<Order>> findByStatus(@PathVariable Status status) {
+
         try {
-            List<Order> orders = orderService.getUnclaimed();
+            List<Order> orders = orderService.findByStatus(status);
             return ResponseEntity.ok(orders);
         }catch (Exception e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
-    }
+     }
 
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
