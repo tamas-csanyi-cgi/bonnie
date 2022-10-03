@@ -5,14 +5,15 @@ import com.cgi.hexagon.businessrules.user.User;
 import com.cgi.hexagon.businessrules.user.UserStorage;
 import com.cgi.hexagon.communicationplugin.MessageService;
 import com.cgi.hexagon.communicationplugin.SendRequest;
-
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 public class OrderService {
+
+    private final Logger log = LoggerFactory.getLogger(OrderService.class.getName());
 
     final private OrderStorage orderStorage;
 

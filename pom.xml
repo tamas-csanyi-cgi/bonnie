@@ -46,15 +46,14 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>2.9.0</version>
+            </dependency>
+            <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>2.1.214</version>
-            </dependency>
-            <dependency>
-                <groupId>com.cgi.hexagon</groupId>
-                <artifactId>bonnie-inmem-storage</artifactId>
-                <version>${project.version}</version>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.cgi.hexagon</groupId>
@@ -85,6 +84,21 @@
                 <artifactId>mockito-core</artifactId>
                 <version>4.7.0</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>2.13.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

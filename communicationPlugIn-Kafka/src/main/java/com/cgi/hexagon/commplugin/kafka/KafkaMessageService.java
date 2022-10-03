@@ -2,20 +2,19 @@ package com.cgi.hexagon.commplugin.kafka;
 
 import com.cgi.hexagon.communicationplugin.MessageService;
 import com.cgi.hexagon.communicationplugin.SendRequest;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.annotation.Order;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-@Slf4j
 @Service
-@Order(40)
 public class KafkaMessageService implements MessageService {
 
+    private final Logger log = LoggerFactory.getLogger(KafkaMessageService.class.getName());
     private final JsonOrderMapper jsonOrderMapper = new JsonOrderMapper();
     @Autowired
     final private KafkaTemplate<String, String> kafkaTemplate;
