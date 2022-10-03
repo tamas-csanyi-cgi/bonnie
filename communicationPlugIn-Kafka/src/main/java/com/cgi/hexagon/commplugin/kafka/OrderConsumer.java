@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderConsumer {
@@ -39,15 +37,18 @@ public class OrderConsumer {
 
     @KafkaListener(topics = "${spring.bonnie.kafka.topic.order}", groupId = "${spring.kafka.consumer.group-id}")
     public void consume(String message) {
-        log.debug("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
-        List<OrderJson> jsonOrders;
-        if (message.trim().startsWith("[")) //Json array
-            jsonOrders = jsonOrderMapper.readAll(message);
-        else
-            jsonOrders = Collections.singletonList(jsonOrderMapper.read(message));
-        jsonOrders = jsonOrders.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        log.info("Message received in Group: [{}] Topic: [{}] Message: [{}]", groupID, topicName, message);
 
-        if (jsonOrders.size() > 0)
+        List<OrderJson> jsonOrders;
+
+        if (message.trim().startsWith("[")) {//Json array
+            jsonOrders = jsonOrderMapper.readAll(message);
+        } else {
+            jsonOrders = Collections.singletonList(jsonOrderMapper.read(message));
+        }
+
+        if (!jsonOrders.isEmpty()) {
             orderService.createOrders(orderMapper.fromOrderJsonList(jsonOrders));
+        }
     }
 }

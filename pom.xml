@@ -12,7 +12,6 @@
         <module>starter</module>
         <module>bonnie-rest</module>
         <module>h2-storage</module>
-        <module>kafka-messages</module>
         <module>communicationPlugIn-Kafka</module>
     </modules>
     <packaging>pom</packaging>

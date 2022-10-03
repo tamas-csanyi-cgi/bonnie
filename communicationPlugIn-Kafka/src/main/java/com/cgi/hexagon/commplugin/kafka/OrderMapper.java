@@ -2,23 +2,19 @@ package com.cgi.hexagon.commplugin.kafka;
 
 import com.cgi.hexagon.businessrules.order.Order;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderMapper {
-    public Order fromOrderJson(OrderJson orderJson) {
+    public static Order fromOrderJson(OrderJson orderJson) {
         return new Order().withShopOderId(orderJson.getShopOrderId())
                 .withGoodsId(orderJson.getGoodsId())
                 .withQuantity(orderJson.getQuantity())
-                .withPlacementDate( orderJson.getPlacementDate())
+                .withPlacementDate(orderJson.getPlacementDate())
                 .withMetadata(orderJson.getMetadataAsText());
     }
 
-    public List<Order> fromOrderJsonList(List<OrderJson> orderJsons) {
-        List<Order> ret = new ArrayList<Order>();
-        for (OrderJson orderJson : orderJsons) {
-            ret.add(fromOrderJson(orderJson));
-        }
-        return ret;
+    public static List<Order> fromOrderJsonList(List<OrderJson> orderJsons) {
+        return orderJsons.stream().map(OrderMapper::fromOrderJson).collect(Collectors.toList());
     }
 }

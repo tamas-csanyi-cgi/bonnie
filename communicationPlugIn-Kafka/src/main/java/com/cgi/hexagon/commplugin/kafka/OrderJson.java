@@ -8,15 +8,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.time.LocalDateTime;
 
 public class OrderJson {
-    String shopOrderId;
-    String goodsId;
-    int quantity;
+    private String shopOrderId;
+    private String goodsId;
+    private int quantity;
     //fixme  pattern has to be stored in .properties file, but
     //  spring.jackson.date-format: yyyy.MM.dd HH:mm
     //  is not working from there
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd HH:mm")
-    LocalDateTime placementDate;
-    JsonNode metadata;
+    private LocalDateTime placementDate;
+    private JsonNode metadata;
 
     public OrderJson() {
     }

@@ -107,15 +107,15 @@ public class OrderService {
     public long createOrder(Order order) {
         log.debug("orders arrived to Bonnie :-) ");
         if (!isNewOrder(order)) {
-            log.error(" False or duplicated orderID in : {}", order.toString());
+            log.error(" False or duplicated orderID in : {}", order);
             return -1;
         }
         if (order.getQuantity() < 1) {
-            log.error(" Invalid quantity in {}", order.toString());
+            log.error(" Invalid quantity in {}", order);
             return -1;
         }
         if (orderStorage.findAllByShopOrderId(order.getShopOderId()).size() > 0) {
-            log.error(" ShopOrderId [{}] already exists {}", order.getShopOderId(), order.toString());
+            log.error(" ShopOrderId [{}] already exists {}", order.getShopOderId(), order);
             return -1;
         }
         order.setStatus(Status.NEW);
@@ -123,7 +123,7 @@ public class OrderService {
         long id = orderStorage.create(order);
         if (id > 0L) {
             order.setId(id);
-            log.debug("Order is created: {}", order.toString());
+            log.debug("Order is created: {}", order);
         } else
             log.error("Can't created an order: {}", order);
         return id;
