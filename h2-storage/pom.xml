@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>bonnie-parent</artifactId>
-        <groupId>com.cgi.hexagon</groupId>
+        <groupId>com.cgi.bonnie</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>h2-storage</artifactId>
@@ -23,7 +23,7 @@
             <artifactId>h2</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.cgi.hexagon</groupId>
+            <groupId>com.cgi.bonnie</groupId>
             <artifactId>bonnie-businessrules</artifactId>
         </dependency>
         <dependency>

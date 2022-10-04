@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.cgi.hexagon</groupId>
+    <groupId>com.cgi.bonnie</groupId>
     <artifactId>bonnie-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
@@ -55,25 +55,25 @@
                 <version>2.1.214</version>
             </dependency>
             <dependency>
-                <groupId>com.cgi.hexagon</groupId>
+                <groupId>com.cgi.bonnie</groupId>
                 <artifactId>bonnie-rest</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>com.cgi.hexagon</groupId>
+                <groupId>com.cgi.bonnie</groupId>
                 <artifactId>bonnie-businessrules</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>com.cgi.hexagon</groupId>
+                <groupId>com.cgi.bonnie</groupId>
                 <artifactId>bonnie-h2-storage</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>com.cgi.hexagon</groupId>
+                <groupId>com.cgi.bonnie</groupId>
                 <artifactId>h2-storage</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
