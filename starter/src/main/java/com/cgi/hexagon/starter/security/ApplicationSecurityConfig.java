@@ -1,6 +1,7 @@
 package com.cgi.hexagon.starter.security;
 
 import com.cgi.hexagon.authentication.auth.ApplicationUserService;
+import com.cgi.hexagon.starter.security.oauth2.CustomerOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
+
+    @Autowired
+    private CustomerOAuth2UserService oAuth2UserService;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
@@ -54,6 +58,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
                     .key("somethingverysecured")
                     .rememberMeParameter("remember-me")
+                .and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/orders", true)
+                    .userInfoEndpoint()
+                    .userService(oAuth2UserService)
+                .and()
                 .and()
                 .logout()
                     .logoutUrl("/logout")
