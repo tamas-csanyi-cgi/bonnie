@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bonnie-businessrules</artifactId>
+    <artifactId>businessrules</artifactId>
+    <name>businessrules</name>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

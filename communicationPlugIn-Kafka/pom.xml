@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>communicationPlugIn-Kafka</artifactId>
+    <artifactId>messaging</artifactId>
+    <name>messaging</name>
     <description>Kafka communication plugin for Bonnie</description>
 
     <properties>
@@ -24,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>bonnie-businessrules</artifactId>
+            <artifactId>businessrules</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

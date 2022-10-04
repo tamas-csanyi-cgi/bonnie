@@ -7,8 +7,8 @@
 		<artifactId>bonnie-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>bonnie-rest</artifactId>
-	<name>bonnie-rest</name>
+	<artifactId>rest</artifactId>
+	<name>rest</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>18</java.version>
@@ -20,7 +20,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.cgi.bonnie</groupId>
-			<artifactId>bonnie-businessrules</artifactId>
+			<artifactId>businessrules</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

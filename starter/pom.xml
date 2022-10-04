@@ -27,15 +27,15 @@
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>bonnie-rest</artifactId>
+            <artifactId>rest</artifactId>
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>bonnie-businessrules</artifactId>
+            <artifactId>businessrules</artifactId>
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>communicationPlugIn-Kafka</artifactId>
+            <artifactId>messaging</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

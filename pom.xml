@@ -56,19 +56,13 @@
             </dependency>
             <dependency>
                 <groupId>com.cgi.bonnie</groupId>
-                <artifactId>bonnie-rest</artifactId>
+                <artifactId>rest</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.cgi.bonnie</groupId>
-                <artifactId>bonnie-businessrules</artifactId>
-                <version>${project.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.cgi.bonnie</groupId>
-                <artifactId>bonnie-h2-storage</artifactId>
+                <artifactId>businessrules</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>

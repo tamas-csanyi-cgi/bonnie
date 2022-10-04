@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>bonnie-businessrules</artifactId>
+            <artifactId>businessrules</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
