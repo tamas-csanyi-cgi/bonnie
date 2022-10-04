@@ -17,10 +17,7 @@
     </properties>
 
     <dependencies>
-        <!--dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
             <artifactId>h2-storage</artifactId>
@@ -40,10 +37,6 @@
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>authentication</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cgi.hexagon</groupId>
             <artifactId>authentication</artifactId>
         </dependency>
         <dependency>
