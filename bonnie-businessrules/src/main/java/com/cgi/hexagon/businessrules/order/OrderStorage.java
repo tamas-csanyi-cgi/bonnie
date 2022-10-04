@@ -1,6 +1,7 @@
 package com.cgi.hexagon.businessrules.order;
 
 import com.cgi.hexagon.businessrules.Status;
+import com.cgi.hexagon.businessrules.user.User;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface OrderStorage {
 
     List<Order> findAll();
 
-    List<Order> getUnclaimed();
-
     List<Order> findAllByShopOrderId(String shopOrderId);
+
+    List<Order> findAllByStatus(Status status);
 }

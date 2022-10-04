@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.cgi.hexagon.businessrules.Status.NEW;
+
+
 @RestController
 @RequestMapping(value = "/api/order")
 public class OrderController {
@@ -38,21 +41,22 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/find/unclaimed")
+    public ResponseEntity<List<Order>> findAllByStatus() {
+
+        try {
+            List<Order> orders = orderService.findAllByStatus(NEW);
+            return ResponseEntity.ok(orders);
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+     }
+
+
     @GetMapping("/getAll")
     public ResponseEntity<List<Order>> getAllOrders() {
         try {
             List<Order> orders = orderService.getAllOrders();
-            return ResponseEntity.ok(orders);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping(path="/getUnclaimed")
-    public ResponseEntity<List<Order>>  getUnclaimed() {
-        try {
-            List<Order> orders = orderService.getUnclaimed();
             return ResponseEntity.ok(orders);
         }catch (Exception e) {
             System.out.println(e.getMessage());

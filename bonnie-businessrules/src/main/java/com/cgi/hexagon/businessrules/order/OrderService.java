@@ -30,12 +30,12 @@ public class OrderService {
         return orderStorage.load(id);
     }
 
-    public List<Order> getAllOrders() {
-        return orderStorage.findAll();
+    public List<Order> findAllByStatus(Status status){
+        return orderStorage.findAllByStatus(status);
     }
 
-    public List<Order> getUnclaimed(){ return orderStorage.getUnclaimed();
-
+    public List<Order> getAllOrders() {
+        return orderStorage.findAll();
     }
 
     public boolean releaseOrder(long id) {
@@ -176,4 +176,6 @@ public class OrderService {
     public SendRequest createSendRequest(Order order) {
         return new SendRequest(order.getShopOderId(), order.getStatus(), order.getMetadata());
     }
+
+
 }
