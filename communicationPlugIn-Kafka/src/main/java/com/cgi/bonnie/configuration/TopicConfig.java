@@ -44,10 +44,6 @@ public class TopicConfig {
     public KafkaTemplate senderProps(KafkaProperties kafkaProperties) {
         Map<String, Object> props = kafkaProperties.buildProducerProperties();
 
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class.getName());
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
-
         return new KafkaTemplate(new DefaultKafkaProducerFactory<>(props));
     }
 
