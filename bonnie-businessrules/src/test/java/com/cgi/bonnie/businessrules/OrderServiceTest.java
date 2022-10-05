@@ -1,6 +1,7 @@
 package com.cgi.bonnie.businessrules;
 
 import com.cgi.bonnie.businessrules.order.Order;
+import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.order.OrderService;
 import com.cgi.bonnie.businessrules.order.OrderStorage;
 import com.cgi.bonnie.businessrules.user.User;
@@ -35,13 +36,16 @@ class OrderServiceTest {
 
     MessageService sender;
 
+    AuthUserStorage authUserStorage;
+
     @BeforeEach
     public void setup() {
         orderLoader = Mockito.mock(OrderStorage.class);
         when(orderLoader.save(any())).thenReturn(true);
         userStorage = Mockito.mock(UserStorage.class);
         sender = Mockito.mock(MessageService.class);
-        orderService = new OrderService(orderLoader, userStorage, sender);
+        authUserStorage = Mockito.mock(AuthUserStorage.class);
+        orderService = new OrderService(orderLoader, userStorage, sender, authUserStorage);
     }
 
     @Test
@@ -104,7 +108,7 @@ class OrderServiceTest {
     public void expectClaimOrderReturnsFalseWhenOrderDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
 
-        assertFalse(orderService.claimOrder(ORDER_ID, USER_ID), "Should return with false");
+        assertFalse(orderService.claimOrder(ORDER_ID), "Should return with false");
     }
 
     @Test
@@ -113,7 +117,7 @@ class OrderServiceTest {
 
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
-        assertTrue(orderService.claimOrder(ORDER_ID, USER_ID));
+        assertTrue(orderService.claimOrder(ORDER_ID));
     }
 
     @Test
@@ -122,7 +126,7 @@ class OrderServiceTest {
 
         when(userStorage.load(USER_ID)).thenReturn(null);
 
-        assertFalse(orderService.claimOrder(ORDER_ID, USER_ID));
+        assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
     @Test
@@ -131,7 +135,7 @@ class OrderServiceTest {
 
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
-        assertFalse(orderService.claimOrder(ORDER_ID, USER_ID));
+        assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
     @Test
@@ -140,7 +144,7 @@ class OrderServiceTest {
 
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
-        assertFalse(orderService.claimOrder(ORDER_ID, USER_ID));
+        assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
     @Test
@@ -149,7 +153,7 @@ class OrderServiceTest {
 
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
-        orderService.claimOrder(ORDER_ID, USER_ID);
+        orderService.claimOrder(ORDER_ID);
 
         verify(orderLoader).save(argThat(order -> USER_ID == order.getAssignedTo().getId()));
     }
@@ -160,7 +164,7 @@ class OrderServiceTest {
 
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
-        orderService.claimOrder(ORDER_ID, USER_ID);
+        orderService.claimOrder(ORDER_ID);
 
         verify(orderLoader).save(argThat(order -> order.getStatus() == Status.CLAIMED));
     }
@@ -171,7 +175,7 @@ class OrderServiceTest {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
-        assertFalse(orderService.claimOrder(ORDER_ID, USER_ID));
+        assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
     @Test

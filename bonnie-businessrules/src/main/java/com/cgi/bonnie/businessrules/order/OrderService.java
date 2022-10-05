@@ -121,7 +121,8 @@ public class OrderService {
     }
 
     public List<Order> getMyOrders() {
-        User user = userStorage.getUserByUsername(authUserStorage.getCurrentUsername());
+        String username = authUserStorage.getCurrentUsername();
+        User user = userStorage.getUserByUsername(username);
         return orderStorage.findAllByAssembler(user.getId());
     }
 

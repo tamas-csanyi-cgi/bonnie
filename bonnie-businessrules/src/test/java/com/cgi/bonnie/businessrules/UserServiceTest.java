@@ -1,5 +1,6 @@
 package com.cgi.bonnie.businessrules;
 
+import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserService;
 import com.cgi.bonnie.businessrules.user.UserStorage;
@@ -15,11 +16,13 @@ public class UserServiceTest {
 
     UserService userService;
 
+    AuthUserStorage authUserStorage;
+
     @BeforeEach
     public void setup() {
         userStorage = Mockito.mock(UserStorage.class);
-
-        userService = new UserService(userStorage);
+        authUserStorage = Mockito.mock(AuthUserStorage.class);
+        userService = new UserService(userStorage, authUserStorage);
     }
 
     @Test
