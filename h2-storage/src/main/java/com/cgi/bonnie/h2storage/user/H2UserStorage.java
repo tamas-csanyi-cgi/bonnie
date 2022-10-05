@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @Primary
 public class H2UserStorage implements UserStorage {
@@ -40,5 +43,10 @@ public class H2UserStorage implements UserStorage {
         AssemblyUser user = new AssemblyUser().withName(name).withPassword(password).withRole(role);
         repository.save(user);
         return user.getId();
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return repository.findAll().stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 }

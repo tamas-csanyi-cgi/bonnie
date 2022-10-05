@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
@@ -26,6 +28,17 @@ public class UserController {
         try {
             User user = userService.loadUser(id);
             return ResponseEntity.ok(user);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/get/all")
+    public ResponseEntity<List<User>> getAllUser() {
+        try {
+            List<User> users = userService.getAllUser();
+            return ResponseEntity.ok(users);
         }catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();

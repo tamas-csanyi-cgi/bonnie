@@ -2,6 +2,8 @@ package com.cgi.bonnie.businessrules.user;
 
 import com.cgi.bonnie.businessrules.Role;
 
+import java.util.List;
+
 public class UserService {
 
     final private UserStorage userServiceIf;
@@ -12,6 +14,10 @@ public class UserService {
 
     public User loadUser(long id){
         return userServiceIf.load(id);
+    }
+
+    public List<User> getAllUser() {
+        return userServiceIf.getAllUser();
     }
 
     public long createUser(String name, String password, Role role) {
