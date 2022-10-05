@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -126,8 +127,7 @@ public class H2OrderStorage implements OrderStorage {
 
     @Override
     public long create(String productId, int quantity, long assignedTo, Status status) {
-        //fixme it has to implement in core.   Here should only store
-        AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity)
+        AssemblyOrder aOrder = new AssemblyOrder().withGoodsId(productId).withQuantity(quantity).withShopOrderId(UUID.randomUUID().toString())
                 .withAssignedTo(assignedTo).withStatus(status).withPlacementDate(LocalDateTime.now());
         orderRepository.save(aOrder);
         return aOrder.getId();
