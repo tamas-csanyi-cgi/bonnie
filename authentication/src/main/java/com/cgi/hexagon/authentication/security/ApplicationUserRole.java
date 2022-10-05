@@ -1,4 +1,4 @@
-package com.cgi.hexagon.authentication.security;
+package com.cgi.bonnie.authentication.security;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.cgi.hexagon.authentication.security.ApplicationUserPermission.*;
+import static com.cgi.bonnie.authentication.security.ApplicationUserPermission.*;
 
 public enum ApplicationUserRole {
     ASSEMBLER(Set.of(ASSEMBLER_CLAIM, ASSEMBLER_RELEASE, ASSEMBLER_FINISH, ASSEMBLER_SHIP)),

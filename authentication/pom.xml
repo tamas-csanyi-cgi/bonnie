@@ -24,12 +24,12 @@
             <version>2.7.3</version>
         </dependency>
         <dependency>
-            <groupId>com.cgi.hexagon</groupId>
+            <groupId>com.cgi.bonnie</groupId>
             <artifactId>h2-storage</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.cgi.hexagon</groupId>
-            <artifactId>bonnie-businessrules</artifactId>
+            <groupId>com.cgi.bonnie</groupId>
+            <artifactId>businessrules</artifactId>
         </dependency>
     </dependencies>
 </project>

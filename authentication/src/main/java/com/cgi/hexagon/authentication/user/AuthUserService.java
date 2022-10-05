@@ -1,4 +1,4 @@
-package com.cgi.hexagon.authentication.user;
+package com.cgi.bonnie.authentication.user;
 
 import com.cgi.hexagon.businessrules.user.AuthUserStorage;
 import com.cgi.hexagon.businessrules.user.User;

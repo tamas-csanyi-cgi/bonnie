@@ -4,6 +4,7 @@ import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserService;
 import com.cgi.bonnie.businessrules.user.UserStorage;
+import com.cgi.hexagon.businessrules.user.AuthUserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

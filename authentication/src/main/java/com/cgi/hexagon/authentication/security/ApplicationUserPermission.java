@@ -1,4 +1,4 @@
-package com.cgi.hexagon.authentication.security;
+package com.cgi.bonnie.authentication.security;
 
 public enum ApplicationUserPermission {
     ASSEMBLER_CLAIM("assembler:claim"),
