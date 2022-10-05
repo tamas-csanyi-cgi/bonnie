@@ -41,7 +41,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/find/unclaimed")
+    @GetMapping("/getUnclaimedOrders")
     public ResponseEntity<List<Order>> findAllByStatus() {
 
         try {
@@ -51,7 +51,6 @@ public class OrderController {
             return ResponseEntity.badRequest().build();
         }
      }
-
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Order>> getAllOrders() {

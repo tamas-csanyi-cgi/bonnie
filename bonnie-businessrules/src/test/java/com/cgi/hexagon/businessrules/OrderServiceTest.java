@@ -10,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -48,6 +51,17 @@ class OrderServiceTest {
         when(orderLoader.load(ORDER_ID)).thenReturn(toBeLoaded);
         Order loadedOrder = orderService.loadOrder(ORDER_ID);
         assertEquals(toBeLoaded, loadedOrder, "Loaded order should be the same one we provided to the mock. ");
+    }
+
+    @Test
+    public void expectGetUnclaimedOrderWhenFindAllByStatusNew() {
+        List<Order> orders = new ArrayList<>();
+        orders.add(getOrder());
+        List<Order> toBeLoaded = orders;
+
+        when(orderLoader.findAllByStatus(Status.NEW)).thenReturn(toBeLoaded);
+        List<Order> loadedOrder = orderService.findAllByStatus(Status.NEW);
+        assertEquals(toBeLoaded, loadedOrder);
     }
 
     @Test
