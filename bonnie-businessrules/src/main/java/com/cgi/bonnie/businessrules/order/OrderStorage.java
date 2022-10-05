@@ -25,4 +25,6 @@ public interface OrderStorage {
     List<Order> findAll();
 
     List<Order> findAllByShopOrderId(String shopOrderId);
+
+    List<Order> findAllByStatus(Status status);
 }
