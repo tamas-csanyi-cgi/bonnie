@@ -34,15 +34,16 @@ public class UserServiceTest {
         final String name = "name";
         final String password = "password";
         final Role role = Role.ADMIN;
+        final User user = new User().withName(name).withRole(role);
 
         userService.createUser(name, password, role);
 
-        verify(userStorage).createUser(name, password, role);
+        verify(userStorage).create(user, password);
     }
 
     @Test
     public void expectSaveCallsSave() {
-        User user = new User(1L, "name", Role.ADMIN);
+        User user = new User().withId(1L).withName("name").withRole(Role.ADMIN);
 
         userService.save(user);
 

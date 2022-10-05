@@ -10,12 +10,6 @@ public class User {
 
     Role role;
 
-    public User(long id, String name, Role role) {
-        this.id = id;
-        this.name = name;
-        this.role = role;
-    }
-
     public User() {
     }
 

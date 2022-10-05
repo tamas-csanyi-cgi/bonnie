@@ -35,6 +35,10 @@ public class OrderService {
         return orderStorage.findAll();
     }
 
+    public List<Order> findAllByStatus(Status status){
+        return orderStorage.findAllByStatus(status);
+    }
+
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);
@@ -98,10 +102,6 @@ public class OrderService {
             }
         }
         return false;
-    }
-
-    public long createOrder(String productId, int quantity, long assignedTo, Status status) {
-        return orderStorage.create(productId, quantity, assignedTo, status);
     }
 
     public void createOrders(List<Order> orders) {
