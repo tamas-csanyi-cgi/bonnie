@@ -34,9 +34,6 @@ public class OrderService {
         return orderStorage.findAllByStatus(status);
     }
 
-    public List<Order> getAllOrders() {
-        return orderStorage.findAll();
-    }
 
     public boolean releaseOrder(long id) {
         try {

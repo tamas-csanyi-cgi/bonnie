@@ -15,4 +15,6 @@ public interface H2OrderRepository extends CrudRepository<AssemblyOrder, Long> {
 
     public List<AssemblyOrder> findAllByStatus(Status status);
 
+
+
 }
