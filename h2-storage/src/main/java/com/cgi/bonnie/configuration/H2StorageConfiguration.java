@@ -16,7 +16,6 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 @EnableJdbcRepositories({"com.cgi.bonnie.h2storage.user", "com.cgi.bonnie.h2storage.order"})
 public class H2StorageConfiguration {
 
-
 	@Bean
 	OrderService orderService(OrderStorage orderStorage, UserStorage userStorage, MessageService sender, AuthUserStorage authUserStorage) {
 		return new OrderService(orderStorage, userStorage, sender, authUserStorage);

@@ -1,6 +1,6 @@
 package com.cgi.hexagon.starter.security;
 
-import com.cgi.hexagon.authentication.auth.ApplicationUserService;
+import com.cgi.bonnie.authentication.auth.ApplicationUserService;
 import com.cgi.hexagon.starter.security.oauth2.CustomerOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.concurrent.TimeUnit;
-
-import static com.cgi.hexagon.authentication.security.ApplicationUserRole.ASSEMBLER;
 
 
 @Configuration

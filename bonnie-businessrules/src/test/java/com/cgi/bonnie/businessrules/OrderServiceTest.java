@@ -451,17 +451,6 @@ class OrderServiceTest {
                 .count());
     }
 
-    @Test
-    public void expectGetUnclaimedOrderWhenFindAllByStatusNew() {
-        List<Order> orders = new ArrayList<>();
-        orders.add(getOrder());
-        List<Order> toBeLoaded = orders;
-
-        when(orderLoader.findAllByStatus(Status.NEW)).thenReturn(toBeLoaded);
-        List<Order> loadedOrder = orderService.findAllByStatus(Status.NEW);
-        assertEquals(toBeLoaded, loadedOrder);
-    }
-
     private Order getOrder() {
         return new Order()
                 .withStatus(Status.NEW)
