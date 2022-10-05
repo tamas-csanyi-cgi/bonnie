@@ -1,4 +1,4 @@
-package com.cgi.hexagon.h2storage.user;
+package com.cgi.bonnie.h2storage.user;
 
 import org.springframework.stereotype.Component;
 

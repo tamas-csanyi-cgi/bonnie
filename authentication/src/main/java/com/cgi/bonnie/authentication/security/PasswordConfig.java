@@ -1,4 +1,4 @@
-package com.cgi.hexagon.authentication.security;
+package com.cgi.bonnie.authentication.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

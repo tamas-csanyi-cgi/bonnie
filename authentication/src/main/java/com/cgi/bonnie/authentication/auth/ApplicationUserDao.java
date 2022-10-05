@@ -1,4 +1,4 @@
-package com.cgi.hexagon.authentication.auth;
+package com.cgi.bonnie.authentication.auth;
 
 import java.util.Optional;
 

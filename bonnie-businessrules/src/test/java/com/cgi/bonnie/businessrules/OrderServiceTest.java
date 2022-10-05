@@ -6,6 +6,7 @@ import com.cgi.bonnie.businessrules.order.OrderStorage;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
+import com.cgi.hexagon.businessrules.user.AuthUserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
