@@ -18,12 +18,9 @@ public class OrderController {
 
     private OrderService orderService;
 
-    private UserService userService;
-
     @Autowired
-    public OrderController(OrderService orderService, UserService userService) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.userService = userService;
     }
 
     @GetMapping("/get/{id}")
@@ -31,7 +28,7 @@ public class OrderController {
         try {
             Order order = orderService.loadOrder(id);
             return ResponseEntity.ok(order);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
@@ -42,7 +39,7 @@ public class OrderController {
         try {
             List<Order> orders = orderService.getAllOrders();
             return ResponseEntity.ok(orders);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
@@ -53,37 +50,32 @@ public class OrderController {
         try {
             List<Order> orders = orderService.findAllByStatus(NEW);
             return ResponseEntity.ok(orders);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PatchMapping(path = "/assign/{orderId}/{userId}")
-    public ResponseEntity<Boolean> assignOrderToUser(@PathVariable long orderId, @PathVariable long userId) {
-        boolean result = orderService.claimOrder(orderId, userId);
-        return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+    public ResponseEntity<Boolean> assignOrderToUser(@PathVariable long orderId) {
+        boolean result = orderService.claimOrder(orderId);
+        return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
     @PatchMapping(path = "/release/{orderId}")
     public ResponseEntity<Boolean> releaseOrder(@PathVariable long orderId) {
         boolean result = orderService.releaseOrder(orderId);
-        return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
     @PatchMapping(path = "/finish/{orderId}")
     public ResponseEntity<Boolean> finishOrder(@PathVariable long orderId) {
         boolean result = orderService.finishOrder(orderId);
-        return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
 
     @PatchMapping(path = "/ship/{orderId}/{trackingNr}")
     public ResponseEntity<Boolean> shipOrder(@PathVariable long orderId, @PathVariable String trackingNr) {
         boolean result = orderService.setTrackingNumber(orderId, trackingNr);
-        return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
+        return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
-
-    public void receive() {
-
-    }
-
 }
