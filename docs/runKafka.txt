@@ -17,12 +17,12 @@ example:  C:\Users\vanisp\bin\kafka_2.13-3.2.1\
 .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 * run kafka
 .\bin\windows\kafka-server-start.bat .\config\server.properties
-* create topic
+* create topic (optional since the application will create it, if it does not exists)
 .\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 -create --topic test-topic
 * create consumer
 .\bin\windows\kafka-console-consumer.bat --topic test-topic --from-beginning --bootstrap-server localhost:9092
 * create a producer/send a message
 .\bin\windows\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic test-topic
-the above command eventually shows a promopt ">"
+the above command eventually shows a prompt ">"
 you can type a message and send it by hitting <enter>
 the prompt re-appears in a while and your consumer should print the message you just typed
