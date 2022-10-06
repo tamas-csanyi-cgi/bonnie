@@ -1,4 +1,4 @@
-package com.cgi.hexagon.businessrules.user;
+package com.cgi.bonnie.businessrules.user;
 
 public interface AuthUserStorage {
 

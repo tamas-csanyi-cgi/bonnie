@@ -1,7 +1,6 @@
 package com.cgi.bonnie.businessrules.user;
 
 import com.cgi.bonnie.businessrules.Role;
-import com.cgi.hexagon.businessrules.user.AuthUserStorage;
 
 import java.util.List;
 
