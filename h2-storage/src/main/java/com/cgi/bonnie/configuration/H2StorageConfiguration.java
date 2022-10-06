@@ -2,7 +2,6 @@ package com.cgi.bonnie.configuration;
 
 import com.cgi.bonnie.businessrules.order.OrderService;
 import com.cgi.bonnie.businessrules.order.OrderStorage;
-import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.UserService;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
