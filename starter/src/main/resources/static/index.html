@@ -1,1 +1,39 @@
-<h1>Hello Spring Boot Security</h1>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel=”stylesheet” href=”https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css”rel=”nofollow” integrity=”sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm” crossorigin=”anonymous”>
+    <link rel="stylesheet" href="css/order.css">
+    <script src="js/scrips.js"></script>
+</head>
+<body>
+<div class="col-md-6 well">
+    <div id="header" class="banner">
+        <img src="assets/Logo.png">
+    </div>
+    <div id="navbar" class="navbar">
+        <button type="button" onclick="getAll()" class="button">All Orders</button>
+        <button type="button" onclick="getMine()" class="button">My Orders</button>
+        <button type="button" onclick="getUnassigned()" class="button">Unassigned Orders</button>
+        <button type="button" onclick="getUsers()" class="button">Users</button>
+    </div>
+    <div id="template">
+
+    </div>
+    <div class="col-md-8">
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>GoodsId</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Assigned</th>
+            </tr>
+            </thead>
+            <tbody id= "result"></tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

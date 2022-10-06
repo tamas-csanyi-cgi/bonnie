@@ -70,16 +70,8 @@ function getUsername() {
 
 function createUser(username) {
     return $.ajax({
-       url: "http://localhost:8082/api/user/add",
-       type: "POST",
-       contentType: 'application/json',
-       data: JSON.stringify({
-           "name": username,
-           "password": "secret",
-           "role": "ASSEMBLER"
-       }),
-       dataType: 'json',
-       processData: false,
+       url: "http://localhost:8082/user/register/"+username,
+       type: "GET",
        success: function (result) {
            user = result;
            console.log('3'+result);

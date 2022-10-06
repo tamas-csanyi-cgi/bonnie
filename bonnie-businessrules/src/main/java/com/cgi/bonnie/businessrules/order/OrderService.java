@@ -5,7 +5,7 @@ import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
 import com.cgi.bonnie.communicationplugin.SendRequest;
-import com.cgi.hexagon.businessrules.user.AuthUserStorage;
+import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
