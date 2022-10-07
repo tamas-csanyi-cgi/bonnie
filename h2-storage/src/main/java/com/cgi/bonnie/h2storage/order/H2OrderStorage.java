@@ -61,6 +61,10 @@ public class H2OrderStorage implements OrderStorage {
         orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
         return result;
     }
+
+    public List<Order> findAllByStatus(Status status) {
+        return orderRepository.findAllByStatus(status).stream().map(mapper::fromEntity).collect(Collectors.toList());
+    }
    
     public List<Order> findAllByShopOrderId(String shopOrderId) {
         return orderRepository.findAllByShopOrderId(shopOrderId).stream().map(mapper::fromEntity).collect(Collectors.toList());

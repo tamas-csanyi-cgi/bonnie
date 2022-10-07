@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.cgi.bonnie.businessrules.Status.NEW;
+
 @RestController
 @RequestMapping(value = "/api/order")
 public class OrderController {
@@ -45,6 +47,16 @@ public class OrderController {
             return ResponseEntity.ok(orders);
         }catch (Exception e) {
             System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/getUnclaimedOrders")
+    public ResponseEntity<List<Order>> findAllByStatus() {
+        try {
+            List<Order> orders = orderService.findAllByStatus(NEW);
+            return ResponseEntity.ok(orders);
+        }catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

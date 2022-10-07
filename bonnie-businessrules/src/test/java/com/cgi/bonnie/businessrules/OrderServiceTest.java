@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -408,6 +410,17 @@ class OrderServiceTest {
                 .stream()
                 .filter(invocation -> invocation.getMethod().getName().equals("create"))
                 .count());
+    }
+
+    @Test
+    public void expectGetUnclaimedOrderWhenFindAllByStatusNew() {
+        List<Order> orders = new ArrayList<>();
+        orders.add(getOrder());
+        List<Order> toBeLoaded = orders;
+
+        when(orderLoader.findAllByStatus(Status.NEW)).thenReturn(toBeLoaded);
+        List<Order> loadedOrder = orderService.findAllByStatus(Status.NEW);
+        assertEquals(toBeLoaded, loadedOrder);
     }
 
     private Order getOrder() {

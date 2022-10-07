@@ -35,6 +35,10 @@ public class OrderService {
         return orderStorage.findAll();
     }
 
+    public List<Order> findAllByStatus(Status status){
+        return orderStorage.findAllByStatus(status);
+    }
+
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);
