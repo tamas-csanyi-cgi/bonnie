@@ -31,13 +31,22 @@ public class FirstApplicationUserDaoService implements ApplicationUserDao {
                 .findFirst();
     }
 
+    @Override
+    public Optional<ApplicationUser> selectApplicationUserByEmail(String email) {
+        return getApplicationUsers()
+                .stream()
+                .filter(applicationUser -> email.equals(applicationUser.getEmail()))
+                .findFirst();
+    }
+
     private List<ApplicationUser> getApplicationUsers() {
         List<ApplicationUser> applicationUsers = new ArrayList<>();
         userStorage.getAssemblyUsers().stream().forEach(
                 user -> applicationUsers.add(
                         new ApplicationUser(user.getName(),
                                             passwordEncoder.encode(user.getPassword()),
-                                            ApplicationUserRole.ASSEMBLER.getGrantedAuthorities(),
+                                            user.getEmail(),
+                                            ApplicationUserRole.valueOf(user.getRole().name()).getGrantedAuthorities(),
                                             true,
                                             true,
                                             true,

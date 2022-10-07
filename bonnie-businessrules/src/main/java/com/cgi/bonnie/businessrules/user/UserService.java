@@ -32,6 +32,8 @@ public class UserService {
 
     public String getCurrentUsername() {return authUserStorage.getCurrentUsername();}
 
+    public String getCurrentUserEmail() {return authUserStorage.getCurrentUserEmail();}
+
     public User getCurrentUser() {return userServiceIf.getUserByUsername(authUserStorage.getCurrentUsername());}
 
 }

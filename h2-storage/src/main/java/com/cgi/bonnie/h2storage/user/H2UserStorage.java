@@ -50,8 +50,8 @@ public class H2UserStorage implements UserStorage {
     }
 
     @Override
-    public long createUser(String name, String password, Role role) {
-        AssemblyUser user = new AssemblyUser().withName(name).withPassword(password).withRole(role);
+    public long createUser(String name, String email, String password, Role role) {
+        AssemblyUser user = new AssemblyUser().withName(name).withPassword(password).withRole(role).withEmail(email);
         repository.save(user);
         return user.getId();
     }

@@ -45,6 +45,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/get/current/email")
+    public ResponseEntity<String> getCurrentUserEmail() {
+        try {
+            String name = userService.getCurrentUserEmail();
+            return ResponseEntity.ok(name);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("/get/current")
     public ResponseEntity<User> getCurrentUser() {
         try {
@@ -71,7 +82,7 @@ public class UserController {
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createUser(@RequestBody UserRequest request) {
         Role role1 = Role.valueOf(request.getRole().toUpperCase());
-        long id = userService.createUser(request.getName(), request.getPassword(), role1);
+        long id = userService.createUser(request.getName(), request.getEmail(), request.getPassword(), role1);
         return ResponseEntity.ok(""+id);
     }
 

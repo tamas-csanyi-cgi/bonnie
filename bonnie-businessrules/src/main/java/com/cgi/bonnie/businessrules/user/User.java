@@ -10,6 +10,15 @@ public class User {
 
     Role role;
 
+    String email;
+
+    public User(long id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+        this.email = email;
+    }
+
     public User() {
     }
 
@@ -29,6 +38,14 @@ public class User {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -44,6 +61,11 @@ public class User {
 
     public User withName(String name) {
         this.setName(name);
+        return this;
+    }
+
+    public User withEmail(String email) {
+        this.setEmail(email);
         return this;
     }
 

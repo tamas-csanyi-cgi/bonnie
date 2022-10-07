@@ -1,4 +1,4 @@
-package com.cgi.hexagon.starter.contoller;
+package com.cgi.bonnie.authentication.contoller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

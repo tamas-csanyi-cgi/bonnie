@@ -10,13 +10,15 @@ public class UserMapper {
         return new AssemblyUser()
                 .withId(user.getId())
                 .withName(user.getName())
-                .withRole(user.getRole());
+                .withRole(user.getRole())
+                .withEmail(user.getEmail());
     }
 
     public User fromEntity(AssemblyUser userEntity) {
         return new User()
                 .withId(userEntity.getId())
                 .withName(userEntity.getName())
-                .withRole(userEntity.getRole());
+                .withRole(userEntity.getRole())
+                .withEmail(userEntity.getEmail());
     }
 }

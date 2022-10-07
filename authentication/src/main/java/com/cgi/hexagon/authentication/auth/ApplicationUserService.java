@@ -25,4 +25,12 @@ public class ApplicationUserService implements UserDetailsService {
                         new UsernameNotFoundException(String.format("Username %s not found", username))
                 );
     }
+
+    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+        return applicationUserDao
+                .selectApplicationUserByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(String.format("email %s not found", email))
+                );
+    }
 }

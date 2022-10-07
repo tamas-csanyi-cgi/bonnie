@@ -9,8 +9,9 @@ import java.util.Set;
 public class ApplicationUser implements UserDetails {
 
     private final String username;
+    private final String email;
     private final String password;
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
+    private final Collection<? extends GrantedAuthority> grantedAuthorities;
     private final boolean isAccountNonExpired;
     private final boolean isAccountNonLocked;
     private final boolean isCredentialsNonExpired;
@@ -18,13 +19,15 @@ public class ApplicationUser implements UserDetails {
 
     public ApplicationUser(String username,
                            String password,
-                           Set<? extends GrantedAuthority> grantedAuthorities,
+                           String email,
+                           Collection<? extends GrantedAuthority> grantedAuthorities,
                            boolean isAccountNonExpired,
                            boolean isAccountNonLocked,
                            boolean isCredentialsNonExpired,
                            boolean isEnabled) {
         this.username = username;
         this.password = password;
+        this.email = email;
         this.grantedAuthorities = grantedAuthorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
@@ -45,6 +48,10 @@ public class ApplicationUser implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     @Override

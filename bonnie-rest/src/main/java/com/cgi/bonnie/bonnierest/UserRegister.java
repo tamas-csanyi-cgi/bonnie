@@ -17,9 +17,9 @@ public class UserRegister {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/register/{username}")
-    public ResponseEntity<String> createUser(@PathVariable String username) {
-        long id = userService.createUser(username, "secret", Role.ASSEMBLER);
+    @GetMapping(path = "/register/{username}/{email}")
+    public ResponseEntity<String> createUser(@PathVariable String username, @PathVariable String email) {
+        long id = userService.createUser(username, email, "secret", Role.ASSEMBLER);
         return ResponseEntity.ok(""+id);
     }
 }

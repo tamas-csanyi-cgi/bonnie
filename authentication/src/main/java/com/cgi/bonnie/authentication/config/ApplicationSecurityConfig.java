@@ -1,7 +1,7 @@
-package com.cgi.hexagon.starter.security;
+package com.cgi.bonnie.authentication.config;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
-import com.cgi.hexagon.starter.security.oauth2.CustomerOAuth2UserService;
+import com.cgi.bonnie.authentication.security.oauth2.CustomerOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.concurrent.TimeUnit;
+
+import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
 
 
 @Configuration
@@ -40,10 +42,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/index", "/css/*", "/js/*", "/assets/*", "/user/register").permitAll()
-                .antMatchers("/api/**").hasRole("USER")
-                .anyRequest()
-                .authenticated()
+                    .antMatchers("/index", "/css/*", "/js/*", "/assets/*", "/user/register", "/h2/**").permitAll()
+                    .antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
+                    .anyRequest()
+                    .authenticated()
                 .and()
                 .formLogin()
                     .loginPage("/login")

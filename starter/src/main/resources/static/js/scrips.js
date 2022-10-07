@@ -68,13 +68,20 @@ function getUsername() {
     });
 }
 
-function createUser(username) {
+function getUserEmail() {
     return $.ajax({
-       url: "http://localhost:8082/user/register/"+username,
+        url: "http://localhost:8082/api/user/get/current/email",
+        type: "GET"
+    });
+}
+
+function createUser(username, email) {
+    return $.ajax({
+       url: "http://localhost:8082/user/register/"+username+"/"+email,
        type: "GET",
        success: function (result) {
            user = result;
-           console.log('3'+result);
+           console.log('created user with id: '+result);
        },
        error: function (error) {
            user = error;
@@ -84,6 +91,7 @@ function createUser(username) {
 }
 
 function populate(data) {
+    formatTableOrder();
     var table = "" ;
     for(var i in data){
         var assignedTo = '-';
@@ -103,52 +111,41 @@ function populate(data) {
 }
 
 function populateUser(data) {
+    formatTableUser();
     var table = "" ;
     for(var i in data){
         table += "<tr>";
-        table += "<td>"
-                + data[i].name +"</td>"
-                + "<td>" + data[i].role +"</td>"
-                + "<td></td>"
-                + "<td></td>";
+        table += "<td>" + data[i].id+"</td>"
+                + "<td>" + data[i].name +"</td>"
+                + "<td>" + data[i].email +"</td>"
+                + "<td>" + data[i].role +"</td>";
         table += "</tr>";
     }
     document.getElementById("result").innerHTML = table;
     return table;
 }
 
+function formatTableUser() {
+    var headers = "<tr><th>Id</th><th>Name</th><th>Email</th><th>Role</th></tr>";
+    document.getElementById("thead").innerHTML = headers;
+}
+
+function formatTableOrder() {
+    var headers = "<tr><th>GoodsId</th><th>Quantity</th><th>Status</th><th>AssignedTo</th></tr>";
+    document.getElementById("thead").innerHTML = headers;
+}
+
 function checkAuth() {
     var user = getUser().then((user) => {
         console.log('found user in DB: '+user.name)
     }).catch((err) => {
-        console.log('couldnt find user')
-        getUsername().then(username => {
-            console.log('username: '+username);
-            createUser(username);
+        console.log('user not registered in the system. Registering...')
+        getUserEmail().then(userEmail => {
+            console.log('username from social media: '+userEmail);
+            getUsername().then(username => {
+                createUser(username, userEmail);
+            })
+
         });
     })
-    /*if (user.name == '') {
-        var username = getUsername();
-        $.ajax({
-            url: "http://localhost:8082/api/user/add",
-            type: "POST",
-            contentType: 'application/json',
-            data: JSON.stringify({
-                "name": "username",
-                "password": "secret",
-                "role": "ASSEMBLER"
-            }),
-            dataType: 'json',
-            processData: false,
-            success: function (result) {
-                user = result;
-                console.log('3'+result);
-            },
-            error: function (error) {
-                user = error;
-                console.log(error);
-            }
-        });
-        console.log('4'+user);
-    }*/
 }

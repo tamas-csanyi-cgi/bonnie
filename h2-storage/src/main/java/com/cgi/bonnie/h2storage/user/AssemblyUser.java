@@ -12,6 +12,8 @@ public class AssemblyUser implements Serializable {
 
     private String name;
 
+    private String email;
+
     private String password;
 
     private Role role;
@@ -39,12 +41,25 @@ public class AssemblyUser implements Serializable {
         return this;
     }
 
+    public AssemblyUser withEmail(String email) {
+        this.setEmail(email);
+        return this;
+    }
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

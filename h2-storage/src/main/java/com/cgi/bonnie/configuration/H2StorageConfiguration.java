@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 @Configuration
-@ComponentScan({"com.cgi.bonnie.h2storage.user", "com.cgi.bonnie.h2storage.order", "com.cgi.bonnie.authentication"})
+@ComponentScan({"com.cgi.bonnie.h2storage.user", "com.cgi.bonnie.h2storage.order"})
 @EnableJdbcRepositories({"com.cgi.bonnie.h2storage.user", "com.cgi.bonnie.h2storage.order"})
 public class H2StorageConfiguration {
 

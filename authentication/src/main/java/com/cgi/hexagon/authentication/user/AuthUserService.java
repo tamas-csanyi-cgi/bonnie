@@ -1,15 +1,32 @@
 package com.cgi.bonnie.authentication.user;
 
+import com.cgi.bonnie.authentication.auth.ApplicationUser;
+import com.cgi.bonnie.authentication.security.oauth2.CustomerOAuth2User;
 import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthUserService implements AuthUserStorage {
 
     public String getCurrentUsername() {
-        DefaultOAuth2User user =(DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getAttribute("name");
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof CustomerOAuth2User) {
+            CustomerOAuth2User user =(CustomerOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return user.getName();
+        } else {
+            ApplicationUser user = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return user.getUsername();
+        }
     }
+
+    public String getCurrentUserEmail() {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof CustomerOAuth2User) {
+            CustomerOAuth2User user =(CustomerOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return user.getEmail();
+        } else {
+            ApplicationUser user = (ApplicationUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return user.getEmail();
+        }
+    }
+
 }

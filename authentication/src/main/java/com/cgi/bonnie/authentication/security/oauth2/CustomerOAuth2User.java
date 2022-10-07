@@ -1,4 +1,5 @@
-package com.cgi.hexagon.starter.security.oauth2;
+package com.cgi.bonnie.authentication.security.oauth2;
+
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -29,7 +30,7 @@ public class CustomerOAuth2User implements OAuth2User {
         return oAuth2User.getAttribute("name");
     }
 
-    public String getFullName() {
-        return oAuth2User.getAttribute("name");
+    public String getEmail() {
+        return oAuth2User.getAttribute("email");
     }
 }

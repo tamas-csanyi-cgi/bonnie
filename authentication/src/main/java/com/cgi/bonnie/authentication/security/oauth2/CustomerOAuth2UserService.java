@@ -1,4 +1,5 @@
-package com.cgi.hexagon.starter.security.oauth2;
+package com.cgi.bonnie.authentication.security.oauth2;
+
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
