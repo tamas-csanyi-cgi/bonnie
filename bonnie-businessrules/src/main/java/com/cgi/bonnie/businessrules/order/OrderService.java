@@ -43,7 +43,7 @@ public class OrderService {
         try {
             Order order = loadOrder(id);
             User currentUser = getCurrentUser();
-            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser.getId())) {
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -166,7 +166,8 @@ public class OrderService {
         try{
             User currentUser = getCurrentUser();
             Order order = loadOrder(orderId);
-            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED)) {
+            if (order.getStatus().equals(Status.NEW)
+                    || (order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED))) {
                 order.setStatus(status);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderStorage.save(order)) {
