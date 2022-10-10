@@ -48,7 +48,7 @@ public class OrderService {
         try {
             Order order = loadOrder(id);
             User currentUser = getCurrentUser();
-            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser.getId())) {
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());

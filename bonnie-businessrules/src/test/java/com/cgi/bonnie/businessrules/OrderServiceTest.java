@@ -46,6 +46,7 @@ class OrderServiceTest {
         userStorage = Mockito.mock(UserStorage.class);
         sender = Mockito.mock(MessageService.class);
         authUserStorage = Mockito.mock(AuthUserStorage.class);
+        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
         orderService = new OrderService(orderLoader, userStorage, sender, authUserStorage);
     }
 
@@ -60,18 +61,30 @@ class OrderServiceTest {
 
     @Test
     public void expectReleaseClaimedOrderReturnsTrue() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
 
         assertTrue(orderService.releaseOrder(ORDER_ID), "Should return with true");
     }
 
     @Test
+    public void expectReleaseClaimedOrderReturnsFalseWhenSaveFails() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
+
+        when(orderLoader.save(any())).thenReturn(false);
+
+        assertFalse(orderService.releaseOrder(ORDER_ID), "Should return with false");
+    }
+
+    @Test
+    public void expectReleaseClaimedOrderReturnsFalseWhenUserNotAssigned() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser().withId(2)));
+
+        assertFalse(orderService.releaseOrder(ORDER_ID), "Should return with false");
+    }
+
+    @Test
     public void expectReleaseClaimedOrderSetsAssemblerToNull() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
 
         orderService.releaseOrder(ORDER_ID);
 
@@ -80,9 +93,7 @@ class OrderServiceTest {
 
     @Test
     public void expectReleaseClaimedOrderSetsStatusToNew() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
 
         orderService.releaseOrder(ORDER_ID);
 
@@ -92,7 +103,6 @@ class OrderServiceTest {
     @Test
     public void expectReleaseUnClaimedOrderReturnsFalse() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.releaseOrder(ORDER_ID), "Should return with false");
     }
@@ -100,7 +110,6 @@ class OrderServiceTest {
     @Test
     public void expectReleaseNonExistingOrderReturnsFalse() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.releaseOrder(ORDER_ID), "Should return with false when order does not exists");
     }
@@ -108,7 +117,6 @@ class OrderServiceTest {
     @Test
     public void expectReleaseReturnsFalseWhenSaveFails() {
         when(orderLoader.save(any())).thenReturn(false);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED));
 
         assertFalse(orderService.releaseOrder(ORDER_ID));
@@ -117,18 +125,15 @@ class OrderServiceTest {
     @Test
     public void expectClaimOrderReturnsFalseWhenOrderDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.claimOrder(ORDER_ID), "Should return with false");
     }
 
     @Test
     public void expectClaimNewOrderReturnsTrue() {
-        User user = getUser();
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
 
-        when(userStorage.load(USER_ID)).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertTrue(orderService.claimOrder(ORDER_ID));
     }
@@ -137,6 +142,9 @@ class OrderServiceTest {
     public void expectClaimNewOrderReturnsFalseWhenUserDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
+        when(userStorage.load(USER_ID)).thenReturn(null);
+        when(userStorage.getUserByUsername(any())).thenReturn(null);
+
         assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
@@ -144,27 +152,25 @@ class OrderServiceTest {
     public void expectClaimNewOrderReturnsFalseWhenOrderStatusISNotNew() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.SHIPPED));
 
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
     @Test
     public void expectClaimNewOrderReturnsFalseWhenThereIsAnAssembler() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(user));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(getUser()));
 
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertFalse(orderService.claimOrder(ORDER_ID));
     }
 
     @Test
     public void expectClaimOrderSavesWithAssembler() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         orderService.claimOrder(ORDER_ID);
 
@@ -173,10 +179,9 @@ class OrderServiceTest {
 
     @Test
     public void expectClaimOrderSavesWithClaimedStatus() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         orderService.claimOrder(ORDER_ID);
 
@@ -185,10 +190,9 @@ class OrderServiceTest {
 
     @Test
     public void expectClaimOrderReturnsFalseWhenSaveFails() {
-        User user = getUser();
         when(orderLoader.save(any())).thenReturn(false);
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         assertFalse(orderService.claimOrder(ORDER_ID));
     }
@@ -196,25 +200,20 @@ class OrderServiceTest {
     @Test
     public void expectSetTrackingNumberReturnsFalseWhenOrderDoesNotExists() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
     public void expectSetTrackingNumberReturnsFalseWhenOrderIsNotAssembled() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
         assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
     public void expectSetTrackingNumberSavesOrderWithTrackingNumber() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
 
         orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER);
 
@@ -223,35 +222,26 @@ class OrderServiceTest {
 
     @Test
     public void expectSetTrackingNumberOrderReturnsFalseWhenSaveFails() {
-        User user = getUser();
         when(orderLoader.save(any())).thenReturn(false);
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
 
         assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
     public void expectSetTrackingNumberOrderReturnsFalseWhenTNrIsNull() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
         assertFalse(orderService.setTrackingNumber(ORDER_ID, null));
     }
 
     @Test
     public void expectSetTrackingNumberOrderReturnsFalseWhenTNrIsEmpty() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
         assertFalse(orderService.setTrackingNumber(ORDER_ID, ""));
     }
 
     @Test
     public void expectSetTrackingNumberSavesOrderWithShippedStatus() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
+
         orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER);
 
         verify(orderLoader).save(argThat(order -> order.getStatus() == Status.SHIPPED));
@@ -259,18 +249,21 @@ class OrderServiceTest {
 
     @Test
     public void expectSetTrackingNumberReturnsTrue() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
 
         assertTrue(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
 
     @Test
+    public void expectSetTrackingNumberReturnsFalseWhenNotAssignedUser() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser().withId(2)));
+
+        assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
+    }
+
+    @Test
     public void expectSetTrackingNumberCallsSender() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
         doNothing().when(sender).send(any());
         orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER);
 
@@ -281,19 +274,29 @@ class OrderServiceTest {
     }
 
     @Test
+    public void expectCreateOrderCallsCreate() {
+        final String productId = "1";
+        final int quantity = 1;
+        final long assignedTo = 1L;
+        final Status status = Status.NEW;
+
+        orderService.createOrder(productId, quantity, assignedTo, status);
+
+        verify(orderLoader).create(productId, quantity, assignedTo, status);
+    }
+
+    @Test
     public void expectUpdateStatusReturnsFalseWhenOrderDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.updateStatus(ORDER_ID, Status.SHIPPED));
     }
 
     @Test
     public void expectUpdateStatusReturnsTrue() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(user));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         when(orderLoader.save(any())).thenReturn(true);
 
@@ -301,11 +304,43 @@ class OrderServiceTest {
     }
 
     @Test
-    public void expectUpdateStatusSetsStatus() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
+    public void expectUpdateStatusReturnsTrueWhenAssembled() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
 
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
+
+        when(orderLoader.save(any())).thenReturn(true);
+
+        assertTrue(orderService.updateStatus(ORDER_ID, Status.SHIPPED));
+    }
+
+    @Test
+    public void expectUpdateStatusReturnsFalseWhenUserNotAssigned() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(getUser().withId(2)).withStatus(Status.CLAIMED));
+
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
+
+        when(orderLoader.save(any())).thenReturn(true);
+
+        assertFalse(orderService.updateStatus(ORDER_ID, Status.ASSEMBLED));
+    }
+
+    @Test
+    public void expectUpdateStatusReturnsFalseWhenStatusIsShipped() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(getUser()).withStatus(Status.SHIPPED));
+
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
+
+        when(orderLoader.save(any())).thenReturn(true);
+
+        assertFalse(orderService.updateStatus(ORDER_ID, Status.ASSEMBLED));
+    }
+
+    @Test
+    public void expectUpdateStatusSetsStatus() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
+
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         orderService.updateStatus(ORDER_ID, Status.SHIPPED);
 
@@ -314,10 +349,9 @@ class OrderServiceTest {
 
     @Test
     public void expectUpdateStatusCallsSender() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(userStorage.load(USER_ID)).thenReturn(getUser());
 
         when(orderLoader.save(any())).thenReturn(true);
 
@@ -329,10 +363,8 @@ class OrderServiceTest {
 
     @Test
     public void expectUpdateStatusReturnsFalseWhenSaveFails() {
-        User user = getUser();
         when(orderLoader.save(any())).thenReturn(false);
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder());
 
         assertFalse(orderService.updateStatus(ORDER_ID, Status.NEW));
     }
@@ -340,25 +372,27 @@ class OrderServiceTest {
     @Test
     public void expectFinishOrderReturnsFalseWhenOrderDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.finishOrder(ORDER_ID));
     }
 
     @Test
     public void expectFinishOrderReturnsTrue() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
 
         assertTrue(orderService.finishOrder(ORDER_ID));
     }
 
     @Test
+    public void expectFinishOrderReturnsFalseWhenUserNotAssigned() {
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser().withId(2)));
+
+        assertFalse(orderService.finishOrder(ORDER_ID));
+    }
+
+    @Test
     public void expectFinishOrderCallsSender() {
-        User user = getUser();
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
 
         orderService.finishOrder(ORDER_ID);
 
@@ -368,17 +402,14 @@ class OrderServiceTest {
     @Test
     public void expectFinishOrderReturnsFalseWhenStatusInNotClaimed() {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
 
         assertFalse(orderService.finishOrder(ORDER_ID));
     }
 
     @Test
     public void expectFinishOrderReturnsFalseWhenSaveFails() {
-        User user = getUser();
         when(orderLoader.save(any())).thenReturn(false);
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(user));
-        when(userStorage.getUserByUsername(any())).thenReturn(user);
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser()));
 
         assertFalse(orderService.finishOrder(ORDER_ID));
     }
