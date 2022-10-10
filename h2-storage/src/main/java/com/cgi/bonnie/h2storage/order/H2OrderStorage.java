@@ -34,10 +34,10 @@ public class H2OrderStorage implements OrderStorage {
     }
 
     public boolean save(Order o) {
-        try {
+        try{
             orderRepository.save(mapper.fromOrder(o));
             return true;
-        } catch (Exception e) {
+        }catch (Exception e) {
             return false;
         }
     }
@@ -68,6 +68,7 @@ public class H2OrderStorage implements OrderStorage {
     public List<Order> findAllByShopOrderId(String shopOrderId) {
         return orderRepository.findAllByShopOrderId(shopOrderId).stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
+
 
     public Order load(long id) {
         return mapper.fromEntity(orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("Order not found")));
