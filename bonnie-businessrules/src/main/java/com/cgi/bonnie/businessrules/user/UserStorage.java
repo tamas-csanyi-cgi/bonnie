@@ -1,13 +1,10 @@
 package com.cgi.bonnie.businessrules.user;
 
-import com.cgi.bonnie.businessrules.Role;
-
 public interface UserStorage {
 
     User load(long id);
 
-    long createUser(String name, String password, Role role);
+    long create(User user, String password);
 
     boolean save(User user);
-
 }

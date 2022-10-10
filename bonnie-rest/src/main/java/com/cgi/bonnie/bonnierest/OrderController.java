@@ -1,13 +1,10 @@
 package com.cgi.bonnie.bonnierest;
 
-import com.cgi.bonnie.bonnierest.model.OrderRequest;
-import com.cgi.bonnie.businessrules.Status;
 import com.cgi.bonnie.businessrules.order.Order;
 import com.cgi.bonnie.businessrules.order.OrderService;
 import com.cgi.bonnie.businessrules.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,18 +54,6 @@ public class OrderController {
             List<Order> orders = orderService.findAllByStatus(NEW);
             return ResponseEntity.ok(orders);
         }catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createOrder(@RequestBody OrderRequest request) {
-        try {
-            Status status = Status.valueOf(request.getStatus().toUpperCase());
-            long id = orderService.createOrder(request.getProductId(), request.getQuantity(), request.getAssignedTo(), status);
-            return ResponseEntity.ok(""+id);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

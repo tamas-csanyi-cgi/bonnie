@@ -104,10 +104,6 @@ public class OrderService {
         return false;
     }
 
-    public long createOrder(String productId, int quantity, long assignedTo, Status status) {
-        return orderStorage.create(productId, quantity, assignedTo, status);
-    }
-
     public void createOrders(List<Order> orders) {
         for (Order order : orders) {
             createOrder(order);

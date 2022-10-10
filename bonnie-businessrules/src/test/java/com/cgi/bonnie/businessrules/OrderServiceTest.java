@@ -244,18 +244,6 @@ class OrderServiceTest {
     }
 
     @Test
-    public void expectCreateOrderCallsCreate() {
-        final String productId = "1";
-        final int quantity = 1;
-        final long assignedTo = 1L;
-        final Status status = Status.NEW;
-
-        orderService.createOrder(productId, quantity, assignedTo, status);
-
-        verify(orderLoader).create(productId, quantity, assignedTo, status);
-    }
-
-    @Test
     public void expectUpdateStatusReturnsFalseWhenOrderDoesNotExist() {
         when(orderLoader.load(ORDER_ID)).thenReturn(null);
 

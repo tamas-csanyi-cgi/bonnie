@@ -10,16 +10,16 @@ public class UserService {
         this.userServiceIf = loader;
     }
 
-    public User loadUser(long id){
+    public User loadUser(long id) {
         return userServiceIf.load(id);
     }
 
     public long createUser(String name, String password, Role role) {
-        return userServiceIf.createUser(name, password, role);
+        User user = new User().withName(name).withRole(role);
+        return userServiceIf.create(user, password);
     }
 
     public boolean save(User user) {
         return userServiceIf.save(user);
     }
-
 }
