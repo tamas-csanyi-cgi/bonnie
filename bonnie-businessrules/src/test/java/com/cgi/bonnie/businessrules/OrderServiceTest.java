@@ -11,6 +11,7 @@ import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.Or;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +78,7 @@ class OrderServiceTest {
 
     @Test
     public void expectReleaseClaimedOrderReturnsFalseWhenUserNotAssigned() {
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser().withId(2)));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser().withId(2L)));
 
         assertFalse(orderService.releaseOrder(ORDER_ID), "Should return with false");
     }
@@ -256,7 +257,7 @@ class OrderServiceTest {
 
     @Test
     public void expectSetTrackingNumberReturnsFalseWhenNotAssignedUser() {
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser().withId(2)));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser().withId(2L)));
 
         assertFalse(orderService.setTrackingNumber(ORDER_ID, TRACKING_NUMBER));
     }
@@ -277,12 +278,12 @@ class OrderServiceTest {
     public void expectCreateOrderCallsCreate() {
         final String productId = "1";
         final int quantity = 1;
-        final long assignedTo = 1L;
         final Status status = Status.NEW;
+        Order o = new Order().withGoodsId(productId).withQuantity(quantity).withStatus(status);
 
-        orderService.createOrder(productId, quantity, assignedTo, status);
+        orderService.createOrder(o);
 
-        verify(orderLoader).create(productId, quantity, assignedTo, status);
+        verify(orderLoader).create(o);
     }
 
     @Test
@@ -305,9 +306,10 @@ class OrderServiceTest {
 
     @Test
     public void expectUpdateStatusReturnsTrueWhenAssembled() {
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(getUser()));
+        User user = getUser();
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.ASSEMBLED).withAssignedTo(user));
 
-        when(userStorage.load(USER_ID)).thenReturn(getUser());
+        when(userStorage.load(USER_ID)).thenReturn(user);
 
         when(orderLoader.save(any())).thenReturn(true);
 
@@ -316,7 +318,7 @@ class OrderServiceTest {
 
     @Test
     public void expectUpdateStatusReturnsFalseWhenUserNotAssigned() {
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(getUser().withId(2)).withStatus(Status.CLAIMED));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withAssignedTo(getUser().withId(2L)).withStatus(Status.CLAIMED));
 
         when(userStorage.load(USER_ID)).thenReturn(getUser());
 
@@ -385,7 +387,7 @@ class OrderServiceTest {
 
     @Test
     public void expectFinishOrderReturnsFalseWhenUserNotAssigned() {
-        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser().withId(2)));
+        when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.CLAIMED).withAssignedTo(getUser().withId(2L)));
 
         assertFalse(orderService.finishOrder(ORDER_ID));
     }

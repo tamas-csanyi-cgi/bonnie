@@ -167,7 +167,7 @@ public class OrderService {
         try{
             User currentUser = getCurrentUser();
             Order order = loadOrder(orderId);
-            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo() == currentUser && !order.getStatus().equals(Status.SHIPPED)) {
+            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED)) {
                 order.setStatus(status);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderStorage.save(order)) {

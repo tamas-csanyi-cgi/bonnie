@@ -76,6 +76,7 @@ public class H2OrderStorage implements OrderStorage {
         return orderRepository.findAllByShopOrderId(shopOrderId).stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 
+
     public Order load(long id) {
         return mapper.fromEntity(orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("Order not found")));
     }
