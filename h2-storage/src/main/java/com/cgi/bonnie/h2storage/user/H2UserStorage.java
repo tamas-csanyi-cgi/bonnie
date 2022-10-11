@@ -22,18 +22,9 @@ public class H2UserStorage implements UserStorage {
         this.mapper = mapper;
     }
 
-    public boolean save(User o) {
-        try {
-            repository.save(mapper.fromUser(o));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public long create(User o, String password) {
         try {
-            return repository.save(mapper.fromUser(o)).getId();
+            return repository.save(mapper.fromUser(o, password)).getId();
         } catch (Exception e) {
             return 0L;
         }
@@ -47,13 +38,6 @@ public class H2UserStorage implements UserStorage {
     @Override
     public User getUserByUsername(String username) {
         return mapper.fromEntity(repository.findByName(username));
-    }
-
-    @Override
-    public long createUser(String name, String email, String password, Role role) {
-        AssemblyUser user = new AssemblyUser().withName(name).withPassword(password).withRole(role).withEmail(email);
-        repository.save(user);
-        return user.getId();
     }
 
     public List<User> getAllUsers() {

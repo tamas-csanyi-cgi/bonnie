@@ -73,7 +73,7 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>com.cgi.hexagon</groupId>
+                <groupId>com.cgi.bonnie</groupId>
                 <artifactId>authentication</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>

@@ -19,13 +19,9 @@ public class UserService {
         return userServiceIf.load(id);
     }
 
-    public long createUser(String name, String password, Role role) {
-        User user = new User().withName(name).withRole(role);
+    public long createUser(String name, String email, String password, Role role) {
+        User user = new User().withName(name).withRole(role).withEmail(email);
         return userServiceIf.create(user, password);
-    }
-
-    public boolean save(User user) {
-        return userServiceIf.save(user);
     }
 
     public List<User> getAllUsers() {return userServiceIf.getAllUsers();}

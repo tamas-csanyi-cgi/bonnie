@@ -1,12 +1,11 @@
 package com.cgi.bonnie.businessrules.order;
 
 import com.cgi.bonnie.businessrules.Status;
-import com.cgi.hexagon.businessrules.user.AuthUserStorage;
+import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
 import com.cgi.bonnie.communicationplugin.SendRequest;
-import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +47,7 @@ public class OrderService {
         try {
             Order order = loadOrder(id);
             User currentUser = getCurrentUser();
-            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser.getId())) {
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo() == currentUser) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -167,7 +166,7 @@ public class OrderService {
         try{
             User currentUser = getCurrentUser();
             Order order = loadOrder(orderId);
-            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED)) {
+            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo() == currentUser && !order.getStatus().equals(Status.SHIPPED)) {
                 order.setStatus(status);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderStorage.save(order)) {

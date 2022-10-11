@@ -27,14 +27,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
-    @Autowired
-    private CustomerOAuth2UserService oAuth2UserService;
+    private final CustomerOAuth2UserService oAuth2UserService;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
-                                     ApplicationUserService applicationUserService) {
+                                     ApplicationUserService applicationUserService,
+                                     CustomerOAuth2UserService oAuth2UserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
+        this.oAuth2UserService = oAuth2UserService;
     }
 
     @Override

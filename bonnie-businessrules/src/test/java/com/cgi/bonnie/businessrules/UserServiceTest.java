@@ -36,21 +36,14 @@ public class UserServiceTest {
     @Test
     public void expectCreateUserCallsCreateUser() {
         final String name = "name";
+        final String email = "example@example.com";
         final String password = "password";
         final Role role = Role.ADMIN;
-        final User user = new User().withName(name).withRole(role);
+        final User user = new User().withName(name).withRole(role).withEmail(email);
 
-        userService.createUser(name, password, role);
+        userService.createUser(name, email, password, role);
 
         verify(userStorage).create(user, password);
     }
 
-    @Test
-    public void expectSaveCallsSave() {
-        User user = new User().withId(1L).withName("name").withRole(Role.ADMIN);
-
-        userService.save(user);
-
-        verify(userStorage).save(user);
-    }
 }

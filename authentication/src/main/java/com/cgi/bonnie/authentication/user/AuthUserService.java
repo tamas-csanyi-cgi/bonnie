@@ -5,8 +5,9 @@ import com.cgi.bonnie.authentication.security.oauth2.CustomerOAuth2User;
 import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class AuthUserService implements AuthUserStorage {
 
     public String getCurrentUsername() {

@@ -85,17 +85,4 @@ public class UserController {
         long id = userService.createUser(request.getName(), request.getEmail(), request.getPassword(), role1);
         return ResponseEntity.ok(""+id);
     }
-
-    @PatchMapping(path = "/role/{userId}/{role}")
-    public ResponseEntity<Boolean> changeUserRole(@PathVariable String userId, @PathVariable String role) {
-        try {
-            User user = userService.loadUser(Long.valueOf(userId));
-            user.setRole(Role.valueOf(role.toUpperCase()));
-            return ResponseEntity.ok(userService.save(user));
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-        }
-
-
-    }
 }

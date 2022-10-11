@@ -6,12 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public AssemblyUser fromUser(User user) {
+    public AssemblyUser fromUser(User user, String password) {
         return new AssemblyUser()
                 .withId(user.getId())
                 .withName(user.getName())
                 .withRole(user.getRole())
-                .withEmail(user.getEmail());
+                .withEmail(user.getEmail())
+                .withPassword(password);
     }
 
     public User fromEntity(AssemblyUser userEntity) {
