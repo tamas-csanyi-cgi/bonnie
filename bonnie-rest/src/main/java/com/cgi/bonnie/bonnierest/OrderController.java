@@ -49,7 +49,7 @@ public class OrderController {
     }
 
     @GetMapping("/getUnclaimedOrders")
-    public ResponseEntity<List<Order>> findAllByStatus() {
+    public ResponseEntity<List<Order>> getUnclaimedOrders() {
         try {
             List<Order> orders = orderService.findAllByStatus(NEW);
             return ResponseEntity.ok(orders);
@@ -80,10 +80,6 @@ public class OrderController {
     public ResponseEntity<Boolean> shipOrder(@PathVariable long orderId, @PathVariable String trackingNr) {
         boolean result = orderService.setTrackingNumber(orderId, trackingNr);
         return result ? ResponseEntity.ok(true):ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
-    }
-
-    public void receive() {
-
     }
 
 }
