@@ -7,6 +7,9 @@ import com.cgi.bonnie.businessrules.order.OrderService;
 import com.cgi.bonnie.businessrules.user.UserService;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Starter class for generating the client libraries
+ */
 @ComponentScan("com.cgi.bonnie.configuration")
 @SpringBootApplication
 public class RestStarter {

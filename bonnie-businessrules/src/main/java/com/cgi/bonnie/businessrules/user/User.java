@@ -2,6 +2,8 @@ package com.cgi.bonnie.businessrules.user;
 
 import com.cgi.bonnie.businessrules.Role;
 
+import java.util.Objects;
+
 public class User {
 
     long id;
@@ -50,5 +52,18 @@ public class User {
     public User withRole(Role role) {
         this.setRole(role);
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(name, user.name) && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, role);
     }
 }
