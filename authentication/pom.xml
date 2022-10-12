@@ -27,10 +27,6 @@
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
-            <artifactId>h2-storage</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.cgi.bonnie</groupId>
             <artifactId>businessrules</artifactId>
         </dependency>
         <dependency>

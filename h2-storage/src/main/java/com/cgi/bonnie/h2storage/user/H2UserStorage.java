@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class H2UserStorage implements UserStorage {
 
     public long create(User o, String password) {
         try {
-            return repository.save(mapper.fromUser(o, password)).getId();
+            return repository.save(mapper.assemblyUserFromUser(o, password)).getId();
         } catch (Exception e) {
             return 0L;
         }
@@ -33,15 +32,15 @@ public class H2UserStorage implements UserStorage {
 
     @Override
     public User load(long id) {
-        return mapper.fromEntity(repository.findById(id).orElseThrow(() -> new IllegalStateException("User not found")));
+        return mapper.userFromAssemblyUser(repository.findById(id).orElseThrow(() -> new IllegalStateException("User not found")));
     }
 
     @Override
     public User findByUsername(String username) {
-        return mapper.fromEntity(repository.findByName(username));
+        return mapper.userFromAssemblyUser(repository.findByName(username));
     }
 
     public List<User> findAll() {
-        return repository.findAll().stream().map(mapper::fromEntity).collect(Collectors.toList());
+        return repository.findAll().stream().map(mapper::userFromAssemblyUser).collect(Collectors.toList());
     }
 }

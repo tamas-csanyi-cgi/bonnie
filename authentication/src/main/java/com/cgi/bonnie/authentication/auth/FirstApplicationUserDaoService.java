@@ -1,49 +1,41 @@
 package com.cgi.bonnie.authentication.auth;
 
-import com.cgi.bonnie.authentication.security.ApplicationUserRole;
-import com.cgi.bonnie.h2storage.user.AssemblyUser;
-import com.cgi.bonnie.h2storage.user.H2AssemblyUserStorage;
+import com.cgi.bonnie.businessrules.user.UserCredentialStorage;
+import com.cgi.bonnie.businessrules.user.UserCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
 
 @Repository()
 public class FirstApplicationUserDaoService implements ApplicationUserDao {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final H2AssemblyUserStorage userStorage;
+    private final UserCredentialStorage userCredentialStorage;
 
     @Autowired
-    public FirstApplicationUserDaoService(PasswordEncoder passwordEncoder, H2AssemblyUserStorage userStorage) {
+    public FirstApplicationUserDaoService(PasswordEncoder passwordEncoder, UserCredentialStorage userCredentialStorage) {
         this.passwordEncoder = passwordEncoder;
-        this.userStorage = userStorage;
+        this.userCredentialStorage = userCredentialStorage;
     }
 
     @Override
-    public Optional<ApplicationUser> selectApplicationUserByUsername(String username) {
-        return Optional.ofNullable(fromAssemblyUser(userStorage.findByName(username)));
+    public ApplicationUser selectApplicationUserByUsername(String username) {
+        return fromUserCredentials(userCredentialStorage.findByName(username));
     }
 
     @Override
-    public Optional<ApplicationUser> selectApplicationUserByEmail(String email) {
-        return Optional.ofNullable(fromAssemblyUser(userStorage.findByEmail(email)));
+    public ApplicationUser selectApplicationUserByEmail(String email) {
+        return fromUserCredentials(userCredentialStorage.findByEmail(email));
     }
 
-    private List<ApplicationUser> getApplicationUsers() {
-        return userStorage.findAll().stream().map(this::fromAssemblyUser).collect(Collectors.toList());
-    }
-
-    private ApplicationUser fromAssemblyUser(AssemblyUser user) {
+    private ApplicationUser fromUserCredentials(UserCredentials user) {
         return new ApplicationUser(user.getName(),
                 passwordEncoder.encode(user.getPassword()),
                 user.getEmail(),
-                ApplicationUserRole.valueOf(user.getRole().name()).getGrantedAuthorities(),
+                ASSEMBLER.getGrantedAuthorities(),
                 true,
                 true,
                 true,

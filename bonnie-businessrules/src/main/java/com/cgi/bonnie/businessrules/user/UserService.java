@@ -6,30 +6,38 @@ import java.util.List;
 
 public class UserService {
 
-    final private UserStorage userServiceIf;
+    final private UserStorage userStorage;
 
     final private AuthUserStorage authUserStorage;
 
     public UserService(UserStorage loader, AuthUserStorage storage) {
-        this.userServiceIf = loader;
+        this.userStorage = loader;
         this.authUserStorage = storage;
     }
 
     public User loadUser(long id) {
-        return userServiceIf.load(id);
+        return userStorage.load(id);
     }
 
     public long createUser(String name, String email, String password, Role role) {
         User user = new User().withName(name).withRole(role).withEmail(email);
-        return userServiceIf.create(user, password);
+        return userStorage.create(user, password);
     }
 
-    public List<User> getAllUsers() {return userServiceIf.findAll();}
+    public List<User> getAllUsers() {
+        return userStorage.findAll();
+    }
 
-    public String getCurrentUsername() {return authUserStorage.getCurrentUsername();}
+    public String getCurrentUsername() {
+        return authUserStorage.getCurrentUsername();
+    }
 
-    public String getCurrentUserEmail() {return authUserStorage.getCurrentUserEmail();}
+    public String getCurrentUserEmail() {
+        return authUserStorage.getCurrentUserEmail();
+    }
 
-    public User getCurrentUser() {return userServiceIf.findByUsername(authUserStorage.getCurrentUsername());}
+    public User getCurrentUser() {
+        return userStorage.findByUsername(authUserStorage.getCurrentUsername());
+    }
 
 }

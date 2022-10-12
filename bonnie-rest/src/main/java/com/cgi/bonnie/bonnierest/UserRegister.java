@@ -6,7 +6,9 @@ import com.cgi.bonnie.businessrules.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -19,9 +21,7 @@ public class UserRegister {
         this.userService = userService;
     }
 
-    @PostMapping(path = "/register"
-                ,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
-    )
+    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> createUser(UserRequest request) {
         long id = userService.createUser(request.getName(), request.getEmail(), "secret", Role.ASSEMBLER);
         return ResponseEntity.ok(""+id);

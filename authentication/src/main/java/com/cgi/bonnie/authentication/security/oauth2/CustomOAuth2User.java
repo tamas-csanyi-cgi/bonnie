@@ -7,11 +7,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 import java.util.Map;
 
-public class CustomerOAuth2User implements OAuth2User {
+public class CustomOAuth2User implements OAuth2User {
 
-    private OAuth2User oAuth2User;
+    private final OAuth2User oAuth2User;
 
-    public CustomerOAuth2User(OAuth2User oAuth2User) {
+    public CustomOAuth2User(OAuth2User oAuth2User) {
         this.oAuth2User = oAuth2User;
     }
 

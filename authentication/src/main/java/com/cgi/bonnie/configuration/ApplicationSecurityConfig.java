@@ -1,7 +1,7 @@
 package com.cgi.bonnie.configuration;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
-import com.cgi.bonnie.authentication.security.oauth2.CustomerOAuth2UserService;
+import com.cgi.bonnie.authentication.security.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,12 +30,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
-    private final CustomerOAuth2UserService oAuth2UserService;
+    private final CustomOAuth2UserService oAuth2UserService;
 
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
                                      ApplicationUserService applicationUserService,
-                                     CustomerOAuth2UserService oAuth2UserService) {
+                                     CustomOAuth2UserService oAuth2UserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
         this.oAuth2UserService = oAuth2UserService;
