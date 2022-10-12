@@ -44,7 +44,7 @@ public class UserController {
             String name = userService.getCurrentUsername();
             return ResponseEntity.ok(name);
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.debug("can't find current user username: "+e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -55,7 +55,7 @@ public class UserController {
             String name = userService.getCurrentUserEmail();
             return ResponseEntity.ok(name);
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.debug("can't find current user email: "+e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -66,7 +66,7 @@ public class UserController {
             User name = userService.getCurrentUser();
             return ResponseEntity.ok(name);
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.debug("can't find current user: "+e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
@@ -78,7 +78,7 @@ public class UserController {
             List<User> users = userService.getAllUsers();
             return ResponseEntity.ok(users);
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.debug("can't get list of current users: "+e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
