@@ -12,6 +12,7 @@ import { UsersComponent } from './users/users.component';
 import { OrderControllerService, UserControllerService } from 'generated-client';
 import { HttpClientModule } from '@angular/common/http';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { BASE_PATH } from 'generated-client';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
     HttpClientModule
   ],
   providers: [
-    { provide: "BASE_PATH", useValue: "http://localhost:8082" },
+    { provide: BASE_PATH, useValue: "http://localhost:8082" },
     OrderControllerService,
     UserControllerService,
   ],
