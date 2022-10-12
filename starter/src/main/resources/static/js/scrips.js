@@ -76,9 +76,16 @@ function getUserEmail() {
 }
 
 function createUser(username, email) {
+    var request = {
+        name: username,
+        email: email,
+        password: "secret",
+        role: "ASSEMBLER"
+    };
     return $.ajax({
-       url: "http://localhost:8082/user/register/"+username+"/"+email,
-       type: "GET",
+       url: "http://localhost:8082/user/register",
+       type: "POST",
+       data: request,
        success: function (result) {
            user = result;
            console.log('created user with id: '+result);

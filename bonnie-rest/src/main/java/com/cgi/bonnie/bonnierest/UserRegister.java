@@ -1,8 +1,10 @@
 package com.cgi.bonnie.bonnierest;
 
+import com.cgi.bonnie.bonnierest.model.UserRequest;
 import com.cgi.bonnie.businessrules.Role;
 import com.cgi.bonnie.businessrules.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +19,11 @@ public class UserRegister {
         this.userService = userService;
     }
 
-    @GetMapping(path = "/register/{username}/{email}")
-    public ResponseEntity<String> createUser(@PathVariable String username, @PathVariable String email) {
-        long id = userService.createUser(username, email, "secret", Role.ASSEMBLER);
+    @PostMapping(path = "/register"
+                ,consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+    )
+    public ResponseEntity<String> createUser(UserRequest request) {
+        long id = userService.createUser(request.getName(), request.getEmail(), "secret", Role.ASSEMBLER);
         return ResponseEntity.ok(""+id);
     }
 }
