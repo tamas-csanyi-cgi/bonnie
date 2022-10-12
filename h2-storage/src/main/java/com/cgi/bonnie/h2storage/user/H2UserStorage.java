@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Primary
@@ -36,13 +37,11 @@ public class H2UserStorage implements UserStorage {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User findByUsername(String username) {
         return mapper.fromEntity(repository.findByName(username));
     }
 
-    public List<User> getAllUsers() {
-        List<User> result = new ArrayList<>();
-        repository.findAll().forEach(user -> result.add(mapper.fromEntity(user)));
-        return result;
+    public List<User> findAll() {
+        return repository.findAll().stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 }

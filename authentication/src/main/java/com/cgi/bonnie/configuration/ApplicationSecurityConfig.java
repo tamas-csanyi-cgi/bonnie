@@ -1,9 +1,10 @@
-package com.cgi.bonnie.authentication.config;
+package com.cgi.bonnie.configuration;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
 import com.cgi.bonnie.authentication.security.oauth2.CustomerOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,9 +21,11 @@ import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBL
 
 
 @Configuration
+@ComponentScan(basePackages = {"com.cgi.bonnie.authentication"})
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;

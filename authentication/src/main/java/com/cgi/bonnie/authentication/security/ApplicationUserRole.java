@@ -2,6 +2,7 @@ package com.cgi.bonnie.authentication.security;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import static com.cgi.bonnie.authentication.security.ApplicationUserPermission.*
 
 public enum ApplicationUserRole {
     ASSEMBLER(Set.of(ASSEMBLER_CLAIM, ASSEMBLER_RELEASE, ASSEMBLER_FINISH, ASSEMBLER_SHIP)),
-    ADMIN(new HashSet<>());
+    ADMIN(Collections.EMPTY_SET);
 
     private final Set<ApplicationUserPermission> permissions;
 

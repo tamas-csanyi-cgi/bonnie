@@ -4,7 +4,7 @@ window.onload = checkAuth();
 
 async function getAll() {
     return $.ajax({
-        url: "http://localhost:8082/api/order/getAll",
+        url: "http://localhost:8082/api/order/",
         type: "GET",
         success: function (result) {
             populate(result);
@@ -17,7 +17,7 @@ async function getAll() {
 
 async function getUnassigned() {
     return $.ajax({
-        url: "http://localhost:8082/api/order/getUnassigned",
+        url: "http://localhost:8082/api/order/new",
         type: "GET",
         success: function (result) {
             populate(result);
@@ -30,7 +30,7 @@ async function getUnassigned() {
 
 async function getUsers() {
     return $.ajax({
-        url: "http://localhost:8082/api/user/getAll",
+        url: "http://localhost:8082/api/user/",
         type: "GET",
         success: function (result) {
             populateUser(result);
@@ -43,7 +43,7 @@ async function getUsers() {
 
 async function getMine() {
     return $.ajax({
-        url: "http://localhost:8082/api/order/getMine",
+        url: "http://localhost:8082/api/order/mine",
         type: "GET",
         success: function (result) {
             populate(result);
@@ -56,21 +56,21 @@ async function getMine() {
 
 async function getUser() {
     return $.ajax({
-        url: "http://localhost:8082/api/user/get/current",
+        url: "http://localhost:8082/api/user/current",
         type: "GET"
     });
 }
 
 function getUsername() {
     return $.ajax({
-        url: "http://localhost:8082/api/user/get/current/name",
+        url: "http://localhost:8082/api/user/current/name",
         type: "GET"
     });
 }
 
 function getUserEmail() {
     return $.ajax({
-        url: "http://localhost:8082/api/user/get/current/email",
+        url: "http://localhost:8082/api/user/current/email",
         type: "GET"
     });
 }

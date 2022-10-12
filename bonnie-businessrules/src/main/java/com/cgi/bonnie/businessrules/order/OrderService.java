@@ -3,10 +3,10 @@ package com.cgi.bonnie.businessrules.order;
 import com.cgi.bonnie.businessrules.Status;
 import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
+import com.cgi.bonnie.businessrules.user.UserService;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
 import com.cgi.bonnie.communicationplugin.SendRequest;
-import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,17 +19,14 @@ public class OrderService {
 
     final private OrderStorage orderStorage;
 
-    final private UserStorage userStorage;
+    final private UserService userService;
 
     final private MessageService messageService;
 
-    private final AuthUserStorage authUserStorage;
-
     public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService, AuthUserStorage authUserStorage) {
         this.orderStorage = loader;
-        this.userStorage = userStorage;
+        this.userService = new UserService(userStorage, authUserStorage);
         this.messageService = messageService;
-        this.authUserStorage = authUserStorage;
     }
 
     public Order loadOrder(long id) {
@@ -47,7 +44,7 @@ public class OrderService {
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);
-            User currentUser = getCurrentUser();
+            User currentUser = userService.getCurrentUser();
             if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
@@ -65,7 +62,7 @@ public class OrderService {
 
     public boolean claimOrder(long orderId) {
         Order order = loadOrder(orderId);
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         if (order == null) {
             return false;
         }
@@ -84,7 +81,7 @@ public class OrderService {
     }
 
     public boolean setTrackingNumber(long id, String trackingNr) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         if (null != trackingNr && !trackingNr.isEmpty()) {
             try {
                 Order order = loadOrder(id);
@@ -118,13 +115,12 @@ public class OrderService {
     }
 
     public List<Order> findAllByAssembler(Long id) {
-        return orderStorage.findAllByAssembler(id);
+        return orderStorage.findAllByAssignedTo(id);
     }
 
     public List<Order> getMyOrders() {
-        String username = authUserStorage.getCurrentUsername();
-        User user = userStorage.getUserByUsername(username);
-        return orderStorage.findAllByAssembler(user.getId());
+        User user = userService.getCurrentUser();
+        return orderStorage.findAllByAssignedTo(user.getId());
     }
 
     public long createOrder(Order order) {
@@ -165,7 +161,7 @@ public class OrderService {
 
     public boolean updateStatus(long orderId, Status status) {
         try{
-            User currentUser = getCurrentUser();
+            User currentUser = userService.getCurrentUser();
             Order order = loadOrder(orderId);
             if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED)) {
                 order.setStatus(status);
@@ -182,7 +178,7 @@ public class OrderService {
     }
 
     public boolean finishOrder(long orderId) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         Order order = loadOrder(orderId);
         if (order != null && order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
             order.setStatus(Status.ASSEMBLED);
@@ -197,9 +193,4 @@ public class OrderService {
     public SendRequest createSendRequest(Order order) {
         return new SendRequest(order.getShopOrderId(), order.getStatus(), order.getMetadata());
     }
-
-    private User getCurrentUser() {
-        return userStorage.getUserByUsername(authUserStorage.getCurrentUsername());
-    }
-
 }

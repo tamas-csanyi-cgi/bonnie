@@ -4,6 +4,8 @@ import com.cgi.bonnie.bonnierest.model.UserRequest;
 import com.cgi.bonnie.businessrules.Role;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping(value = "/api/user")
 public class UserController {
 
+    private final Logger log = LoggerFactory.getLogger(UserController.class.getName());
+
     final private UserService userService;
 
     @Autowired
@@ -23,18 +27,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable long id) {
         try {
             User user = userService.loadUser(id);
             return ResponseEntity.ok(user);
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.debug("can't find new user: "+id+" ("+e.getMessage()+")");
             return ResponseEntity.badRequest().build();
         }
     }
 
-    @GetMapping("/get/current/name")
+    @GetMapping("/current/name")
     public ResponseEntity<String> getCurrentUsername() {
         try {
             String name = userService.getCurrentUsername();
@@ -45,7 +49,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/current/email")
+    @GetMapping("/current/email")
     public ResponseEntity<String> getCurrentUserEmail() {
         try {
             String name = userService.getCurrentUserEmail();
@@ -56,7 +60,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get/current")
+    @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser() {
         try {
             User name = userService.getCurrentUser();
@@ -68,7 +72,7 @@ public class UserController {
     }
 
     //for testing purposes
-    @GetMapping("/getAll")
+    @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> users = userService.getAllUsers();

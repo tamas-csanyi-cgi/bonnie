@@ -56,9 +56,7 @@ public class H2OrderStorage implements OrderStorage {
     }
 
     public List<Order> findAll() {
-        List<Order> result = new ArrayList<>();
-        orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
-        return result;
+        return orderRepository.findAll().stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 
     public List<Order> findAllByStatus(Status status) {
@@ -66,10 +64,8 @@ public class H2OrderStorage implements OrderStorage {
     }
 
     @Override
-    public List<Order> findAllByAssembler(Long user) {
-        List<Order> result = new ArrayList<>();
-        orderRepository.findAllByAssignedTo(user).forEach(order -> result.add(mapper.fromEntity(order)));
-        return result;
+    public List<Order> findAllByAssignedTo(Long user) {
+        return orderRepository.findAllByAssignedTo(user).stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 
     public List<Order> findAllByShopOrderId(String shopOrderId) {

@@ -14,9 +14,15 @@ public class H2AssemblyUserStorage {
         this.repository = repository;
     }
 
-    public List<AssemblyUser> getAssemblyUsers() {
-        List<AssemblyUser> result = new ArrayList<>();
-        repository.findAll().forEach(user -> result.add(user));
-        return result;
+    public List<AssemblyUser> findAll() {
+        return repository.findAll();
+    }
+
+    public AssemblyUser findByName(String name) {
+        return repository.findByName(name);
+    }
+
+    public AssemblyUser findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 }

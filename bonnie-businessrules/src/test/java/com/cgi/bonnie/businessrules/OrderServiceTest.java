@@ -47,7 +47,7 @@ class OrderServiceTest {
         userStorage = Mockito.mock(UserStorage.class);
         sender = Mockito.mock(MessageService.class);
         authUserStorage = Mockito.mock(AuthUserStorage.class);
-        when(userStorage.getUserByUsername(any())).thenReturn(getUser());
+        when(userStorage.findByUsername(any())).thenReturn(getUser());
         orderService = new OrderService(orderLoader, userStorage, sender, authUserStorage);
     }
 
@@ -144,7 +144,7 @@ class OrderServiceTest {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
         when(userStorage.load(USER_ID)).thenReturn(null);
-        when(userStorage.getUserByUsername(any())).thenReturn(null);
+        when(userStorage.findByUsername(any())).thenReturn(null);
 
         assertFalse(orderService.claimOrder(ORDER_ID));
     }

@@ -18,5 +18,5 @@ public interface OrderStorage {
 
     List<Order> findAllByStatus(Status status);
 
-    List<Order> findAllByAssembler(Long user);
+    List<Order> findAllByAssignedTo(Long user);
 }

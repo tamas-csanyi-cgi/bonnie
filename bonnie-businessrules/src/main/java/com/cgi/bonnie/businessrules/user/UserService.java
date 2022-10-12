@@ -24,12 +24,12 @@ public class UserService {
         return userServiceIf.create(user, password);
     }
 
-    public List<User> getAllUsers() {return userServiceIf.getAllUsers();}
+    public List<User> getAllUsers() {return userServiceIf.findAll();}
 
     public String getCurrentUsername() {return authUserStorage.getCurrentUsername();}
 
     public String getCurrentUserEmail() {return authUserStorage.getCurrentUserEmail();}
 
-    public User getCurrentUser() {return userServiceIf.getUserByUsername(authUserStorage.getCurrentUsername());}
+    public User getCurrentUser() {return userServiceIf.findByUsername(authUserStorage.getCurrentUsername());}
 
 }
