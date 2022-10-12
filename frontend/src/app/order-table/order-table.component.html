@@ -1,0 +1,18 @@
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>GoodsId</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Assigned</th>
+    </tr>
+    </thead>
+    <tbody id="result">
+        <tr *ngFor="let order of orders">
+            <td><a routerLink="/order/{{order.id}}">{{order.goodsId}}</a></td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.status}}</td>
+            <td><span *ngIf="order.assignedTo">{{order.assignedTo.name}}</span></td>
+        </tr>
+    </tbody>
+</table>
