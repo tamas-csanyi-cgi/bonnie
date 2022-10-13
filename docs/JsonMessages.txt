@@ -1,0 +1,41 @@
+//Message coming from shop
+input data: {
+    String      "shopOrderId":      "someShopId123",
+    String      "goodsId":          "original-prusa-i3-mk3s-kit-3",
+    int         "quantity":         5,
+    Timestamp   "placementDate":    1999-01-01,
+    JSON        "metadata":         {"shippingAddress": {"address": "addr."}}
+}
+//Objects shown to assembler
+assembler output data: {
+    long        "innerOrderId":     1234567,
+    String      "goodsId":          "original-prusa-i3-mk3s-kit-3",
+    int         "quantity":         5,
+    Status      "status":           NEW,
+    User        "assignedTo":       98765432,
+    Timestamp   "placementDate":    1999-01-01,
+    String      "metadata":         "\"shippingAddress\": {\"address\": \"addr.\"}"         //only visible if shipping process starts
+}
+//Message sent to the shop
+shop output data: {
+    String      "shopOrderId":      "someShopId123",
+    String      "goodsId":          "original-prusa-i3-mk3s-kit-3",
+    Status      "status":           "SHIPPED",
+    String      "trackingNr":       "someUltimateTrackingNr",
+    Timestamp   "lastUpdated":      2022-09-01,
+    int         "quantity":         5,
+    String      "metadata":         "\"shippingAddress\": {\"address\": \"addr.\"}"
+}
+//Main Database Entity in code
+Order entity {
+    long        "innerOrderId":     759363,
+    String      "shopOderId":       "someShopId123",
+    String      "goodsId":          "original-prusa-i3-mk3s-kit-3",
+    int         "quantity":         5,
+    Status      "status":           SHIPPED,
+    Timestamp   "placementDate":    1999-01-01,
+    User        "assignedTo":       98765432,
+    String      "trackingNr":       "someUltimateTrackingNr",
+    Timestamp   "lastUpdated":      2022-09-01,
+    String      "metadata":         "\"shippingAddress\": {\"address\": \"addr.\"}"
+}

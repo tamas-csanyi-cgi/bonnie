@@ -1,0 +1,45 @@
+{
+  "$schema": "http://bonnie.org/order.schema.json",
+  "description": "order schema for Bonnie ",
+  "type": "object",
+  "properties": {
+    "shopOrderId": {
+      "title": "orderID of shop",
+      "description": "unique order ID from the shop ",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "goodsId": {
+      "title": "product ID in the shop DB",
+      "description": "Assembler can collect any instructions for kit assembling with this ID from the \"web-shop\"",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "quantity": {
+      "title": "quantity of ordered kits",
+      "type": "integer",
+      "minimum": 1
+    },
+    "placementDate": {
+      "title": "date of placement",
+      "description": "date of placement",
+      "type": "string",
+      "format": "date-time"
+    },
+    "metadata": {
+      "description": "any shipping or product related information",
+      "minLength": 1,
+      "minProperties": 1
+    }
+  },
+  "required": [
+    "shopOrderId",
+    "goodsId",
+    "quantity",
+    "placementDate",
+    "metadata"
+  ],
+  "additionalProperties": false
+}
