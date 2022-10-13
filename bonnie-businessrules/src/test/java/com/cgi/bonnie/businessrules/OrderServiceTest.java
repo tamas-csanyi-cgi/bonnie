@@ -1,21 +1,17 @@
 package com.cgi.bonnie.businessrules;
 
 import com.cgi.bonnie.businessrules.order.Order;
-import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.order.OrderService;
 import com.cgi.bonnie.businessrules.order.OrderStorage;
+import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
-import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Or;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -48,6 +44,7 @@ class OrderServiceTest {
         sender = Mockito.mock(MessageService.class);
         authUserStorage = Mockito.mock(AuthUserStorage.class);
         when(userStorage.findByUsername(any())).thenReturn(getUser());
+        when(userStorage.findByEmail(any())).thenReturn(getUser());
         orderService = new OrderService(orderLoader, userStorage, sender, authUserStorage);
     }
 
@@ -144,7 +141,7 @@ class OrderServiceTest {
         when(orderLoader.load(ORDER_ID)).thenReturn(getOrder().withStatus(Status.NEW));
 
         when(userStorage.load(USER_ID)).thenReturn(null);
-        when(userStorage.findByUsername(any())).thenReturn(null);
+        when(userStorage.findByEmail(any())).thenReturn(null);
 
         assertFalse(orderService.claimOrder(ORDER_ID));
     }

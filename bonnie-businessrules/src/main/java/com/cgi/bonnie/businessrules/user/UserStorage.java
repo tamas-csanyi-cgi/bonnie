@@ -12,4 +12,6 @@ public interface UserStorage {
 
     User findByUsername(String username);
 
+    User findByEmail(String email);
+
 }

@@ -23,7 +23,7 @@ public class UserRegister {
 
     @PostMapping(path = "/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<String> createUser(UserRequest request) {
-        long id = userService.createUser(request.getName(), request.getEmail(), "secret", Role.ASSEMBLER);
+        long id = userService.createUser(request.getName(), request.getEmail(), request.getPassword(), Role.ASSEMBLER);
         return ResponseEntity.ok(""+id);
     }
 }

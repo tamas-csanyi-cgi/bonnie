@@ -148,7 +148,7 @@ function checkAuth() {
     }).catch((err) => {
         console.log('user not registered in the system. Registering...')
         getUserEmail().then(userEmail => {
-            console.log('username from social media: '+userEmail);
+            console.log('address from social media: '+userEmail);
             getUsername().then(username => {
                 createUser(username, userEmail);
             })

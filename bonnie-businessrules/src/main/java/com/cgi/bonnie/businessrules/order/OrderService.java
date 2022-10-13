@@ -45,7 +45,7 @@ public class OrderService {
         try {
             Order order = loadOrder(id);
             User currentUser = userService.getCurrentUser();
-            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().getId() == currentUser.getId()) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -85,7 +85,7 @@ public class OrderService {
         if (null != trackingNr && !trackingNr.isEmpty()) {
             try {
                 Order order = loadOrder(id);
-                if (order.getStatus() == Status.ASSEMBLED && order.getAssignedTo().equals(currentUser)) {
+                if (order.getStatus() == Status.ASSEMBLED && order.getAssignedTo().getId() == currentUser.getId()) {
                     order.setStatus(Status.SHIPPED);
                     order.setTrackingNr(trackingNr);
                     order.setLastUpdate(LocalDateTime.now());
@@ -163,7 +163,7 @@ public class OrderService {
         try{
             User currentUser = userService.getCurrentUser();
             Order order = loadOrder(orderId);
-            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().equals(currentUser) && !order.getStatus().equals(Status.SHIPPED)) {
+            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().getId() == currentUser.getId() && !order.getStatus().equals(Status.SHIPPED)) {
                 order.setStatus(status);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderStorage.save(order)) {
@@ -180,7 +180,7 @@ public class OrderService {
     public boolean finishOrder(long orderId) {
         User currentUser = userService.getCurrentUser();
         Order order = loadOrder(orderId);
-        if (order != null && order.getStatus() == Status.CLAIMED && order.getAssignedTo().equals(currentUser)) {
+        if (order != null && order.getStatus() == Status.CLAIMED && order.getAssignedTo().getId() == currentUser.getId()) {
             order.setStatus(Status.ASSEMBLED);
             if (orderStorage.save(order)) {
                 messageService.send(new SendRequest(order.getShopOrderId(), Status.ASSEMBLED));

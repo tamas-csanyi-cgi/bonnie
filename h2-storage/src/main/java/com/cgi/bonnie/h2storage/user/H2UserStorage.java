@@ -43,4 +43,9 @@ public class H2UserStorage implements UserStorage {
     public List<User> findAll() {
         return repository.findAll().stream().map(mapper::userFromAssemblyUser).collect(Collectors.toList());
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return mapper.userFromAssemblyUser(repository.findByEmail(email));
+    }
 }

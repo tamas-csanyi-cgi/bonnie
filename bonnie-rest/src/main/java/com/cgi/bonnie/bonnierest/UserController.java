@@ -7,7 +7,6 @@ import com.cgi.bonnie.businessrules.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,12 +61,12 @@ public class UserController {
 
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser() {
-        try {
-            User name = userService.getCurrentUser();
-            return ResponseEntity.ok(name);
-        }catch (Exception e) {
-            log.debug("can't find current user: "+e.getMessage());
-            return ResponseEntity.badRequest().build();
+        User user = userService.getCurrentUser();
+        if (null == user) {
+            log.debug("can't find current user in DB: ");
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(user);
         }
     }
 
@@ -75,7 +74,7 @@ public class UserController {
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers() {
         try {
-            List<User> users = userService.getAllUsers();
+            List<User> users = userService.findAll();
             return ResponseEntity.ok(users);
         }catch (Exception e) {
             log.debug("can't get list of current users: "+e.getMessage());
