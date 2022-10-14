@@ -22,7 +22,8 @@ public class BonnieRestConfiguration implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilterAfter(new CorsFilter(corsConfigurationSource()), ChannelProcessingFilter.class);
+        http.antMatcher("/h2").anonymous()
+             .and().addFilterAfter(new CorsFilter(corsConfigurationSource()), ChannelProcessingFilter.class);
         return http.build();
     }
 
