@@ -2,20 +2,30 @@
 A training application for newcomers.
 
 ## Architecture
+
 This application implements the hexagonal architecture which is a modular application design pattern.
 
-### Modules (a.k.a Plugins)    
+### Modules (a.k.a Plugins)
 
 ### businessrules
-The "center" of the hexagonal architecture, contains all the business logic, defines interfaces for data storage, and messaging. Every other module depend on this core module (it is not a plugin). 
+
+The "center" of the hexagonal architecture, contains all the business logic, defines interfaces for data storage, and
+messaging. Every other module depend on this core module (it is not a plugin).
+
+### authentication
+
+Using Spring Security the authentication module provides a secure channel to handle requests.
 
 ### rest
-RESTFUL API for the frontend, calls the core module. 
+
+RESTFUL API for the frontend, calls the core module.
 
 ### h2-storage
-A data storage plugin that uses Spring JDBC with embedded H2 database packaged into it. 
+
+A data storage plugin that uses Spring JDBC with embedded H2 database packaged into it.
 
 ### messaging
+
 Integration module with Kafka. The system gets and send asynchronous events through it.
 
 ### starter
@@ -24,23 +34,38 @@ It packs all the modules into a single spring boot application. It is a build wi
 ## Stack
 
 ### Spring
+
 This project uses Spring Boot framework.
-We use it for dependency injection and configuration management, but also because it has battle-tested integration packages with all of the major cloud native components.
+We use it for dependency injection and configuration management, but also because it has battle-tested integration
+packages with all of the major cloud native components.
 
 ### H2 database
-For the time of writing the project has a H2 embedded database to store the data in. It has a nice off-the-shelf gui to manage the database.
+
+For the time of writing the project has a H2 embedded database to store the data in. It has a nice off-the-shelf gui to
+manage the database.
 To connect to it the project uses Spring JDBC connector.
 
 ### Kafka
-The project uses Kafka as the message broker. You have to install, and configure it separately before starting the application. For more information how to do that read the corresponding document in the doc folder.
+
+The project uses Kafka as the message broker. You have to install, and configure it separately before starting the
+application. For more information how to do that read the corresponding document in the doc folder.
+
+### Facebook integration
+
+Bonnie provides multiple ways of authentication, such as login form and login via Facebook.
+As the application is in the development stage, in order to be able to login through Facebook, you need to set up your
+environment. For more information how to do that read the corresponding document in the doc folder.
 
 ### Angular frontend
+
 This application will have an angular frontend to manage the orderings.
 
 # Building & Running the application
+
 First, start the zookeeper, and kafka services that is described in the ```doc/runKafka.txt``` file.
 
 Then, to build the application, issue the following command in the parent project folder
+
 ```bash
 mvn clean install
 ```
