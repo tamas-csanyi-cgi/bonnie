@@ -2,22 +2,33 @@ package com.cgi.bonnie.businessrules.user;
 
 import com.cgi.bonnie.businessrules.Role;
 
+import java.util.Objects;
+
 public class User {
 
-    long id;
+    Long id;
 
     String name;
 
     Role role;
 
+    String email;
+
+    public User(long id, String name, Role role) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+        this.email = email;
+    }
+
     public User() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,6 +40,14 @@ public class User {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -37,7 +56,7 @@ public class User {
         this.role = role;
     }
 
-    public User withId(long id) {
+    public User withId(Long id) {
         this.setId(id);
         return this;
     }
@@ -47,8 +66,26 @@ public class User {
         return this;
     }
 
+    public User withEmail(String email) {
+        this.setEmail(email);
+        return this;
+    }
+
     public User withRole(Role role) {
         this.setRole(role);
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(name, user.name) && role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, role);
     }
 }

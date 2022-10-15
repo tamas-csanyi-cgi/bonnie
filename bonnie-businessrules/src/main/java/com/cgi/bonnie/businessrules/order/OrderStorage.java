@@ -17,4 +17,6 @@ public interface OrderStorage {
     List<Order> findAllByShopOrderId(String shopOrderId);
 
     List<Order> findAllByStatus(Status status);
+
+    List<Order> findAllByAssignedTo(Long user);
 }
