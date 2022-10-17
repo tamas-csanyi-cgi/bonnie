@@ -5,6 +5,6 @@
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
-  <button mat-raised-button color="accent" (click)="onNoClick()">No Thanks</button>
-  <button mat-button color="primary" [mat-dialog-close]="order.trackingNr" (click)="saveTrackingNr()" cdkFocusInitial [disabled]="!data.trackingNr || (this.originalTrackingNr == data.trackingNr)">Ok</button>
+  <button mat-button color="accent" (click)="onNoClick()">No Thanks</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="order.trackingNr" (click)="saveTrackingNr()" cdkFocusInitial [disabled]="!data.trackingNr || (this.originalTrackingNr == data.trackingNr)">Ok</button>
 </div>
