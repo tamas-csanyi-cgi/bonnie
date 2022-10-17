@@ -28,5 +28,9 @@
             <td>Placement Date</td>
             <td>{{order?.placementDate}}</td>
         </tr>
+        <tr *ngIf="order?.status == 'ASSEMBLED'">
+            <td>Actions</td>
+            <td><button mat-raised-button *ngIf="order?.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order!)">Set tracking nr</button></td>
+        </tr>
     </tbody>
 </table>

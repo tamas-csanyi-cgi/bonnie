@@ -1,0 +1,10 @@
+<div mat-dialog-content>
+  <p>Please enter tracking number</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.trackingNr">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="accent" (click)="onNoClick()">No Thanks</button>
+  <button mat-button color="primary" [mat-dialog-close]="order.trackingNr" (click)="saveTrackingNr()" cdkFocusInitial>Ok</button>
+</div>
