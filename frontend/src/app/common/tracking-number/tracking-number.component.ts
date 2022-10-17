@@ -16,11 +16,14 @@ export class TrackingNumberComponent implements OnInit {
 
   order: Order;
 
+  originalTrackingNr? : String;
+
   constructor(public dialogRef: MatDialogRef<TrackingNumberComponent>,
     private _snackBar: MatSnackBar,
     private orderControllerService: OrderControllerService,
     @Inject(MAT_DIALOG_DATA) public data: Order) {
       this.order = data;
+      this.originalTrackingNr = data.trackingNr;
     }
 
   ngOnInit(): void { }
