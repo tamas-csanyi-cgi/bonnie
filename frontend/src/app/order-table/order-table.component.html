@@ -1,22 +1,37 @@
-<table class="styled-table">
-    <thead>
-    <tr>
-        <th>GoodsId</th>
-        <th>Quantity</th>
-        <th>Status</th>
-        <th>Assigned</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody id="result">
-        <tr *ngFor="let order of orders">
-            <td><a routerLink="/order/{{order.id}}">{{order.goodsId}}</a></td>
-            <td>{{order.quantity}}</td>
-            <td>{{order.status}}</td>
-            <td><span *ngIf="order.assignedTo">{{order.assignedTo.name}}</span></td>
-            <td>
-                <button mat-raised-button *ngIf="order.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order)">Set tracking nr</button>
-            </td>
-        </tr>
-    </tbody>
+<table mat-table [dataSource]="orders"  *ngIf="orders.length">
+
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> GoodsId </th>
+        <td mat-cell *matCellDef="let element"> <a routerLink="/order/{{element.id}}">{{element.goodsId}}</a> </td>
+
+    </ng-container>
+
+    <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="assignedTo">
+        <th mat-header-cell *matHeaderCellDef> Assigned </th>
+        <td mat-cell *matCellDef="let element"><span *ngIf="element.assignedTo">{{element.assignedTo.name}}</span></td>
+    </ng-container>
+
+    <ng-container matColumnDef="trackingNr">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let order">
+          <button mat-raised-button *ngIf="order.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order)">Set tracking nr</button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+
+<div *ngIf="!orders.length">
+    Could not find orders
+</div>

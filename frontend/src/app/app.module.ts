@@ -9,6 +9,7 @@ import { MatFormFieldModule  } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,7 +46,8 @@ import { BASE_PATH } from 'generated-client';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule
   ],
   providers: [
     { provide: BASE_PATH, useValue: "http://localhost:8082" },
