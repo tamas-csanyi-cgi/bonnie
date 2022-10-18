@@ -1,7 +1,9 @@
 package com.cgi.bonnie.businessrules.order;
 
 import com.cgi.bonnie.businessrules.Status;
+import com.cgi.bonnie.businessrules.user.AuthUserStorage;
 import com.cgi.bonnie.businessrules.user.User;
+import com.cgi.bonnie.businessrules.user.UserService;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.cgi.bonnie.communicationplugin.MessageService;
 import com.cgi.bonnie.communicationplugin.SendRequest;
@@ -17,13 +19,13 @@ public class OrderService {
 
     final private OrderStorage orderStorage;
 
-    final private UserStorage userStorage;
+    final private UserService userService;
 
     final private MessageService messageService;
 
-    public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService) {
+    public OrderService(OrderStorage loader, UserStorage userStorage, MessageService messageService, AuthUserStorage authUserStorage) {
         this.orderStorage = loader;
-        this.userStorage = userStorage;
+        this.userService = new UserService(userStorage, authUserStorage);
         this.messageService = messageService;
     }
 
@@ -42,7 +44,8 @@ public class OrderService {
     public boolean releaseOrder(long id) {
         try {
             Order order = loadOrder(id);
-            if (order.getStatus() == Status.CLAIMED) {
+            User currentUser = userService.getCurrentUser();
+            if (order.getStatus() == Status.CLAIMED && order.getAssignedTo().getId() == currentUser.getId()) {
                 order.setAssignedTo(null);
                 order.setStatus(Status.NEW);
                 order.setLastUpdate(LocalDateTime.now());
@@ -57,15 +60,15 @@ public class OrderService {
         return false;
     }
 
-    public boolean claimOrder(long orderId, long userId) {
+    public boolean claimOrder(long orderId) {
         Order order = loadOrder(orderId);
+        User currentUser = userService.getCurrentUser();
         if (order == null) {
             return false;
         }
         if (null == order.getAssignedTo() && order.getStatus() == Status.NEW) {
-            User user = userStorage.load(userId);
-            if (null != user) {
-                order.setAssignedTo(user);
+            if (null != currentUser) {
+                order.setAssignedTo(currentUser);
                 order.setStatus(Status.CLAIMED);
                 order.setLastUpdate(LocalDateTime.now());
                 if (orderStorage.save(order)) {
@@ -78,10 +81,11 @@ public class OrderService {
     }
 
     public boolean setTrackingNumber(long id, String trackingNr) {
+        User currentUser = userService.getCurrentUser();
         if (null != trackingNr && !trackingNr.isEmpty()) {
             try {
                 Order order = loadOrder(id);
-                if (order.getStatus() == Status.ASSEMBLED) {
+                if (order.getStatus() == Status.ASSEMBLED && order.getAssignedTo().getId() == currentUser.getId()) {
                     order.setStatus(Status.SHIPPED);
                     order.setTrackingNr(trackingNr);
                     order.setLastUpdate(LocalDateTime.now());
@@ -108,6 +112,15 @@ public class OrderService {
         for (Order order : orders) {
             createOrder(order);
         }
+    }
+
+    public List<Order> findAllByAssembler(Long id) {
+        return orderStorage.findAllByAssignedTo(id);
+    }
+
+    public List<Order> getMyOrders() {
+        User user = userService.getCurrentUser();
+        return orderStorage.findAllByAssignedTo(user.getId());
     }
 
     public long createOrder(Order order) {
@@ -147,30 +160,31 @@ public class OrderService {
     }
 
     public boolean updateStatus(long orderId, Status status) {
-        try {
+        try{
+            User currentUser = userService.getCurrentUser();
             Order order = loadOrder(orderId);
-            order.setStatus(status);
-            order.setLastUpdate(LocalDateTime.now());
-            if (orderStorage.save(order)) {
-                messageService.send(new SendRequest(order.getShopOrderId(), status));
-                return true;
-            } else {
-                return false;
+            if (order.getStatus().equals(Status.NEW) || order.getAssignedTo().getId() == currentUser.getId() && !order.getStatus().equals(Status.SHIPPED)) {
+                order.setStatus(status);
+                order.setLastUpdate(LocalDateTime.now());
+                if (orderStorage.save(order)) {
+                    messageService.send(new SendRequest(order.getShopOrderId(), status));
+                    return true;
+                }
             }
-        } catch (Exception e) {
+            return false;
+        }catch (Exception e) {
             return false;
         }
     }
 
     public boolean finishOrder(long orderId) {
+        User currentUser = userService.getCurrentUser();
         Order order = loadOrder(orderId);
-        if (order != null && order.getStatus() == Status.CLAIMED) {
+        if (order != null && order.getStatus() == Status.CLAIMED && order.getAssignedTo().getId() == currentUser.getId()) {
             order.setStatus(Status.ASSEMBLED);
             if (orderStorage.save(order)) {
                 messageService.send(new SendRequest(order.getShopOrderId(), Status.ASSEMBLED));
                 return true;
-            } else {
-                return false;
             }
         }
         return false;

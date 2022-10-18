@@ -8,9 +8,11 @@ import java.io.Serializable;
 public class AssemblyUser implements Serializable {
 
     @Id
-    private long id;
+    private Long id;
 
     private String name;
+
+    private String email;
 
     private String password;
 
@@ -19,7 +21,7 @@ public class AssemblyUser implements Serializable {
     public AssemblyUser() {
     }
 
-    public AssemblyUser withId(long id) {
+    public AssemblyUser withId(Long id) {
         this.setId(id);
         return this;
     }
@@ -39,12 +41,25 @@ public class AssemblyUser implements Serializable {
         return this;
     }
 
-    public long getId() {
+    public AssemblyUser withEmail(String email) {
+        this.setEmail(email);
+        return this;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {

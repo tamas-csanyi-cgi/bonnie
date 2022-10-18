@@ -37,4 +37,5 @@ public class BonnieRestConfiguration implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

@@ -20,12 +20,12 @@ public class RestStarter {
 
     @Bean
     public OrderService mockOrderService() {
-        return new OrderService(null, null, null);
+        return new OrderService(null, null, null, null);
     }
 
     @Bean
     public UserService mockUserService() {
-        return new UserService(null);
+        return new UserService(null, null);
     }
 
 }

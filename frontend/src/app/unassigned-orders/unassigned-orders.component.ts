@@ -13,7 +13,7 @@ export class UnassignedOrdersComponent implements OnInit {
   constructor(protected orderControllerService: OrderControllerService) { }
 
   ngOnInit(): void {
-    this.orderControllerService.getUnclaimedOrders().subscribe(unclaimedOrders => {
+    this.orderControllerService.findAllNew().subscribe(unclaimedOrders => {
       this.orders = unclaimedOrders;
     });
   }
