@@ -60,8 +60,8 @@ public class OrderController {
         }
     }
 
-    @PatchMapping(path = "/assign/{orderId}/{userId}")
-    public ResponseEntity<Boolean> assignOrderToUser(@PathVariable long orderId) {
+    @PatchMapping(path = "/assign/{orderId}")
+    public ResponseEntity<Boolean> assignToMe(@PathVariable long orderId) {
         boolean result = orderService.claimOrder(orderId);
         return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }

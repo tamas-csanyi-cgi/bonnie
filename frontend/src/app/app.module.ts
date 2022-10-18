@@ -10,9 +10,13 @@ import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { UnassignedOrdersComponent } from './unassigned-orders/unassigned-orders.component';
 import { UsersComponent } from './users/users.component';
 import { OrderControllerService, UserControllerService } from 'generated-client';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { BASE_PATH } from 'generated-client';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { FormsModule } from '@angular/forms';
+import { SecurityInterceptor } from './security-interceptor';
+import { UserService } from './userService';
 
 @NgModule({
   declarations: [
@@ -23,17 +27,25 @@ import { BASE_PATH } from 'generated-client';
     MyOrdersComponent,
     UnassignedOrdersComponent,
     UsersComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     { provide: BASE_PATH, useValue: "http://localhost:8082" },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SecurityInterceptor,
+      multi: true,
+    },
     OrderControllerService,
     UserControllerService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
