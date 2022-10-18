@@ -14,11 +14,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class BonnieRestConfiguration implements WebMvcConfigurer {
 
+    /*
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.antMatcher("/h2").anonymous();
         return http.build();
     }
+    */
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

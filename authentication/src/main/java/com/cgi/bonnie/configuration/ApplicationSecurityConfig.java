@@ -15,19 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
-import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
@@ -60,7 +50,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
-                .addFilterAfter(new CorsFilter(corsConfigurationSource()), ChannelProcessingFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
@@ -111,17 +100,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);
         return provider;
-    }
-
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 
 }
