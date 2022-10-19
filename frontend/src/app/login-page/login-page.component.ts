@@ -14,7 +14,7 @@ export class LoginPageComponent implements OnInit {
   password: string = "";
   basePath: string;
 
-  constructor(protected userService: UserService, @Inject(BASE_PATH) basePath: string,protected router: Router) {
+  constructor(protected userService: UserService, @Inject(BASE_PATH) basePath: string, protected router: Router) {
     this.basePath = basePath;
   }
 

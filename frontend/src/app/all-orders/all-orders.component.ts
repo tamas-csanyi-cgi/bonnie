@@ -13,7 +13,6 @@ export class AllOrdersComponent implements OnInit {
   constructor(protected orderControllerService: OrderControllerService) { }
 
   ngOnInit(): void {
-    this.orderControllerService.configuration.withCredentials = true;
     this.orderControllerService.getAllOrders().subscribe(allOrders => {
       this.orders = allOrders;
     });
