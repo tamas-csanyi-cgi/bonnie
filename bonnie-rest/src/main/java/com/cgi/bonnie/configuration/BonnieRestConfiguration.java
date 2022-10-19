@@ -2,9 +2,38 @@ package com.cgi.bonnie.configuration;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ComponentScan(basePackages = {"com.cgi.bonnie.bonnierest"})
-public class BonnieRestConfiguration {
+@EnableWebSecurity
+public class BonnieRestConfiguration implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("authorization", "content-type", "x-auth-token")
+                .exposedHeaders( "x-auth-token");
+        WebMvcConfigurer.super.addCorsMappings(registry);
+    }
+
+    @Configuration
+    @Order(101)
+    public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            super.configure(http);
+            http.antMatcher("/h2").anonymous();
+        }
+
+    }
 
 }

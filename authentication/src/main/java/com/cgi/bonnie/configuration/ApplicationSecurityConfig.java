@@ -15,22 +15,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CommonsRequestLoggingFilter;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
-import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
 
 
 @Configuration
@@ -60,33 +51,33 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 )
-                .addFilterAfter(new CorsFilter(corsConfigurationSource()), ChannelProcessingFilter.class)
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
-                .anyRequest()
-                .authenticated()
+                //.antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
+                .anyRequest().authenticated();/*
                 .and()
-                .rememberMe()
+                    .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
                     .key("somethingverysecured")
                     .rememberMeParameter("remember-me")
                 .and()
-                /*.oauth2Login()
-                    .loginPage("/login")
-                    .permitAll()
-                    .defaultSuccessUrl("http://localhost:4200/my-orders", true)
-                    .userInfoEndpoint()
-                    .userService(oAuth2UserService)
-                .and()
-                .and()*/
-                .logout()
+                    .logout()
                     .logoutUrl("/logout")
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
                     .logoutSuccessUrl("/login");
+                /*.and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("http://localhost:4200/my-orders", true)
+                    .userInfoEndpoint()
+                    .userService(oAuth2UserService)
+                .and()*/
+
+        http.cors().configurationSource(corsConfigurationSource());
     }
 
     @Override
