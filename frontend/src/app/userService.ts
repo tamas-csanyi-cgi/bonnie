@@ -1,8 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Router } from '@angular/router';
 import { BASE_PATH } from "generated-client";
-import { Observable, Observer } from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class UserService {

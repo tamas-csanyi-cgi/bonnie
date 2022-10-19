@@ -18,9 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
+import java.util.Arrays;
 
 
 @Configuration
@@ -53,29 +55,30 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
-                .anyRequest()
-                .authenticated()
+                //.antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
+                .anyRequest().authenticated();/*
                 .and()
-                .rememberMe()
+                    .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
                     .key("somethingverysecured")
                     .rememberMeParameter("remember-me")
                 .and()
-                /*.oauth2Login()
-                    .loginPage("/login")
-                    .permitAll()
-                    .defaultSuccessUrl("http://localhost:4200/my-orders", true)
-                    .userInfoEndpoint()
-                    .userService(oAuth2UserService)
-                .and()
-                .and()*/
-                .logout()
+                    .logout()
                     .logoutUrl("/logout")
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
                     .logoutSuccessUrl("/login");
+                /*.and()
+                .oauth2Login()
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("http://localhost:4200/my-orders", true)
+                    .userInfoEndpoint()
+                    .userService(oAuth2UserService)
+                .and()*/
+
+        http.cors().configurationSource(corsConfigurationSource());
     }
 
     @Override
@@ -100,6 +103,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(applicationUserService);
         return provider;
+    }
+
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

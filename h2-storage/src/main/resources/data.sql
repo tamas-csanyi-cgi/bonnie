@@ -1,4 +1,4 @@
-insert into assembly_user (id, role, email, name ,password) values(4, 'ASSEMBLER', 'johndoe@gmail.com', 'John Doe', 'password');
+insert into assembly_user (id, role, email, name ,password) values(1, 'ASSEMBLER', 'johndoe@gmail.com', 'John Doe', 'password');
 insert into assembly_user (id, role, email, name ,password) values(0, 'ASSEMBLER', 'example@example.com', 'username', 'password');
 insert into assembly_user (id, role, email, name ,password) values(2, 'ASSEMBLER', 'janedoe@gmail.com', 'Jane Doe', 'password');
 insert into assembly_user (id, role, email, name ,password) values(3, 'ASSEMBLER', 'gipszjakab@gmail.com', 'Gipsz Jakab', 'password');
@@ -8,4 +8,3 @@ insert into assembly_order (id, shop_order_id, goods_id ,quantity, status, metad
 insert into assembly_order (id, shop_order_id, goods_id ,quantity, status, metadata, assigned_to) values(4, '2O22/000472', 'printer MK3 from H2Storage', 2, 'CLAIMED', '{ "shipping address" : "nowhere"}', 1);
 insert into assembly_order (id, shop_order_id, goods_id ,quantity, status, metadata, assigned_to) values(2, '2O22/000563', 'printer MK3 from H2Storage', 2, 'SHIPPED', '{ "shipping address" : "somewhere"}', 1);
 insert into assembly_order (id, shop_order_id, goods_id ,quantity, status, metadata, assigned_to) values(5, '2O22/002501', 'RSA token', 3, 'ASSEMBLED', '{ "shipping address" : "somewhere"}', 1);
-
