@@ -1,24 +1,25 @@
 <table mat-table [dataSource]="orders"  *ngIf="orders.length">
 
     <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> GoodsId </th>
-        <td mat-cell *matCellDef="let element"> <a routerLink="/order/{{element.id}}">{{element.goodsId}}</a> </td>
-
+        <th mat-header-cell *matHeaderCellDef class="table_header"> GoodsId </th>
+        <td mat-cell *matCellDef="let element" class="table_field">
+            <a mat-flat-button routerLink="/order/{{element.id}}">{{element.goodsId}}</a>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="quantity">
-        <th mat-header-cell *matHeaderCellDef> Quantity </th>
-        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+        <th mat-header-cell *matHeaderCellDef  class="table_header"> Quantity </th>
+        <td mat-cell *matCellDef="let element" class="table_field"> {{element.quantity}} </td>
     </ng-container>
 
     <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+        <th mat-header-cell *matHeaderCellDef class="table_header"> Status </th>
+        <td mat-cell *matCellDef="let element" class="table_field"> {{element.status}} </td>
     </ng-container>
 
     <ng-container matColumnDef="assignedTo">
-        <th mat-header-cell *matHeaderCellDef> Assigned </th>
-        <td mat-cell *matCellDef="let element"><span *ngIf="element.assignedTo">{{element.assignedTo.name}}</span></td>
+        <th mat-header-cell *matHeaderCellDef class="table_header"> Assigned to </th>
+        <td mat-cell *matCellDef="let element" class="table_field"><span *ngIf="element.assignedTo">{{element.assignedTo.name}}</span></td>
     </ng-container>
 
     <ng-container matColumnDef="trackingNr">

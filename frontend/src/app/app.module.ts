@@ -6,10 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatFormFieldModule  } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -52,9 +55,12 @@ import { UserService } from './userService';
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     MatSnackBarModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: BASE_PATH, useValue: "http://localhost:8082" },
