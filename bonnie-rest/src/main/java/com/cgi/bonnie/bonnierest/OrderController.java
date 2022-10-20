@@ -32,20 +32,23 @@ public class OrderController {
         try {
             Order order = orderService.loadOrder(id);
             return ResponseEntity.ok(order);
-        }catch (Exception e) {
-            log.debug("can't load order: "+id+" ("+e.getMessage()+")");
-            return ResponseEntity.badRequest().build();
+        } catch (IllegalStateException e) {
+            log.error("can't load order: " + id + " (" + e.getMessage() + ")");
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            log.error("can't load order: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Order>> getAllOrders() {
         try {
             List<Order> orders = orderService.getAllOrders();
             return ResponseEntity.ok(orders);
-        }catch (Exception e) {
-            log.debug("can't load orders: "+e.getMessage());
-            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error("can't load orders: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -54,14 +57,14 @@ public class OrderController {
         try {
             List<Order> orders = orderService.findAllByStatus(NEW);
             return ResponseEntity.ok(orders);
-        }catch (Exception e) {
-            log.debug("can't find new orders: "+e.getMessage());
-            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error("can't find new orders: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 
-    @PatchMapping(path = "/assign/{orderId}/{userId}")
-    public ResponseEntity<Boolean> assignOrderToUser(@PathVariable long orderId) {
+    @PatchMapping(path = "/assign/{orderId}")
+    public ResponseEntity<Boolean> assignToMe(@PathVariable long orderId) {
         boolean result = orderService.claimOrder(orderId);
         return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false);
     }
@@ -89,8 +92,8 @@ public class OrderController {
         try {
             List<Order> orders = orderService.getMyOrders();
             return ResponseEntity.ok(orders);
-        }catch (Exception e) {
-            log.debug("can't find orders assigned to current user: "+e.getMessage());
+        } catch (Exception e) {
+            log.error("can't find orders assigned to current user: " + e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

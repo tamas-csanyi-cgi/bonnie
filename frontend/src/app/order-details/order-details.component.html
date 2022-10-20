@@ -1,0 +1,36 @@
+<table class="styled-table">
+    <tbody>
+        <tr>
+            <td>Shop Order Id</td>
+            <td>{{order?.shopOrderId}}</td>
+        </tr>
+        <tr>
+            <td>Assigned To</td>
+            <td>{{order?.assignedTo?.name}}</td>
+        </tr>
+        <tr>
+            <td>Goods Id</td>
+            <td>{{order?.goodsId}}</td>
+        </tr>
+        <tr>
+            <td>Quantity</td>
+            <td>{{order?.quantity}}</td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td>{{order?.status}}</td>
+        </tr>
+        <tr>
+            <td>Last Update</td>
+            <td>{{order?.lastUpdate}}</td>
+        </tr>
+        <tr>
+            <td>Placement Date</td>
+            <td>{{order?.placementDate}}</td>
+        </tr>
+        <tr *ngIf="order?.status == 'ASSEMBLED'">
+            <td>Actions</td>
+            <td><button mat-raised-button *ngIf="order?.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order!)">Set tracking nr</button></td>
+        </tr>
+    </tbody>
+</table>
