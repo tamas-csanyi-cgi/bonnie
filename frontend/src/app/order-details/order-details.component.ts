@@ -14,6 +14,21 @@ export class OrderDetailsComponent implements OnInit {
 
   order?: Order = undefined;
 
+  dataFields: object[] = [ ];
+
+  displayedColumns: string[] = [ 'key', 'value' ];
+  
+  columnNameMapping: any = {
+    shopOrderId : 'Shop Order Id',
+    assignedTo: 'Assigned To',
+    goodsId: 'Goods Id',
+    quantity: 'Quantity',
+    status: 'Status',
+    lastUpdate: 'Last update',
+    placementDate: 'Placement date',
+    actions: 'Actions'
+  };
+
   constructor(protected orderControllerService: OrderControllerService,
     private dialog: MatDialog,
     private route: ActivatedRoute) { }
@@ -22,6 +37,19 @@ export class OrderDetailsComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.orderControllerService.getOrder(id).subscribe(order => {
       this.order = order;
+      this.dataFields = Object.entries(order)
+        .filter(([key, value]) =>  {
+          if (value instanceof Object) {
+            return false;
+          }
+          return Object.getOwnPropertyNames(this.columnNameMapping).indexOf(key) != -1;
+        })
+        .map(([key, value]) => ( { key, value } ));
+
+        this.dataFields.push({
+          key: 'assignedTo',
+          value: !order.assignedTo ? '' : order.assignedTo?.name
+        });
     });
   }
 
