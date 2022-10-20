@@ -34,10 +34,10 @@ public class H2OrderStorage implements OrderStorage {
     }
 
     public boolean save(Order o) {
-        try{
+        try {
             orderRepository.save(mapper.fromOrder(o));
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -56,13 +56,16 @@ public class H2OrderStorage implements OrderStorage {
     }
 
     public List<Order> findAll() {
-        List<Order> result = new ArrayList<>();
-        orderRepository.findAll().forEach(order -> result.add(mapper.fromEntity(order)));
-        return result;
+        return orderRepository.findAll().stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 
     public List<Order> findAllByStatus(Status status) {
         return orderRepository.findAllByStatus(status).stream().map(mapper::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Order> findAllByAssignedTo(Long user) {
+        return orderRepository.findAllByAssignedTo(user).stream().map(mapper::fromEntity).collect(Collectors.toList());
     }
 
     public List<Order> findAllByShopOrderId(String shopOrderId) {

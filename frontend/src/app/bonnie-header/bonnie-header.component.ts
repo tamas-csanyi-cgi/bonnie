@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'generated-client';
+import { UserService } from '../userService';
 
 @Component({
   selector: 'bonnie-header',
@@ -8,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class BonnieHeaderComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(protected userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
   }
