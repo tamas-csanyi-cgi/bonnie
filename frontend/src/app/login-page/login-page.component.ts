@@ -23,6 +23,7 @@ export class LoginPageComponent implements OnInit {
 
   login(): void {
     this.userService.login(this.email, this.password).subscribe(() => {
+      this.userService.setLoggedIn(true);
       this.router.navigate(["/my-orders"]);
     });
   }

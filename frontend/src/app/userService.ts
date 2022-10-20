@@ -21,6 +21,10 @@ export class UserService {
         return this.loggedIn;
     }
 
+    setLoggedIn(val : boolean) {
+        this.loggedIn = val;
+    }
+
     public login(email: string, password: string) : Observable<Object> {
         const body = {
             username: email,

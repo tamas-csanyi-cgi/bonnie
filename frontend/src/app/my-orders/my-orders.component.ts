@@ -13,7 +13,9 @@ export class MyOrdersComponent implements OnInit {
   constructor(protected orderControllerService: OrderControllerService) { }
 
   ngOnInit(): void {
-
+    this.orderControllerService.getMyOrders().subscribe(myOrders => {
+      this.orders = myOrders;
+    });
   }
 
 }
