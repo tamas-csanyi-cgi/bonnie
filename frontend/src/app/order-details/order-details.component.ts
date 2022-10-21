@@ -35,5 +35,14 @@ export class OrderDetailsComponent implements OnInit {
 
     this.dialog.open(TrackingNumberComponent, dialogConfig);
   }
+  
+  releaseOrder(order : number): void{ 
+    this.orderControllerService.releaseOrder(order).subscribe();
+    window.location.reload();
+  }
 
+  claimOrder(order: number):void{
+    this.orderControllerService.assignToMe(order).subscribe();
+    window.location.reload();
+  }
 }

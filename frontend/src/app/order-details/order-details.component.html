@@ -28,9 +28,13 @@
             <td>Placement Date</td>
             <td>{{order?.placementDate}}</td>
         </tr>
-        <tr *ngIf="order?.status == 'ASSEMBLED'">
+        <tr>
             <td>Actions</td>
-            <td><button mat-raised-button *ngIf="order?.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order!)">Set tracking nr</button></td>
+            <td>
+                <button mat-raised-button *ngIf="order?.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order!)">Set tracking nr</button>
+                <button mat-raised-button *ngIf="order?.status == 'CLAIMED'" color="primary" (click)="releaseOrder(order!.id!)">Release order</button>
+                <button mat-raised-button *ngIf="order?.status == 'NEW'" color="primary" (click)="claimOrder(order!.id!)">Claim order</button>
+            </td>
         </tr>
     </tbody>
 </table>

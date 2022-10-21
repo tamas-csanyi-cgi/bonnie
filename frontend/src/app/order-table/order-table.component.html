@@ -16,6 +16,8 @@
             <td><span *ngIf="order.assignedTo">{{order.assignedTo.name}}</span></td>
             <td>
                 <button mat-raised-button *ngIf="order.status == 'ASSEMBLED'" color="primary" (click)="openTrackingNr(order)">Set tracking nr</button>
+                <button mat-raised-button *ngIf="order.status == 'CLAIMED'" color="primary" (click)="releaseOrder(order.id!)">Release order</button>
+                <button mat-raised-button *ngIf="order.status == 'NEW'" color="primary" (click)="claimOrder(order.id!)">Claim order</button>
             </td>
         </tr>
     </tbody>

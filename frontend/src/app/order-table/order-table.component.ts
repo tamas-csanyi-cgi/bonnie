@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { TrackingNumberComponent } from '../common/tracking-number/tracking-number.component';
-import { Order } from 'generated-client';
+import { Order, OrderControllerService } from 'generated-client';
 
 @Component({
   selector: 'order-table',
@@ -12,7 +12,7 @@ export class OrderTableComponent implements OnInit {
 
   @Input() orders: Order[] = [];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, protected orderControllerService: OrderControllerService) {}
 
   ngOnInit(): void {
   }
@@ -26,6 +26,16 @@ export class OrderTableComponent implements OnInit {
     dialogConfig.data = order;
 
     this.dialog.open(TrackingNumberComponent, dialogConfig);
+  }
+
+  releaseOrder(order : number): void{ 
+    this.orderControllerService.releaseOrder(order).subscribe();
+    window.location.reload();
+  }
+
+  claimOrder(order: number):void{
+    this.orderControllerService.assignToMe(order).subscribe();
+    window.location.reload();
   }
 
 }
