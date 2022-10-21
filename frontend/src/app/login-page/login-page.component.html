@@ -1,18 +1,30 @@
 <div class="form-signin loginform">
     <h2 class="form-signin-heading">Please login</h2>
-    <p>
-        <label for="email" class="sr-only">Email</label>
-        <input type="text" id="email" name="email" class="form-control" placeholder="Email" required="" autofocus="" [(ngModel)]="email">
-    </p>
-    <p>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="" [(ngModel)]="password">
-    </p>
-    <p>
-        Remember me?<input type="checkbox" id="remember-me" name="remember-me" class="form-control checkbox">
-    </p>
-    <button class="button login" type="submit" (click)="login()">Login</button>
+
+
     <div>
+        <mat-form-field appearance="fill">
+            <mat-label>E-mail</mat-label>
+            <input matInput placeholder="pat@example.com" [formControl]="emailControl" required [(ngModel)]="email">
+            <mat-error *ngIf="emailControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="*****" [formControl]="passwordControl" required [(ngModel)]="password">
+            <mat-error *ngIf="passwordControl.invalid">{{getPwdErrorMessage()}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <mat-checkbox class="example-margin" [labelPosition]="'before'" [(ngModel)]="rememberMe">Remember me?</mat-checkbox>
+    </div>
+
+    <button mat-flat-button color="primary" (click)="login()">Login</button>
+
+    <div style="margin-top: 15px;">
         <a class="btn btn-lg btn-secondary fab fa-google" href="{basePath}/oauth2/authorization/facebook">Continue with
             Facebook</a>
     </div>
