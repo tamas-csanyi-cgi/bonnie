@@ -12,10 +12,11 @@ export class OrderTableComponent implements OnInit {
 
   @Input() orders: Order[] = [];
 
+  displayedColumns: string[] = ['id', 'quantity', 'status', 'assignedTo', 'trackingNr' ];
+
   constructor(private dialog: MatDialog) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   openTrackingNr(order: Order): void {
     const dialogConfig = new MatDialogConfig();

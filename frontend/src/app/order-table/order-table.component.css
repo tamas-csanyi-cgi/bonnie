@@ -1,0 +1,8 @@
+table {
+  width: 100%;
+}
+
+
+.table_header, .table_field {
+  padding-right: 10px;
+}
