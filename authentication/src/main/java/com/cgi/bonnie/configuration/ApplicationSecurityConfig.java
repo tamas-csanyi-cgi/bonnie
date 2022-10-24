@@ -1,6 +1,7 @@
 package com.cgi.bonnie.configuration;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
+import com.cgi.bonnie.authentication.auth.OAuthLoginSuccessHandler;
 import com.cgi.bonnie.authentication.security.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,12 +18,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+
+import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
 
 
 @Configuration
@@ -31,23 +33,28 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
     private final CustomOAuth2UserService oAuth2UserService;
 
+    private final OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
+
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
                                      ApplicationUserService applicationUserService,
-                                     CustomOAuth2UserService oAuth2UserService) {
+                                     CustomOAuth2UserService oAuth2UserService,
+                                     OAuthLoginSuccessHandler oAuthLoginSuccessHandler) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
         this.oAuth2UserService = oAuth2UserService;
+        this.oAuthLoginSuccessHandler = oAuthLoginSuccessHandler;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        oAuthLoginSuccessHandler.setDefaultTargetUrl("http://localhost:4200/my-orders");
+
         http
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
@@ -55,8 +62,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                //.antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
-                .anyRequest().authenticated();/*
+                .antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
+                .anyRequest().authenticated()/*
                 .and()
                     .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
@@ -68,15 +75,14 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutSuccessUrl("/login");
-                /*.and()
-                .oauth2Login()
-                    .loginPage("/login")
-                    .permitAll()
+                    .logoutSuccessUrl("/login");*/
+                .and()
+                    .oauth2Login()
                     .defaultSuccessUrl("http://localhost:4200/my-orders", true)
                     .userInfoEndpoint()
                     .userService(oAuth2UserService)
-                .and()*/
+                .and()
+                   .successHandler(oAuthLoginSuccessHandler);
 
         http.cors().configurationSource(corsConfigurationSource());
     }
