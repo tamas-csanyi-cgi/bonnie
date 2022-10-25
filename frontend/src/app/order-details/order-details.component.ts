@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 
 import { TrackingNumberComponent } from '../common/tracking-number/tracking-number.component';
 import { Order, OrderControllerService } from 'generated-client';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-details',
@@ -31,7 +32,8 @@ export class OrderDetailsComponent implements OnInit {
 
   constructor(protected orderControllerService: OrderControllerService,
     private dialog: MatDialog,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -64,4 +66,10 @@ export class OrderDetailsComponent implements OnInit {
     this.dialog.open(TrackingNumberComponent, dialogConfig);
   }
 
+  releaseOrder(order : number): void{ 
+    this.orderControllerService.releaseOrder(order).subscribe();
+  }
+  claimOrder(order : number): void{ 
+    this.orderControllerService.assignToMe(order).subscribe();
+  }
 }
