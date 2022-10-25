@@ -108,27 +108,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
-                    <overwrite>true</overwrite>
-                    <outputDirectory>${project.build.directory}/../../frontend/generated-client</outputDirectory>
-                    <resources>
-                        <resource>
-                            <directory>${project.basedir}/src/helper/resources</directory>
-                        </resource>
-                    </resources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 </project>
