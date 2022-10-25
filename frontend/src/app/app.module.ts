@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatFormFieldModule  } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +35,8 @@ import { UserService } from './userService';
 @NgModule({
   declarations: [
     AppComponent,
+    BonnieHeaderComponent,
+    OrderTableComponent,
     AllOrdersComponent,
     BonnieHeaderComponent,
     LoginPageComponent,
@@ -47,10 +55,16 @@ import { UserService } from './userService';
     FormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: BASE_PATH, useValue: "http://localhost:8082" },

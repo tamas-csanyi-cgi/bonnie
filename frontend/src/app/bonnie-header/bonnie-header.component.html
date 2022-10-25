@@ -1,11 +1,18 @@
-<div id="header" class="banner">
-    <div >
+<div>
+    <mat-toolbar class="navbar">
         <img id="bonnie-img" src="assets/Logo.png">
-    </div>
-    <div id="navbar" class="navbar" *ngIf="userService.isLoggedIn()">
-        <button type="button" (click)="toAllOrders()" class="button">All Orders</button>
-        <button type="button" (click)="toMyOrders()" class="button">My Orders</button>
-        <button type="button" (click)="toUnassignedOrders()" class="button">Unassigned Orders</button>
-        <button type="button" (click)="toUsers()" class="button">Users</button>
-    </div>
+        <span style="clear: both;"></span>
+        <button mat-icon-button type="button" (click)="toAllOrders()" class="button" matTooltip="All orders">
+            <mat-icon class="white-icon">assignment</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="toMyOrders()" class="button" matTooltip="My orders">
+            <mat-icon class="white-icon">assignment_ind</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="toUnassignedOrders()" class="button" matTooltip="Unassigned orders">
+            <mat-icon class="white-icon">assignment_late</mat-icon>
+        </button>
+        <button mat-icon-button type="button" (click)="toUsers()" class="button" matTooltip="Users">
+            <mat-icon class="white-icon">people</mat-icon>
+        </button>
+    </mat-toolbar>
 </div>

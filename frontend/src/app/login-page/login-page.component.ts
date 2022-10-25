@@ -18,8 +18,12 @@ const snackBarConfig = {
 })
 export class LoginPageComponent implements OnInit {
 
+  emailControl = new FormControl('', [Validators.required, Validators.email]);
+  passwordControl = new FormControl('', [Validators.required]);
+
   email: string = "";
   password: string = "";
+  rememberMe: boolean = false;
   basePath: string;
 
   constructor(protected userService: UserService,
@@ -40,6 +44,21 @@ export class LoginPageComponent implements OnInit {
       this._snackBar.open("Error during login! Please try again later!", 'OK', snackBarConfig);
       console.error(err);
     });
+  }
+
+  getErrorMessage() {
+    if (this.emailControl.hasError('required')) {
+      return 'You must enter a value';
+    }
+
+    return this.emailControl.hasError('email') ? 'Not a valid email' : '';
+  }
+
+  getPwdErrorMessage() {
+    if (this.passwordControl.hasError('required')) {
+      return 'You must enter a value';
+    }
+    return '';
   }
 
 }
