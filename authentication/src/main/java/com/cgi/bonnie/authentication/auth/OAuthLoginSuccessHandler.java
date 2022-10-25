@@ -25,7 +25,7 @@ public class OAuthLoginSuccessHandler extends SavedRequestAwareAuthenticationSuc
         if (principal instanceof CustomOAuth2User customOauth2User) {
             var email = customOauth2User.getEmail();
             if (userService.findByEmail(email) == null) {
-                userService.createUser(customOauth2User.getName(), customOauth2User.getEmail(), "", Role.ASSEMBLER);
+                userService.createUser(customOauth2User.getName(), customOauth2User.getEmail(), null, Role.ASSEMBLER);
             }
         }
         super.onAuthenticationSuccess(request, response, authentication);
