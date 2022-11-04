@@ -1,21 +1,25 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.8.6-openjdk-18'
-            args '-v /tmp/jenkins/.m2:/root/.m2'
-        }
-    }
     stages {
         stage('Build backend') {
+            agent {
+                docker {
+                    image 'maven:3.8.6-openjdk-18'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
-                sh 'export'
-                sh 'mvn -B -DskipTests -X clean | grep setting'
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml clean package spring-boot:repackage'
-                sh 'cd .. && docker build -t bonnie-backend:latest .'
+                sh 'ls -la'
             }
         }
-        stage('Build frontend') {
+        stage('Create backend Docker image') {
+            steps {
+                sh 'ls -la'
+                sh 'docker build -t bonnie-backend:latest .'
+            }
+        }
+        stage('Create frontend Docker image') {
             steps {
                 sh 'cd frontend'
                 sh 'docker build -t bonnie-ui:latest .'
