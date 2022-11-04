@@ -9,9 +9,9 @@ pipeline {
         stage('Build backend') {
             steps {
                 sh 'export'
-                sh 'mvn -B -DskipTests --settings ~/.m2/settings.xml -X clean | grep setting'
-                sh 'mvn -B -DskipTests --settings ~/.m2/settings.xml clean package install'
-                sh 'cd starter && mvn --settings ~/.m2/settings.xml clean package spring-boot:repackage'
+                sh 'mvn -B -DskipTests --settings /root/.m2/settings.xml -X clean | grep setting'
+                sh 'mvn -B -DskipTests --settings /root/.m2/settings.xml clean package install'
+                sh 'cd starter && mvn --settings /root/.m2/settings.xml clean package spring-boot:repackage'
                 sh 'cd .. && docker build -t bonnie-backend:latest .'
             }
         }
