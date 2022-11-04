@@ -8,8 +8,9 @@ pipeline {
     stages {
         stage('Build backend') {
             steps {
-                sh 'mvn clean package spring-boot:repackage'
-                sh 'docker build -t bonnie-backend:latest .'
+                sh 'mvn clean package'
+                sh 'cd starter && mvn clean package spring-boot:repackage'
+                sh 'cd .. && docker build -t bonnie-backend:latest .'
             }
         }
         stage('Build frontend') {
