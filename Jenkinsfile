@@ -2,16 +2,14 @@ pipeline {
     agent {
         docker {
             image 'maven:3.8.6-openjdk-18'
-            args '-v /root/.m2:/root/.m2'
+            args '-v /tmp/jenkins/.m2:/root/.m2'
         }
     }
     stages {
         stage('Build backend') {
             steps {
                 sh 'export'
-                sh 'ls -la /root/.m2'
                 sh 'mvn -B -DskipTests clean package install'
-                sh 'ls -la /root/.m2'
                 sh 'cd starter && mvn clean package spring-boot:repackage'
                 sh 'cd .. && docker build -t bonnie-backend:latest .'
             }
