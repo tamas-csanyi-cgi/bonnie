@@ -6,9 +6,16 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Build backend') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn clean package spring-boot:repackage'
+                sh 'docker build -t bonnie-backend:latest .'
+            }
+        }
+        stage('Build frontend') {
+            steps {
+                sh 'cd frontend'
+                sh 'docker build -t bonnie-ui:latest .'
             }
         }
         stage('Test') {
