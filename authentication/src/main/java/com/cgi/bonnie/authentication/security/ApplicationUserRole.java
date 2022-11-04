@@ -3,7 +3,6 @@ package com.cgi.bonnie.authentication.security;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
