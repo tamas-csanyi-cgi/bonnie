@@ -11,12 +11,12 @@ pipeline {
             steps {
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml clean package spring-boot:repackage'
-                sh 'ls -la'
+                sh 'ls -la starter/target'
             }
         }
         stage('Create backend Docker image') {
             steps {
-                sh 'ls -la'
+                sh 'ls -la starter/target'
                 sh 'docker build -t bonnie-backend:latest .'
             }
         }
