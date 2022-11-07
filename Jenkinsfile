@@ -12,6 +12,8 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml package spring-boot:repackage'
                 sh 'ls -la starter/target'
+                sh 'ls -la .'
+                sh 'ls -la /tmp'
                 sh 'cp ./starter/target/starter-1.0-SNAPSHOT.jar /tmp/out'
             }
         }
