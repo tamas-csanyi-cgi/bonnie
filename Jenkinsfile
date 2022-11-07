@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Prepare maven target') {
             steps {
-                sh 'mkdir -p target'
-                sh 'chmod 777 target'
+                sh 'mkdir -p -m 777 target'
                 sh 'pwd'
                 sh 'whoami'
             }
@@ -18,7 +17,6 @@ pipeline {
                 }
             }
             steps {
-                sh 'whoami'
                 sh 'ls -la /tmp'
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml package spring-boot:repackage'
