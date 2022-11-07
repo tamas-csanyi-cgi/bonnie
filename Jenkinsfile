@@ -5,6 +5,8 @@ pipeline {
             steps {
                 sh 'mkdir target'
                 sh 'chmod 777 target'
+                sh 'pwd'
+                sh 'whoami'
             }
         }
 
@@ -16,6 +18,8 @@ pipeline {
                 }
             }
             steps {
+                sh 'whoami'
+                sh 'ls -la /tmp'
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml package spring-boot:repackage'
                 sh 'cp ./starter/target/starter-1.0-SNAPSHOT.jar /tmp/out'
@@ -24,8 +28,6 @@ pipeline {
 
         stage('Create backend Docker image') {
             steps {
-                sh 'ls -la'
-                sh 'ls -la target/'
                 sh 'docker build -t bonnie-backend:latest .'
             }
         }

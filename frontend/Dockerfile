@@ -1,4 +1,4 @@
 FROM angular/ngcontainer:latest
-WORKDIR frontend
+#WORKDIR frontend
 CMD npm install
 RUN ng serve
