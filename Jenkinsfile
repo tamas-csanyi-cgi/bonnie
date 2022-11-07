@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Prepare maven target') {
             steps {
-                sh 'mkdir target'
+                sh 'mkdir -p target'
                 sh 'chmod 777 target'
                 sh 'pwd'
                 sh 'whoami'
