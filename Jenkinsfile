@@ -1,19 +1,11 @@
 pipeline {
     agent any
     stages {
-        stage('Prepare maven target') {
-            steps {
-                sh 'mkdir -p -m 777 target'
-                sh 'pwd'
-                sh 'whoami'
-            }
-        }
-
         stage('Build backend') {
             agent {
                 docker {
                     image 'maven:3.8.6-openjdk-18'
-                    args '-v /root/.m2:/root/.m2 -v $PWD/target:/tmp/out'
+                    args '-v /root/.m2:/root/.m2 -v /tmp/out:/tmp/out'
                 }
             }
             steps {
