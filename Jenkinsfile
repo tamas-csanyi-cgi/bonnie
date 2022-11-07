@@ -5,7 +5,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.8.6-openjdk-18'
-                    args '-v /root/.m2:/root/.m2 -v $PWD:/tmp/out'
+                    args '-v /root/.m2:/root/.m2 -v /tmp/jenkins:/tmp/out'
                 }
             }
             steps {
@@ -14,7 +14,7 @@ pipeline {
                 sh 'ls -la starter/target'
                 sh 'ls -la .'
                 sh 'ls -la /tmp'
-                sh 'sudo cp ./starter/target/starter-1.0-SNAPSHOT.jar /tmp/out'
+                sh 'cp ./starter/target/starter-1.0-SNAPSHOT.jar /tmp/out'
             }
         }
         stage('Create backend Docker image') {
