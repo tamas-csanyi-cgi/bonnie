@@ -26,11 +26,11 @@ pipeline {
 
         stage('Create frontend Docker image') {
             steps {
-                sh 'cd frontend'
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'cat Dockerfile'
-                sh 'docker build -t bonnie-ui:latest .'
+                sh '''cd frontend
+                    pwd
+                    ls -la
+                    cat Dockerfile
+                    docker build -t bonnie-ui:latest .'''
             }
         }
 
