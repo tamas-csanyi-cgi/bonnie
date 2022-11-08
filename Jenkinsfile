@@ -5,21 +5,23 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.8.6-openjdk-18'
-                    args '-v /root/.m2:/root/.m2 -v $PWD:/usr/src/mymaven -w /usr/src/mymaven'
+                    args '-v /root/.m2:/root/.m2'
                 }
             }
             steps {
-                sh 'pwd'
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml package spring-boot:repackage'
+                sh 'cp starter/target/starter-1.0-SNAPSHOT.jar ../'
             }
         }
 
         stage('Create backend Docker image') {
             steps {
+                sh 'cp ../starter-1.0-SNAPSHOT.jar .'
                 sh 'ls -la'
-                sh 'ls -la starter/'
                 sh 'docker build -t bonnie-backend:latest .'
+                sh 'rm starter-1.0-SNAPSHOT.jar'
+                sh 'rm ../starter-1.0-SNAPSHOT.jar'
             }
         }
 
