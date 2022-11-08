@@ -18,7 +18,6 @@ pipeline {
         stage('Create backend Docker image') {
             steps {
                 sh 'cp ../starter-1.0-SNAPSHOT.jar .'
-                sh 'ls -la'
                 sh 'docker build -t bonnie-backend:latest .'
                 sh 'rm starter-1.0-SNAPSHOT.jar'
                 sh 'rm ../starter-1.0-SNAPSHOT.jar'
