@@ -18,6 +18,9 @@ pipeline {
 
         stage('Create backend Docker image') {
             steps {
+                sh 'ls -la'
+                sh 'ls -la /tmp'
+                sh 'ls -la /tmp/out'
                 sh 'docker build -t bonnie-backend:latest .'
             }
         }
