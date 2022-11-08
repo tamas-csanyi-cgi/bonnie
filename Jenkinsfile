@@ -12,25 +12,23 @@ pipeline {
                 sh 'mvn -B -DskipTests clean package install'
                 sh 'mvn -f starter/pom.xml package spring-boot:repackage'
                 sh 'cp starter/target/starter-1.0-SNAPSHOT.jar ../'
+                sh 'cp frontend/generated-client ../'
             }
         }
 
         stage('Create backend Docker image') {
             steps {
-                sh 'cp ../starter-1.0-SNAPSHOT.jar .'
+                sh 'mv ../starter-1.0-SNAPSHOT.jar .'
                 sh 'docker build -t bonnie-backend:latest .'
                 sh 'rm starter-1.0-SNAPSHOT.jar'
-                sh 'rm ../starter-1.0-SNAPSHOT.jar'
             }
         }
 
         stage('Create frontend Docker image') {
             steps {
                 sh '''cd frontend
-                    pwd
-                    ls -la
-                    cat Dockerfile
-                    docker build -t bonnie-ui:latest .'''
+                    mv ../generated-client .
+                    docker build -f Dockerfile-frontend -t bonnie-ui:latest .'''
             }
         }
 
