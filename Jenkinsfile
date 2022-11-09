@@ -1,6 +1,22 @@
 pipeline {
     agent any
     stages {
+
+        stage('Build frontend') {
+            agent {
+                docker {
+                    image 'cimg/node:16.18.0'
+                    args '-v frontend:frontend'
+                }
+            }
+            steps {
+                sh '''ls -la
+                      cd frontend
+                      npm install
+                      ls -la'''
+            }
+        }
+
         stage('Build backend') {
             agent {
                 docker {

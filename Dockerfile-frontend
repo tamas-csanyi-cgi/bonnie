@@ -1,5 +1,4 @@
 FROM angular/ngcontainer:latest
 COPY --chown=circleci:circleci ./frontend /frontend
 WORKDIR /frontend
-RUN npm install
 CMD ["ng", "serve"]
