@@ -6,7 +6,7 @@ pipeline {
             agent {
                 docker {
                     image 'cimg/node:16.18.0'
-                    args '-v frontend:frontend'
+                    args '-v ./frontend:./frontend'
                 }
             }
             steps {
