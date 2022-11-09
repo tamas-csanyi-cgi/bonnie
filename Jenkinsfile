@@ -5,20 +5,30 @@ pipeline {
         stage('Build frontend') {
             agent {
                 docker {
-                    image 'cimg/node:16.18.0'
-                    args '-v ./frontend:/frontend'
+                    image 'node:16.18.1-alpine'
+                    args '-v $PWD/frontend:/frontend'
                 }
             }
             steps {
                 sh '''
-                      pwd
-                      ls -la
-                      ls -la /
-                      cd /frontend
-                      npm install
-                      ls -la'''
+                  cd frontend
+                  rm -rf node_modules
+                  npm install
+                  cd ..
+                  cp -r ./frontend ../'''
             }
         }
+
+
+        stage('Create frontend Docker image') {
+            steps {
+                sh '''
+                    cp -r ../frontend .
+                    docker build -f Dockerfile-frontend -t bonnie-ui:latest .
+                    rm -rf ../frontend'''
+            }
+        }
+
 
         stage('Build backend') {
             agent {
@@ -40,14 +50,6 @@ pipeline {
                 sh 'mv ../starter-1.0-SNAPSHOT.jar .'
                 sh 'docker build -t bonnie-backend:latest .'
                 sh 'rm starter-1.0-SNAPSHOT.jar'
-            }
-        }
-
-        stage('Create frontend Docker image') {
-            steps {
-                sh '''cd frontend
-                    mv ../generated-client .
-                    docker build -f Dockerfile-frontend -t bonnie-ui:latest .'''
             }
         }
 

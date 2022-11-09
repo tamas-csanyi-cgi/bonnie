@@ -1,4 +1,4 @@
-FROM angular/ngcontainer:latest
+FROM alexsuch/angular-cli:latest
 COPY --chown=circleci:circleci ./frontend /frontend
 WORKDIR /frontend
 CMD ["ng", "serve"]
