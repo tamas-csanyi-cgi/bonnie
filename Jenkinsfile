@@ -6,12 +6,15 @@ pipeline {
             agent {
                 docker {
                     image 'cimg/node:16.18.0'
-                    args '-v ./frontend:./frontend'
+                    args '-v ./frontend:/frontend'
                 }
             }
             steps {
-                sh '''ls -la
-                      cd frontend
+                sh '''
+                      pwd
+                      ls -la
+                      ls -la /
+                      cd /frontend
                       npm install
                       ls -la'''
             }
