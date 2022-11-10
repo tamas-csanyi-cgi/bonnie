@@ -10,17 +10,18 @@ pipeline {
                 }
             }
             steps {
-                sh 'mvn -B -DskipTests clean package install'
-                sh 'mvn -f starter/pom.xml package spring-boot:repackage'
-                sh 'cp starter/target/starter-1.0-SNAPSHOT.jar ../'
-                sh 'cp -r frontend/generated-client ../'
+                sh '''
+                      mvn -B -DskipTests -DskipITs clean package install
+                      mvn -f starter/pom.xml package spring-boot:repackage
+                      cp starter/target/starter-1.0-SNAPSHOT.jar ../
+                      cp -r frontend/generated-client ../'''
             }
         }
 
         stage('Create backend Docker image') {
             steps {
-                sh 'mv ../starter-1.0-SNAPSHOT.jar .'
-                sh 'docker build -t bonnie-backend:latest .'
+                sh '''mv ../starter-1.0-SNAPSHOT.jar .
+                      docker build -t bonnie-backend:latest .'''
             }
         }
 
