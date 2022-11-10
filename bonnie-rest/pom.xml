@@ -107,7 +107,7 @@
                         <configuration>
                             <inputSpec>${project.basedir}\target\openapi.json</inputSpec>
                             <language>typescript-angular</language>
-                            <output>${project.build.directory}/../../frontend/generated-client</output>
+                            <output>${project.build.directory}\..\..\frontend\generated-client</output>
                         </configuration>
                     </execution>
                 </executions>
@@ -117,7 +117,7 @@
                 <version>3.0.2</version>
                 <configuration>
                     <overwrite>true</overwrite>
-                    <outputDirectory>${project.build.directory}/../../frontend/generated-client</outputDirectory>
+                    <outputDirectory>${project.build.directory}\..\..\frontend\generated-client</outputDirectory>
                     <resources>
                         <resource>
                             <directory>${project.basedir}/src/helper/resources</directory>
