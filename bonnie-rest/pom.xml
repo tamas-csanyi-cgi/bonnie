@@ -63,7 +63,7 @@
                 <configuration>
                     <jvmArguments>-Dspring.application.admin.enabled=true</jvmArguments>
                     <wait>1000</wait>
-                    <maxAttempts>180</maxAttempts>
+                    <maxAttempts>360</maxAttempts>
                     <mainClass>com.cgi.bonnie.RestStarter</mainClass>
                 </configuration>
                 <executions>
