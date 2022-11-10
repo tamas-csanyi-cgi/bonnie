@@ -38,6 +38,7 @@ pipeline {
                   npm install
                   cd ..
                   cp -r ./frontend ../
+                  rm -rf ../frontend/generated-client
                   mv ../generated-client ../frontend/'''
             }
         }
