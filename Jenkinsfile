@@ -50,6 +50,8 @@ pipeline {
                 sh '''
                     rm -rf ./frontend
                     mv ../frontend .
+                    ls -la
+                    cat ./frontend/encoder.ts
                     docker build -f Dockerfile-frontend -t bonnie-ui:latest .'''
             }
         }
