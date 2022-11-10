@@ -14,6 +14,7 @@ pipeline {
                       mvn -B -DskipTests -DskipCopy=true clean package install
                       mvn -f starter/pom.xml package spring-boot:repackage
                       cp starter/target/starter-1.0-SNAPSHOT.jar ../
+                      cp bonnie-rest/src/helper/resources/encoder.ts frontend/encoder.ts
                       cp -r frontend/generated-client ../'''
             }
         }
