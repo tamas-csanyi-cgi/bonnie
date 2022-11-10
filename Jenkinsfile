@@ -8,7 +8,7 @@ pipeline {
                     image 'maven:3.8.6-openjdk-18'
                     args '-v /root/.m2:/root/.m2'
                 }
-            }
+            }x`
             steps {
                 sh '''
                       mvn -B -DskipTests -DskipCopy=true clean package install
@@ -48,6 +48,7 @@ pipeline {
         stage('Create frontend Docker image') {
             steps {
                 sh '''
+                    rm -rf ./frontend
                     mv ../frontend .
                     docker build -f Dockerfile-frontend -t bonnie-ui:latest .'''
             }
