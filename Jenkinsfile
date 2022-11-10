@@ -11,7 +11,7 @@ pipeline {
             }
             steps {
                 sh '''
-                      mvn -B -DskipTests -DskipITs clean package install
+                      mvn -B -DskipTests -DskipCopy=true clean package install
                       mvn -f starter/pom.xml package spring-boot:repackage
                       cp starter/target/starter-1.0-SNAPSHOT.jar ../
                       cp -r frontend/generated-client ../'''

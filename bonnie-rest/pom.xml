@@ -117,6 +117,7 @@
                 <version>3.0.2</version>
                 <configuration>
                     <overwrite>true</overwrite>
+                    <skip>${skipCopy}</skip>
                     <outputDirectory>${project.build.directory}\..\..\frontend\generated-client</outputDirectory>
                     <resources>
                         <resource>
