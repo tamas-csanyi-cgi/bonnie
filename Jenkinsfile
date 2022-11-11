@@ -50,7 +50,7 @@ pipeline {
                 sh '''
                     rm -rf ./frontend
                     mv ../frontend .
-                    docker build -f Dockerfile-frontend -t bonnie-ui:latest .'''
+                    docker build -f Dockerfile-frontend -t bonnie-frontend:latest .'''
             }
         }
 
