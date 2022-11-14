@@ -6,16 +6,16 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3.8.6-openjdk-18'
-                    args '-v /root/.m2:/root/.m2'
+                    args '-v /root/.m2:/root/.m2 -v /var/lib/jenkins/workspace:/out'
                 }
             }
             steps {
                 sh '''
                       mvn -B -DskipTests -DskipCopy=true clean package install
                       mvn -f starter/pom.xml package spring-boot:repackage
-                      cp starter/target/starter-1.0-SNAPSHOT.jar ../
-                      cp bonnie-rest/src/helper/resources/encoder.ts frontend/encoder.ts
-                      cp -r frontend/generated-client ../'''
+                      cp starter/target/starter-1.0-SNAPSHOT.jar /out/
+                      cp bonnie-rest/src/helper/resources/encoder.ts frontend/generated-client/encoder.ts
+                      cp -r frontend/generated-client /out/'''
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
             agent {
                 docker {
                     image 'node:16.18.1-alpine'
-                    args '-v $PWD/frontend:/frontend'
+                    args '-v $PWD/frontend:/frontend -v /var/lib/jenkins/workspace:/out'
                 }
             }
             steps {
@@ -39,9 +39,9 @@ pipeline {
                   rm -rf node_modules
                   npm install
                   cd ..
-                  cp -r ./frontend ../
-                  rm -rf ../frontend/generated-client
-                  mv ../generated-client ../frontend/'''
+                  cp -r ./frontend /out/
+                  rm -rf /out/frontend/generated-client
+                  mv /out/generated-client /out/frontend/'''
             }
         }
 
