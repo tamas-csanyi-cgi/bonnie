@@ -1,9 +1,11 @@
 services:
   backend:
     image: bonnie-backend:latest
+    name: backend
     ports:
       - 8082:8082
   frontend:
     image: bonnie-frontend:latest
+    name: frontend
     ports:
       - 8081:80
