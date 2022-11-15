@@ -18,7 +18,6 @@ public class BonnieRestConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowCredentials(true)
-                .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("authorization", "content-type", "x-auth-token")
                 .exposedHeaders( "x-auth-token");
