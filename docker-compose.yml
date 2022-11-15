@@ -1,0 +1,9 @@
+services:
+  backend:
+    image: bonnie-backend:latest
+    ports:
+      - 8082:8082
+  frontend:
+    image: bonnie-frontend:latest
+    ports:
+      - 8081:80
