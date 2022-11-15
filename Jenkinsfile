@@ -37,7 +37,7 @@ pipeline {
                 sh '''
                   cd frontend
                   rm -rf node_modules
-                  mkdir /out/.npm
+                  mkdir -p /out/.npm
                   npm install '--cache=/out/.npm'
                   cd ..
                   cp -r ./frontend /out/
