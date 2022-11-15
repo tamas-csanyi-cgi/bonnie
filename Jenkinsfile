@@ -39,7 +39,7 @@ pipeline {
                   rm -rf node_modules
                   mkdir -p /out/.npm
                   npm install '--cache=/out/.npm'
-                  npm run build -- --c production '--cache=/out/.npm'
+                  npm run build '--cache=/out/.npm' -- --c production
                   cd ..
                   cp -r ./frontend /out/
                   rm -rf /out/frontend/generated-client
