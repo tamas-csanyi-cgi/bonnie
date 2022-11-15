@@ -1,5 +1,2 @@
-FROM alexsuch/angular-cli:latest
-COPY ./frontend /frontend
-WORKDIR /frontend
-EXPOSE 4200:4200
-CMD ["ng", "serve"]
+FROM httpd:2.4
+COPY ./frontend/dist/bonnie-frontend/ /usr/local/apache2/htdocs/
