@@ -1,7 +1,5 @@
 package com.cgi.bonnie.configuration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,22 +10,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
-
 @Configuration
 @ComponentScan(basePackages = {"com.cgi.bonnie.bonnierest"})
 @EnableWebSecurity
 public class BonnieRestConfiguration implements WebMvcConfigurer {
-
-    private static final Logger logger = LoggerFactory.getLogger(BonnieRestConfiguration.class);
 
     @Value("${bonnie.authentication.cors.allowed.origins}")
     private String corsAllowedOrigins;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        System.out.println("**** 2 ******" + Arrays.asList(corsAllowedOrigins.split(",")));
-        logger.info("**** 2 ******" + Arrays.asList(corsAllowedOrigins.split(",")));
         registry.addMapping("/**")
                 .allowCredentials(true)
                 .allowedOrigins(corsAllowedOrigins.split(","))

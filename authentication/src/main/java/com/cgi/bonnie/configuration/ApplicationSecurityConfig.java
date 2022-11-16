@@ -2,8 +2,6 @@ package com.cgi.bonnie.configuration;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
 import com.cgi.bonnie.authentication.security.oauth2.CustomOAuth2UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +18,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -33,8 +30,6 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    private static final Logger logger = LoggerFactory.getLogger(ApplicationSecurityConfig.class);
 
     @Value("${bonnie.authentication.cors.allowed.origins}")
     private String corsAllowedOrigins;
@@ -119,8 +114,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(Arrays.asList(corsAllowedOrigins.split(",")));
-        System.out.println("**** 1 ******" + Arrays.asList(corsAllowedOrigins.split(",")));
-        logger.info("**** 1 ******" + Arrays.asList(corsAllowedOrigins.split(",")));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
