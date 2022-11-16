@@ -56,5 +56,11 @@ pipeline {
             }
         }
 
+        stage('Restart docker-compose environment') {
+            steps {
+                sh 'docker-compose restart'
+            }
+        }
+
     }
 }
