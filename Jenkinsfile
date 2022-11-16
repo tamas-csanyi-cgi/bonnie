@@ -58,7 +58,9 @@ pipeline {
 
         stage('Restart docker-compose environment') {
             steps {
-                sh 'docker-compose restart'
+                sh '''
+                    docker-compose down
+                    docker-compose up -d'''
             }
         }
 
