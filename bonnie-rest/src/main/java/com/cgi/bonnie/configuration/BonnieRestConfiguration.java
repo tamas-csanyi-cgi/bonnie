@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
+
 @Configuration
 @ComponentScan(basePackages = {"com.cgi.bonnie.bonnierest"})
 @EnableWebSecurity
@@ -20,6 +22,7 @@ public class BonnieRestConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        System.out.println("**** 2 ******" + Arrays.asList(corsAllowedOrigins.split(",")));
         registry.addMapping("/**")
                 .allowCredentials(true)
                 .allowedOrigins(corsAllowedOrigins.split(","))
