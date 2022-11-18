@@ -1,4 +1,4 @@
-FROM httpd:2.4
+FROM httpd:alpine
 COPY ./frontend/dist/bonnie-frontend/ /usr/local/apache2/htdocs/
 COPY ./frontend/.htaccess /usr/local/apache2/htdocs/.htaccess
 
