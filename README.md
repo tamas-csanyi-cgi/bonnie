@@ -91,4 +91,4 @@ ng serve
 
 # Bonnie live environment
 
-The Bonnie application is up and running as a docker container and can be operated on [https://bonnee.eu/](https://bonnee.eu/). It can be continuously updated via Jenkins server.
+The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/). It can be continuously updated via Jenkins server.
