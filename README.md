@@ -1,4 +1,5 @@
 # Bonnie
+
 A training application for newcomers.
 
 ## Architecture
@@ -29,6 +30,7 @@ A data storage plugin that uses Spring JDBC with embedded H2 database packaged i
 Integration module with Kafka. The system gets and send asynchronous events through it.
 
 ### starter
+
 It packs all the modules into a single spring boot application. It is a build with a specific set of plugins. The idea is that, we can have multiple starter modules, with other plugin configurations (with another database plugin for instance). You have to start this module, if you want to run the application
 
 ## Stack
@@ -58,9 +60,14 @@ environment. For more information how to do that read the corresponding document
 
 ### Angular frontend
 
-This application will have an angular frontend to manage the orderings.
+This application has an angular frontend to manage the orderings. A web domain has been registered for Bonnie deployment on https://bonnee.eu/
 
-# Building & Running the application
+### Jenkins & Docker
+
+To make the process of *development -> deploy* faster, easier and automatic we use a continuous integration tool **Jenkins** and containerization platform **Docker**. Both Jenkins and Docker have been installed on our remote server which can be accessed on [https://bonnee.eu/ci/](https://bonnee.eu/ci/) or via SSH CLI.
+For more information on Jenkins and Docker setup read the corresponding document in the docs folder.
+
+# Building & Running the application locally
 
 First, start the zookeeper, and kafka services that is described in the ```doc/runKafka.txt``` file.
 
@@ -71,6 +78,17 @@ mvn clean install
 ```
 
 After this, to run the project, issue the following command from the folder of starter module:
+
 ```bash
 mvn spring-boot:run
 ```
+
+To run the angular frontend, issue the following command from the frontend folder:
+
+```bash
+ng serve
+```
+
+# Bonnie live environment
+
+The Bonnie application is up and running as a docker container and can be operated on [https://bonnee.eu/](https://bonnee.eu/). It can be continuously updated via Jenkins server.
