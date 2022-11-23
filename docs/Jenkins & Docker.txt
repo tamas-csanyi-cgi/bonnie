@@ -13,7 +13,7 @@ Then click on Build Now, to start the building process.
 
 --Docker--
 The pipeline from Jenkinsfile contains, among other things, instructions to create docker images based on Dockerfiles located in the parent folder.
-Also, there is a "docker-compose" file to automatically run created containers and the message services, so there is no need to do it manually.
+Also, there is a "docker-compose.yml" file to automatically run created containers and the message services, so there is no need to do it manually.
 
 Basic CLI commands to operate docker images/containers manually:
 docker images - show all images.
@@ -22,8 +22,3 @@ docker run Image - create a new container of an image, and execute the container
 docker stop Image - stop a continer.
 docker start Image - launch a container previously stopped.
 docker run -p portOfHost:containerPort Image - run image on specific port.
-
-
-
-
-
