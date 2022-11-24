@@ -91,4 +91,7 @@ ng serve
 
 # Bonnie live environment
 
-The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/). It can be continuously updated via Jenkins server.
+The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/). 
+Bonnie has a multibranch build pipeline in Jenkins. This pipeline is triggered by git push events and build new artifacts of Bonnie backend and frontend. 
+In the last stage of the pipeline we restart Bonnie with the new versions of backend and frontend. 
+You can see the build pipeline here: https://bonnee.eu/ci/job/build-bonnie/. You find the pipeline definition in the file names "Jenkinsfile" under bonnie's repository.
