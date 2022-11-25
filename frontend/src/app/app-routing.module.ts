@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'order/:id', component: OrderDetailsComponent },
   { path: 'unassigned-orders', component: UnassignedOrdersComponent },
   { path: 'users', component: UsersComponent },
-  { path: 'login', component: LoginPageComponent },
+  { path: 'login-form', component: LoginPageComponent },
 ];
 
 @NgModule({

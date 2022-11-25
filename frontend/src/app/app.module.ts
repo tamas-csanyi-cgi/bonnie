@@ -32,6 +32,8 @@ import { BASE_PATH } from 'generated-client';
 import { SecurityInterceptor } from './security-interceptor';
 import { UserService } from './userService';
 
+import { environment } from 'src/environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +69,7 @@ import { UserService } from './userService';
     ReactiveFormsModule
   ],
   providers: [
-    { provide: BASE_PATH, useValue: "http://localhost:8082" },
+    { provide: BASE_PATH, useValue: environment.backendURL },
     { provide: HTTP_INTERCEPTORS, useClass: SecurityInterceptor, multi: true },
     OrderControllerService,
     UserControllerService,

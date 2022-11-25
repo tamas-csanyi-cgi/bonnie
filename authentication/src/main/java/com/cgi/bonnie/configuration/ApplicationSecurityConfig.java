@@ -3,6 +3,7 @@ package com.cgi.bonnie.configuration;
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
 import com.cgi.bonnie.authentication.security.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,6 +31,11 @@ import java.util.Arrays;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${bonnie.authentication.cors.allowed.origins}")
+    private String corsAllowedOrigins;
+
+    @Value("${bonnie.authentication.oauth.redirect.url}")
+    private String oauthLoginSuccessUrl;
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
@@ -73,7 +78,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                     .loginPage("/login")
                     .permitAll()
-                    .defaultSuccessUrl("http://localhost:4200/my-orders", true)
+                    .defaultSuccessUrl(oauthLoginSuccessUrl, true)
                     .userInfoEndpoint()
                     .userService(oAuth2UserService)
                 .and()*/
@@ -108,7 +113,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList(corsAllowedOrigins.split(",")));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
