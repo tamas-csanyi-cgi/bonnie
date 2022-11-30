@@ -91,7 +91,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
                     .logoutSuccessUrl("/login");*/
-                .and()
+                http
                     .oauth2Login()
                     .defaultSuccessUrl(oauthLoginSuccessUrl, true)
                     .userInfoEndpoint()
