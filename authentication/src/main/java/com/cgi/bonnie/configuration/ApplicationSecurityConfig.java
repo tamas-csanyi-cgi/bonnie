@@ -91,14 +91,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
                     .logoutSuccessUrl("/login");*/
-                http
+        //TODO: enable after nginx configuration
+        /*         http
                     .oauth2Login()
                     .defaultSuccessUrl(oauthLoginSuccessUrl, true)
                     .userInfoEndpoint()
                     .userService(oAuth2UserService)
                 .and()
                    .successHandler(oAuthLoginSuccessHandler);
-
+        */
         http.cors().configurationSource(corsConfigurationSource());
     }
 
