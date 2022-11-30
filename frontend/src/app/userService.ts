@@ -38,4 +38,8 @@ export class UserService {
         );
     }
 
+    public logout() {
+        return this.httpClient.request('post', `${this.basePath}/logout`);   
+    }
+
 }

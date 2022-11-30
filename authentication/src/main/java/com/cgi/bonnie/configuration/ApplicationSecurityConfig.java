@@ -4,6 +4,7 @@ import com.cgi.bonnie.authentication.auth.ApplicationUserService;
 import com.cgi.bonnie.authentication.auth.OAuthLoginSuccessHandler;
 import com.cgi.bonnie.authentication.security.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,12 @@ import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBL
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${bonnie.authentication.cors.allowed.origins}")
+    private String corsAllowedOrigins;
+
+    @Value("${bonnie.authentication.oauth.redirect.url}")
+    private String oauthLoginSuccessUrl;
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
@@ -62,8 +69,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/logout").permitAll()
                 .antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
-                .anyRequest().authenticated()/*
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID", "remember-me")
+                .logoutSuccessUrl("/login");/*
                 .and()
                     .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
@@ -78,7 +93,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/login");*/
                 .and()
                     .oauth2Login()
-                    .defaultSuccessUrl("http://localhost:4200/my-orders", true)
+                    .defaultSuccessUrl(oauthLoginSuccessUrl, true)
                     .userInfoEndpoint()
                     .userService(oAuth2UserService)
                 .and()
@@ -114,7 +129,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList(corsAllowedOrigins.split(",")));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));

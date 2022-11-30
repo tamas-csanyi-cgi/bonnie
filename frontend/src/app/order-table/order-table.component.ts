@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { TrackingNumberComponent } from '../common/tracking-number/tracking-number.component';
-import { Order } from 'generated-client';
-
+import { Order, OrderControllerService } from 'generated-client';
+import { Router } from '@angular/router';
 @Component({
   selector: 'order-table',
   templateUrl: './order-table.component.html',
@@ -14,7 +14,7 @@ export class OrderTableComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'quantity', 'status', 'assignedTo', 'trackingNr' ];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog,private orderControllerService: OrderControllerService, private router: Router) { }
 
   ngOnInit(): void { }
 
@@ -29,4 +29,15 @@ export class OrderTableComponent implements OnInit {
     this.dialog.open(TrackingNumberComponent, dialogConfig);
   }
 
+  releaseOrder(order : number): void{ 
+    this.orderControllerService.releaseOrder(order).subscribe();
+    this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
+    this.router.navigate([this.router.url])
+  }
+
+  claimOrder(order : number): void{ 
+    this.orderControllerService.assignToMe(order).subscribe();
+    this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
+    this.router.navigate([this.router.url])
+  }
 }
