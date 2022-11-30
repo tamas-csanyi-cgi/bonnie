@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { UserService } from './userService';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bonnie-frontend';
+
+    constructor(protected userService: UserService, protected router: Router) {
+      if (!userService.isLoggedIn()) {
+        this.router.navigateByUrl(`/login-form`);
+      }
+    }
+
 }
