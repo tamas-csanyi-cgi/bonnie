@@ -1,7 +1,6 @@
 package com.cgi.bonnie;
 
 import com.cgi.bonnie.bonnierest.model.UserRequest;
-import com.cgi.bonnie.businessrules.Role;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserCredentials;
 import com.cgi.bonnie.businessrules.user.UserService;
@@ -29,10 +28,6 @@ class UserControllerIT extends BaseIT {
     private static final String PATH_CURRENT_USER = PATH_USER_ROOT + "/current";
     private static final String PATH_USER_GET = PATH_USER_ROOT + "/";
     private static final String PATH_USER_CREATE = PATH_USER_ROOT + "/add";
-    private static final String TEST_USER_NAME = "test user";
-    private static final String TEST_USER_EMAIL = "testuser@mail.local";
-    private static final String TEST_USER_PASSWORD = "testpassword";
-    private static final Role TEST_USER_ROLE = Role.ADMIN;
     private static final long UNKNOWN_USER_ID = 9999L;
 
     @Autowired
@@ -160,7 +155,7 @@ class UserControllerIT extends BaseIT {
 
     @Test
     void createUser_validInputData_userCreated() throws Exception {
-        final UserRequest userRequest = new UserRequest("name", "password", Role.ADMIN.name(), "email@example.local");
+        final UserRequest userRequest = new UserRequest(TEST_USER_NAME, TEST_USER_PASSWORD, TEST_USER_ROLE.name(), TEST_USER_EMAIL);
         final String body = objectMapper.writeValueAsString(userRequest);
 
         final MvcResult result = mockMvc.perform(post(PATH_USER_CREATE)
@@ -177,11 +172,11 @@ class UserControllerIT extends BaseIT {
 
         final long userId = Long.parseLong(result.getResponse().getContentAsString());
         final User user = userService.loadUser(userId);
-        final UserCredentials userCredentials = userCredentialStorage.findByEmail(userRequest.getEmail());
+        final UserCredentials userCredentials = userCredentialStorage.findByEmail(TEST_USER_EMAIL);
 
         assertEquals(userRequest.getName(), user.getName());
         assertEquals(userRequest.getEmail(), user.getEmail());
-        assertEquals(userRequest.getRole(), user.getRole().toString());
+        assertEquals(userRequest.getRole(), user.getRole().name());
         assertEquals(userRequest.getName(), userCredentials.getName());
         assertEquals(userRequest.getEmail(), userCredentials.getEmail());
         assertEquals(userRequest.getPassword(), userCredentials.getPassword());

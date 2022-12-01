@@ -1,6 +1,7 @@
 package com.cgi.bonnie;
 
 import com.cgi.bonnie.authentication.controller.LoginData;
+import com.cgi.bonnie.businessrules.Role;
 import com.cgi.bonnie.businessrules.user.User;
 import com.cgi.bonnie.businessrules.user.UserCredentialStorage;
 import com.cgi.bonnie.businessrules.user.UserCredentials;
@@ -31,6 +32,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 class BaseIT {
 
     static final String TEST_EMAIL = "integration.test@admin.local";
+    static final String TEST_USER_NAME = "test user";
+    static final String TEST_USER_EMAIL = "testuser@mail.local";
+    static final String TEST_USER_PASSWORD = "testpassword";
+    static final Role TEST_USER_ROLE = Role.ADMIN;
 
     final ObjectMapper objectMapper = new ObjectMapper();
 
