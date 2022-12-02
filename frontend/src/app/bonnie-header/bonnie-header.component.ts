@@ -15,20 +15,12 @@ export class BonnieHeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toAllOrders() {
-    this.router.navigate(["/all-orders"]);
-  }
-
   toMyOrders() {
     this.router.navigate(["/my-orders"]);
   }
 
   toUnassignedOrders() {
     this.router.navigate(["/unassigned-orders"]);
-  }
-
-  toUsers() {
-    this.router.navigate(["/users"]);
   }
 
 }
