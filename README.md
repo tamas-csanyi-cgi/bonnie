@@ -91,7 +91,29 @@ ng serve
 
 # Bonnie live environment
 
-The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/). 
-Bonnie has a multibranch build pipeline in Jenkins. This pipeline is triggered by git push events and build new artifacts of Bonnie backend and frontend. 
-In the last stage of the pipeline we restart Bonnie with the new versions of backend and frontend. 
+The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/).
+Bonnie has a multibranch build pipeline in Jenkins. This pipeline is triggered by git push events and build new artifacts of Bonnie backend and frontend.
+In the last stage of the pipeline we restart Bonnie with the new versions of backend and frontend.
 You can see the build pipeline here: https://bonnee.eu/ci/job/build-bonnie/. You find the pipeline definition in the file names "Jenkinsfile" under bonnie's repository.
+
+# FAQ
+
+###### Q: Bonnie accounts (Users/admin) to use for login..?
+
+A: Accounts are located in .... one fo them is..
+
+###### Q: Do I need to Install Jenkins / docker on my local machine to make Bonnie work?
+
+A: There's no need to install these programs, in fact we are not allowed to install docker on our local machines due to lincensing.. Docker and Jenkins are both installed on our remote server.
+
+###### Q: What SDK to use for Bonnie?
+
+A: Open JDK v.18 (free, nonlicensed)  /v.17 ok as well?
+
+###### Q: How can I add stuff on github?
+
+A: You need to be added to the colaborator list by the repository owner.
+
+###### Q: Where can I get the task for bonnie to be implemented?
+
+A: On github you can claim an issue you can work on after a standup discussion. I there is none you can thing about possible implementations and create that issue which you can work on if approved.
