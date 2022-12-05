@@ -23,4 +23,14 @@ export class BonnieHeaderComponent implements OnInit {
     this.router.navigate(["/unassigned-orders"]);
   }
 
+  logout() {
+    this.userService.logout().subscribe(resp => {
+    }, err => {
+      console.error(err);
+    })
+    this.router.navigate(["/login"]);
+    this.userService.setLoggedIn(false);
+
+  }
+
 }

@@ -8,5 +8,8 @@
         <button mat-icon-button type="button" (click)="toUnassignedOrders()" class="button" matTooltip="Unassigned orders">
             <mat-icon class="white-icon">assignment_late</mat-icon>
         </button>
+        <button mat-icon-button type="button" (click)="logout()" class="button" matTooltip="Logout" *ngIf="userService.isLoggedIn()">
+            <mat-icon class="white-icon">logout</mat-icon>
+        </button>
     </mat-toolbar>
 </div>
