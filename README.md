@@ -99,16 +99,21 @@ You can see the build pipeline here: https://bonnee.eu/ci/job/build-bonnie/. You
 # FAQ
 
 ###### Q: What SDK should I use for Bonnie?
-A: OpenJDK v.18 (non-licensed preferably). Intellij IDEA allows to manage different versions of JDKs for each project so this feature is recomended rather than installing java separately.
+
+A: OpenJDK v.18 (non-licensed preferably). Intellij IDEA allows to manage different versions of JDKs for each project so this feature is recommended rather than installing java separately.
 
 ###### Q: Do I need to Install Jenkins / Docker on my local machine?
-A: There's no need to install Jenkins nor Docker. In fact, it is not allowed to install Docker on the company machines due to lincensing. Docker and Jenkins are both installed on our remote server.
+
+A: There's no need to install Jenkins nor Docker. In fact, it is not allowed to install Docker on the company machines due to licensing. Docker and Jenkins are both installed on our remote server.
 
 ###### Q: What accounts can I use to test Bonnie's functions?
+
 A: You can find the account information in data.sql file. (hexagonal/h2-storage/src/main/resources/data.sql)
 
-###### Q: How can I contribute to the Bonnie repository on github?
-A: You have to be added on the colaborator list by the repository owner in order to create/merge  branches.
+###### Q: How can I contribute to the Bonnie repository on Github?
+
+A: You have to be added on the collaborator list by the repository owner in order to create/merge branches.
 
 ###### Q: Where can I get tasks for Bonnie to be implemented?
-A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once it's discussed and approved (usually on Bonnie standups). 
+
+A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once it's discussed and approved (usually on Bonnie standups).
