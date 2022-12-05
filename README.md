@@ -114,6 +114,6 @@ A: You can find the account information in data.sql file. (hexagonal/h2-storage/
 
 A: You have to be added on the collaborator list by the repository owner in order to create/merge branches.
 
-###### Q: Where can I get tasks for Bonnie to be implemented?
+###### Q: Where can I get tasks I can work on?
 
 A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once it's discussed and approved (usually on Bonnie standups).
