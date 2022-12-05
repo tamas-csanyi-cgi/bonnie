@@ -116,4 +116,4 @@ A: You have to be added on the collaborator list by the repository owner in orde
 
 ###### Q: Where can I get tasks I can work on?
 
-A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once it's discussed and approved (usually on Bonnie standups).
+A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once they are discussed and approved (usually on Bonnie standups).
