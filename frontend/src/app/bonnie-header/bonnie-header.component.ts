@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'generated-client';
 import { UserService } from '../userService';
 
 @Component({
@@ -21,6 +20,16 @@ export class BonnieHeaderComponent implements OnInit {
 
   toUnassignedOrders() {
     this.router.navigate(["/unassigned-orders"]);
+  }
+
+  logout() {
+    this.userService.logout().subscribe(resp => {
+    }, err => {
+      console.error(err);
+    })
+    this.router.navigate(["/login"]);
+    this.userService.setLoggedIn(false);
+
   }
 
   logout() {

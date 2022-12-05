@@ -1,6 +1,7 @@
 package com.cgi.bonnie.configuration;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserService;
+import com.cgi.bonnie.authentication.auth.OAuthLoginSuccessHandler;
 import com.cgi.bonnie.authentication.security.oauth2.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static com.cgi.bonnie.authentication.security.ApplicationUserRole.ASSEMBLER;
+
 
 @Configuration
 @ComponentScan(basePackages = {"com.cgi.bonnie.authentication"})
@@ -42,17 +45,23 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomOAuth2UserService oAuth2UserService;
 
+    private final OAuthLoginSuccessHandler oAuthLoginSuccessHandler;
+
     @Autowired
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder,
                                      ApplicationUserService applicationUserService,
-                                     CustomOAuth2UserService oAuth2UserService) {
+                                     CustomOAuth2UserService oAuth2UserService,
+                                     OAuthLoginSuccessHandler oAuthLoginSuccessHandler) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
         this.oAuth2UserService = oAuth2UserService;
+        this.oAuthLoginSuccessHandler = oAuthLoginSuccessHandler;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        oAuthLoginSuccessHandler.setDefaultTargetUrl("http://localhost:4200/my-orders");
+
         http
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
@@ -60,8 +69,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                //.antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
-                .anyRequest().authenticated();/*
+                .antMatchers("/logout").permitAll()
+                .antMatchers("/api/**").hasAnyRole(ASSEMBLER.name(), "USER")
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .clearAuthentication(true)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID", "remember-me")
+                .logoutSuccessUrl("/login-form");/*
                 .and()
                     .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
@@ -73,16 +90,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutSuccessUrl("/login");
-                /*.and()
-                .oauth2Login()
-                    .loginPage("/login")
-                    .permitAll()
+                    .logoutSuccessUrl("/login");*/
+        //TODO: enable after nginx configuration
+        /*         http
+                    .oauth2Login()
                     .defaultSuccessUrl(oauthLoginSuccessUrl, true)
                     .userInfoEndpoint()
                     .userService(oAuth2UserService)
-                .and()*/
-
+                .and()
+                   .successHandler(oAuthLoginSuccessHandler);
+        */
         http.cors().configurationSource(corsConfigurationSource());
     }
 
