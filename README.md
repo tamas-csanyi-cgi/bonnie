@@ -98,22 +98,17 @@ You can see the build pipeline here: https://bonnee.eu/ci/job/build-bonnie/. You
 
 # FAQ
 
-###### Q: Bonnie accounts (Users/admin) to use for login..?
+###### Q: What SDK should I use for Bonnie?
+A: OpenJDK v.18 (non-licensed preferably). Intellij IDEA allows to manage different versions of JDKs for each project so this feature is recomended rather than installing java separately.
 
-A: Accounts are located in .... one fo them is..
+###### Q: Do I need to Install Jenkins / Docker on my local machine?
+A: There's no need to install Jenkins nor Docker. In fact, it is not allowed to install Docker on the company machines due to lincensing. Docker and Jenkins are both installed on our remote server.
 
-###### Q: Do I need to Install Jenkins / docker on my local machine to make Bonnie work?
+###### Q: What accounts can I use to test Bonnie's functions?
+A: You can find the account information in data.sql file. (hexagonal/h2-storage/src/main/resources/data.sql)
 
-A: There's no need to install these programs, in fact we are not allowed to install docker on our local machines due to lincensing.. Docker and Jenkins are both installed on our remote server.
+###### Q: How can I contribute to the Bonnie repository on github?
+A: You have to be added on the colaborator list by the repository owner in order to create/merge  branches.
 
-###### Q: What SDK to use for Bonnie?
-
-A: Open JDK v.18 (free, nonlicensed)  /v.17 ok as well?
-
-###### Q: How can I add stuff on github?
-
-A: You need to be added to the colaborator list by the repository owner.
-
-###### Q: Where can I get the task for bonnie to be implemented?
-
-A: On github you can claim an issue you can work on after a standup discussion. I there is none you can thing about possible implementations and create that issue which you can work on if approved.
+###### Q: Where can I get tasks for Bonnie to be implemented?
+A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once it's discussed and approved (usually on Bonnie standups). 
