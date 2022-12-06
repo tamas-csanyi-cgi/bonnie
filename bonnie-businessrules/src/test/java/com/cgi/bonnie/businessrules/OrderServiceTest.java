@@ -413,12 +413,12 @@ class OrderServiceTest {
         assertFalse(orderService.finishOrder(ORDER_ID));
     }
 
-//    @Test
-//    public void expectGetAllOrdersCallsFindAll() {
-//        orderService.getAllOrders();
-//
-//        verify(orderLoader).findAll();
-//    }
+    @Test
+    public void expectGetAllOrdersCallsFindAll() {
+        orderService.getAllOrders();
+
+        verify(orderLoader).findAll();
+    }
 
     @Test
     public void expectCreateOrderReturnsErrorWhenQuantityIsInvalid() {

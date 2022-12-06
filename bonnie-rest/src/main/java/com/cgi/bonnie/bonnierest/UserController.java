@@ -70,6 +70,18 @@ public class UserController {
         }
     }
 
+    //for testing purposes
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAllUsers() {
+        try {
+            List<User> users = userService.findAll();
+            return ResponseEntity.ok(users);
+        }catch (Exception e) {
+            log.debug("can't get list of current users: "+e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @PostMapping(path = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createUser(@RequestBody UserRequest request) {
         Role role1 = Role.valueOf(request.getRole().toUpperCase());

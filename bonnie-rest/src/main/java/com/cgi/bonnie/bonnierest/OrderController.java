@@ -39,6 +39,18 @@ public class OrderController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<Order>> getAllOrders() {
+        try {
+            List<Order> orders = orderService.getAllOrders();
+            return ResponseEntity.ok(orders);
+        } catch (Exception e) {
+            log.error("can't load orders: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
     @GetMapping("/new")
     public ResponseEntity<List<Order>> findAllNew() {
         try {

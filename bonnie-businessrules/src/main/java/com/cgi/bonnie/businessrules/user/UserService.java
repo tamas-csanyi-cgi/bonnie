@@ -4,6 +4,8 @@ import com.cgi.bonnie.businessrules.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class.getName());
@@ -28,6 +30,10 @@ public class UserService {
         }
         log.error("can't register user, because email address is already in use. (" + email + ")");
         return 0L;
+    }
+
+    public List<User> findAll() {
+        return userStorage.findAll();
     }
 
     public User findByEmail(String email) {
