@@ -14,10 +14,6 @@ export class BonnieHeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toAllOrders() {
-    this.router.navigate(["/all-orders"]);
-  }
-
   toMyOrders() {
     this.router.navigate(["/my-orders"]);
   }
@@ -26,8 +22,14 @@ export class BonnieHeaderComponent implements OnInit {
     this.router.navigate(["/unassigned-orders"]);
   }
 
-  toUsers() {
-    this.router.navigate(["/users"]);
+  logout() {
+    this.userService.logout().subscribe(resp => {
+    }, err => {
+      console.error(err);
+    })
+    this.router.navigate(["/login"]);
+    this.userService.setLoggedIn(false);
+
   }
 
   logout() {

@@ -33,10 +33,6 @@ public class OrderService {
         return orderStorage.load(id);
     }
 
-    public List<Order> getAllOrders() {
-        return orderStorage.findAll();
-    }
-
     public List<Order> findAllByStatus(Status status){
         return orderStorage.findAllByStatus(status);
     }
