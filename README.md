@@ -91,7 +91,29 @@ ng serve
 
 # Bonnie live environment
 
-The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/). 
-Bonnie has a multibranch build pipeline in Jenkins. This pipeline is triggered by git push events and build new artifacts of Bonnie backend and frontend. 
-In the last stage of the pipeline we restart Bonnie with the new versions of backend and frontend. 
+The Bonnie application is up and running as a docker container on [https://bonnee.eu/](https://bonnee.eu/).
+Bonnie has a multibranch build pipeline in Jenkins. This pipeline is triggered by git push events and build new artifacts of Bonnie backend and frontend.
+In the last stage of the pipeline we restart Bonnie with the new versions of backend and frontend.
 You can see the build pipeline here: https://bonnee.eu/ci/job/build-bonnie/. You find the pipeline definition in the file names "Jenkinsfile" under bonnie's repository.
+
+# FAQ
+
+###### Q: What SDK should I use for Bonnie?
+
+A: OpenJDK v.18 (non-licensed preferably). Intellij IDEA allows to manage different versions of JDKs for each project so this feature is recommended rather than installing java separately.
+
+###### Q: Do I need to Install Jenkins / Docker on my local machine?
+
+A: There's no need to install Jenkins nor Docker. In fact, it is not allowed to install Docker on the company machines due to licensing. Docker and Jenkins are both installed on our remote server.
+
+###### Q: What accounts can I use to test Bonnie's functions?
+
+A: You can find the account information in data.sql file. (hexagonal/h2-storage/src/main/resources/data.sql)
+
+###### Q: How can I contribute to the Bonnie repository on Github?
+
+A: You have to be added on the collaborator list by the repository owner in order to create/merge branches.
+
+###### Q: Where can I get tasks I can work on?
+
+A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once they are discussed and approved (usually on Bonnie standups).
