@@ -12,6 +12,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@Import(TestConfig.class)
 @Transactional
 @AutoConfigureMockMvc
 @TestInstance(PER_CLASS)
@@ -37,10 +39,11 @@ class BaseIT {
     static final String TEST_USER_PASSWORD = "testpassword";
     static final Role TEST_USER_ROLE = Role.ADMIN;
 
-    final ObjectMapper objectMapper = new ObjectMapper();
-
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     UserStorage userStorage;
