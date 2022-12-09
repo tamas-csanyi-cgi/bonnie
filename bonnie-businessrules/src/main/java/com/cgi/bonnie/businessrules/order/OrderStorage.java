@@ -12,8 +12,6 @@ public interface OrderStorage {
 
     long create(Order order);
 
-    List<Order> findAll();
-
     List<Order> findAllByShopOrderId(String shopOrderId);
 
     List<Order> findAllByStatus(Status status);

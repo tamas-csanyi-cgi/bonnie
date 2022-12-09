@@ -2,17 +2,14 @@
     <mat-toolbar class="navbar">
         <img id="bonnie-img" src="assets/Logo.png">
         <span style="clear: both;"></span>
-        <button mat-icon-button type="button" (click)="toAllOrders()" class="button" matTooltip="All orders">
-            <mat-icon class="white-icon">assignment</mat-icon>
-        </button>
-        <button mat-icon-button type="button" (click)="toMyOrders()" class="button" matTooltip="My orders">
+        <button mat-icon-button type="button" (click)="toMyOrders()" class="button" matTooltip="My orders" *ngIf="userService.isLoggedIn()">
             <mat-icon class="white-icon">assignment_ind</mat-icon>
         </button>
-        <button mat-icon-button type="button" (click)="toUnassignedOrders()" class="button" matTooltip="Unassigned orders">
+        <button mat-icon-button type="button" (click)="toUnassignedOrders()" class="button" matTooltip="Unassigned orders" *ngIf="userService.isLoggedIn()">
             <mat-icon class="white-icon">assignment_late</mat-icon>
         </button>
-        <button mat-icon-button type="button" (click)="toUsers()" class="button" matTooltip="Users">
-            <mat-icon class="white-icon">people</mat-icon>
+        <button mat-icon-button type="button" (click)="logout()" class="button" matTooltip="Logout" *ngIf="userService.isLoggedIn()">
+            <mat-icon class="white-icon">logout</mat-icon>
         </button>
     </mat-toolbar>
 </div>

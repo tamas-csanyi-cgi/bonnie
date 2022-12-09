@@ -11,6 +11,7 @@
 
     <artifactId>businessrules</artifactId>
     <name>businessrules</name>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

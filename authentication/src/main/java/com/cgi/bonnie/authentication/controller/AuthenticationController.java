@@ -2,6 +2,7 @@ package com.cgi.bonnie.authentication.controller;
 
 import com.cgi.bonnie.authentication.auth.ApplicationUserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,12 +29,17 @@ public class AuthenticationController {
     private SecurityContextRepository securityContextRepository;
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginData loginData, HttpServletRequest request, HttpServletResponse response) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-        securityContextRepository.saveContext(securityContext, request, response);
+    public ResponseEntity<Void> login(@RequestBody LoginData loginData, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginData.getUsername(), loginData.getPassword());
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+            securityContextRepository.saveContext(securityContext, request, response);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
 }

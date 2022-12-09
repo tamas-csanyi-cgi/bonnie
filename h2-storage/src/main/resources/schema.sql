@@ -4,7 +4,7 @@ create table assembly_user
     role varchar(20) NOT NULL,
     name varchar(255) NOT NULL,
     email varchar(255) NOT NULL,
-    password varchar(255) NOT NULL
+    password varchar(255)
 );
 
 create table assembly_order

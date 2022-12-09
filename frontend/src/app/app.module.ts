@@ -20,11 +20,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BonnieHeaderComponent } from './bonnie-header/bonnie-header.component';
 import { OrderTableComponent } from './order-table/order-table.component';
-import { AllOrdersComponent } from './all-orders/all-orders.component'; 
 import { LoginPageComponent } from './login-page/login-page.component';
 import { MyOrdersComponent } from './my-orders/my-orders.component';
 import { UnassignedOrdersComponent } from './unassigned-orders/unassigned-orders.component';
-import { UsersComponent } from './users/users.component';
 import { OrderControllerService, UserControllerService } from 'generated-client';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { TrackingNumberComponent } from './common/tracking-number/tracking-number.component';
@@ -32,17 +30,17 @@ import { BASE_PATH } from 'generated-client';
 import { SecurityInterceptor } from './security-interceptor';
 import { UserService } from './userService';
 
+import { environment } from 'src/environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
     BonnieHeaderComponent,
     OrderTableComponent,
-    AllOrdersComponent,
     BonnieHeaderComponent,
     LoginPageComponent,
     MyOrdersComponent,
     UnassignedOrdersComponent,
-    UsersComponent,
     OrderDetailsComponent,
     TrackingNumberComponent,
     LoginPageComponent,
@@ -67,7 +65,7 @@ import { UserService } from './userService';
     ReactiveFormsModule
   ],
   providers: [
-    { provide: BASE_PATH, useValue: "http://localhost:8082" },
+    { provide: BASE_PATH, useValue: environment.backendURL },
     { provide: HTTP_INTERCEPTORS, useClass: SecurityInterceptor, multi: true },
     OrderControllerService,
     UserControllerService,

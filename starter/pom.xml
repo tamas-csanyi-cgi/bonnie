@@ -20,14 +20,17 @@
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
             <artifactId>h2-storage</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
             <artifactId>rest</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
             <artifactId>businessrules</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
@@ -37,6 +40,7 @@
         <dependency>
             <groupId>com.cgi.bonnie</groupId>
             <artifactId>authentication</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
