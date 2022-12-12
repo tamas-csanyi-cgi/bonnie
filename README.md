@@ -31,7 +31,9 @@ Integration module with Kafka. The system gets and send asynchronous events thro
 
 ### starter
 
-It packs all the modules into a single spring boot application. It is a build with a specific set of plugins. The idea is that, we can have multiple starter modules, with other plugin configurations (with another database plugin for instance). You have to start this module, if you want to run the application
+It packs all the modules into a single spring boot application. It is a build with a specific set of plugins. 
+The idea is that, we can have multiple starter modules, with other plugin configurations (with another database plugin for instance). 
+You have to start this module, if you want to run the application
 
 ## Stack
 
@@ -64,7 +66,9 @@ This application has an angular frontend to manage the orderings. A web domain h
 
 ### Jenkins & Docker
 
-To make the process of *development -> deploy* faster, easier and automatic we use a continuous integration tool **Jenkins** and containerization platform **Docker**. Both Jenkins and Docker have been installed on our remote server which can be accessed on [https://bonnee.eu/ci/](https://bonnee.eu/ci/) or via SSH CLI.
+To make the process of *development -> deploy* faster, easier and automatic we use a continuous integration tool **Jenkins** and 
+containerization platform **Docker**. Both Jenkins and Docker have been installed on our remote server 
+which can be accessed on [https://bonnee.eu/ci/](https://bonnee.eu/ci/) or via SSH CLI.
 For more information on Jenkins and Docker setup read the corresponding document in the docs folder.
 
 # Building & Running the application locally
@@ -98,22 +102,19 @@ You can see the build pipeline here: https://bonnee.eu/ci/job/build-bonnie/. You
 
 # FAQ
 
-###### Q: What SDK should I use for Bonnie?
+**Q: What SDK should I use for Bonnie?**
+A: OpenJDK v.18 (non-licensed preferably). Intellij IDEA allows to manage different versions of JDKs for each project 
+so this feature is recommended rather than installing java separately.
 
-A: OpenJDK v.18 (non-licensed preferably). Intellij IDEA allows to manage different versions of JDKs for each project so this feature is recommended rather than installing java separately.
+**Q: Do I need to Install Jenkins / Docker on my local machine?**
+A: There's no need to install Jenkins nor Docker. In fact, it is not allowed to install Docker on the company machines due to licensing. 
+Docker and Jenkins are both installed on our remote server.
 
-###### Q: Do I need to Install Jenkins / Docker on my local machine?
-
-A: There's no need to install Jenkins nor Docker. In fact, it is not allowed to install Docker on the company machines due to licensing. Docker and Jenkins are both installed on our remote server.
-
-###### Q: What accounts can I use to test Bonnie's functions?
-
+**Q: What accounts can I use to test Bonnie's functions?**
 A: You can find the account information in data.sql file. (hexagonal/h2-storage/src/main/resources/data.sql)
 
-###### Q: How can I contribute to the Bonnie repository on Github?
-
+**Q: How can I contribute to the Bonnie repository on Github?**
 A: You have to be added on the collaborator list by the repository owner in order to create/merge branches.
 
-###### Q: Where can I get tasks I can work on?
-
+**Q: Where can I get tasks I can work on?**
 A: There are tasks for Bonnie in the "Issues" section on Github. You can create/claim/update the issues once they are discussed and approved (usually on Bonnie standups).
