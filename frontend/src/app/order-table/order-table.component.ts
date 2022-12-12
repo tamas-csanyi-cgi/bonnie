@@ -46,5 +46,4 @@ export class OrderTableComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
     this.router.navigate([this.router.url])
   }
-
 }
