@@ -13,12 +13,14 @@ import { Router } from '@angular/router';
 })
 export class OrderDetailsComponent implements OnInit {
 
+  id: number;
+
   order?: Order = undefined;
 
   dataFields: object[] = [ ];
 
   displayedColumns: string[] = [ 'key', 'value' ];
-  
+
   columnNameMapping: any = {
     shopOrderId : 'Shop Order Id',
     assignedTo: 'Assigned To',
@@ -33,11 +35,16 @@ export class OrderDetailsComponent implements OnInit {
   constructor(protected orderControllerService: OrderControllerService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) { 
+      this.id = Number(this.route.snapshot.paramMap.get('id'));
+    }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.orderControllerService.getOrder(id).subscribe(order => {
+    this.loadOrder();
+  }
+
+  loadOrder(): void {
+    this.orderControllerService.getOrder(this.id).subscribe(order => {
       this.order = order;
       this.dataFields = Object.entries(order)
         .filter(([key, value]) =>  {
@@ -63,13 +70,20 @@ export class OrderDetailsComponent implements OnInit {
 
     dialogConfig.data = order;
 
-    this.dialog.open(TrackingNumberComponent, dialogConfig);
+    this.dialog.open(TrackingNumberComponent, dialogConfig)
+      .afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          this.loadOrder();
+        }
+      }
+    );
   }
 
-  releaseOrder(order : number): void{ 
+  releaseOrder(order : number): void {
     this.orderControllerService.releaseOrder(order).subscribe();
   }
-  claimOrder(order : number): void{ 
+  
+  claimOrder(order : number): void {
     this.orderControllerService.assignToMe(order).subscribe();
   }
 }

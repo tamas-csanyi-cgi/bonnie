@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { TrackingNumberComponent } from '../common/tracking-number/tracking-number.component';
 import { Order, OrderControllerService } from 'generated-client';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class OrderTableComponent implements OnInit {
 
   @Input() orders: Order[] = [];
+
+  @Output() orderChanged = new EventEmitter<void>();
 
   displayedColumns: string[] = ['id', 'quantity', 'status', 'assignedTo', 'trackingNr' ];
 
@@ -26,16 +28,22 @@ export class OrderTableComponent implements OnInit {
 
     dialogConfig.data = order;
 
-    this.dialog.open(TrackingNumberComponent, dialogConfig);
+    this.dialog.open(TrackingNumberComponent, dialogConfig)
+      .afterClosed().subscribe(result => {
+        if (result !== undefined) {
+          this.orderChanged.emit();
+        }
+      }
+    );
   }
 
-  releaseOrder(order : number): void{ 
+  releaseOrder(order : number): void {
     this.orderControllerService.releaseOrder(order).subscribe();
     this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
     this.router.navigate([this.router.url])
   }
 
-  claimOrder(order : number): void{ 
+  claimOrder(order : number): void {
     this.orderControllerService.assignToMe(order).subscribe();
     this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
     this.router.navigate([this.router.url])

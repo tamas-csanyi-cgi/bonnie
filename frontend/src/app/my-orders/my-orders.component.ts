@@ -13,9 +13,16 @@ export class MyOrdersComponent implements OnInit {
   constructor(protected orderControllerService: OrderControllerService) { }
 
   ngOnInit(): void {
+    this.getMyOrders();
+  }
+
+  getMyOrders():void {
     this.orderControllerService.getMyOrders().subscribe(myOrders => {
       this.orders = myOrders;
     });
   }
 
+  onOrderChanged(): void {
+    this.getMyOrders();
+  }
 }
