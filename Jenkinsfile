@@ -19,6 +19,13 @@ pipeline {
             }
         }
 
+        stage('Integration test') {
+            steps {
+                sh '''
+                      mvn failsafe:integration-test'''
+            }
+        }
+
         stage('Create backend Docker image') {
             steps {
                 sh '''mv ../starter-1.0-SNAPSHOT.jar .
