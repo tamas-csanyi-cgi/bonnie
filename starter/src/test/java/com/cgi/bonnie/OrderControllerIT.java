@@ -359,7 +359,6 @@ class OrderControllerIT extends BaseIT {
         order.setMetadata("{\"shipping address\" : \"nowhere\"}");
 
         final long id = orderService.createOrder(order);
-        System.out.println(">>> Order created with ID: " + id);
         return orderService.loadOrder(id);
     }
 }
