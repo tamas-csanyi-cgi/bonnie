@@ -99,7 +99,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void getOrder_validId_returnsOrder() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AA01");
 
         final MvcResult result = mockMvc.perform(get(PATH_ORDER_GET, order.getId())
                         .with(securityContext(getSecurityContext())))
@@ -126,23 +126,6 @@ class OrderControllerIT extends BaseIT {
     }
 
     @Test
-    void getAllOrders_noInputData_returnsOrderList() throws Exception {
-        final MvcResult result = mockMvc.perform(get(PATH_ORDER_ROOT)
-                        .with(securityContext(getSecurityContext())))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andReturn();
-
-        assertNotNull(result);
-        assertNotNull(result.getResponse());
-        assertNotNull(result.getResponse().getContentAsString());
-
-        final List<Order> orderListResult = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<List<Order>>() {});
-
-        assertFalse(orderListResult.isEmpty());
-    }
-
-    @Test
     void findAllNew_noInputData_returnsNewOrderList() throws Exception {
         final MvcResult result = mockMvc.perform(get(PATH_ORDER_ALL_NEW)
                         .with(securityContext(getSecurityContext())))
@@ -162,7 +145,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void assignToMe_validOrderId_returnsOk() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AB01");
 
         final MvcResult result = mockMvc.perform(patch(PATH_ORDER_ASSIGN_TO_ME, order.getId())
                         .with(securityContext(getSecurityContext())))
@@ -189,7 +172,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void assignToMe_alreadyClaimedOrderId_badRequest() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AB02");
         order.setStatus(CLAIMED);
         orderStorage.save(order);
 
@@ -209,7 +192,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void releaseOrder_validOrderId_returnsOk() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AC01");
         order.setAssignedTo(userData);
         order.setStatus(CLAIMED);
         orderStorage.save(order);
@@ -240,7 +223,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void releaseOrder_notClaimedOrderId_badRequest() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AC02");
 
         final MvcResult result = mockMvc.perform(patch(PATH_ORDER_RELEASE, order.getId())
                         .with(securityContext(getSecurityContext())))
@@ -255,7 +238,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void finishOrder_validOrderId_returnsOk() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AD01");
         order.setAssignedTo(userData);
         order.setStatus(CLAIMED);
         orderStorage.save(order);
@@ -284,7 +267,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void finishOrder_notClaimedOrderId_badRequest() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AD02");
 
         final MvcResult result = mockMvc.perform(patch(PATH_ORDER_FINISH, order.getId())
                         .with(securityContext(getSecurityContext())))
@@ -299,7 +282,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void shipOrder_validOrderIdAndTrackingNumber_returnsOk() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AE01");
         order.setAssignedTo(userData);
         order.setStatus(ASSEMBLED);
         orderStorage.save(order);
@@ -329,7 +312,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void shipOrder_notAssembledOrderId_badRequest() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AE02");
 
         final MvcResult result = mockMvc.perform(patch(PATH_ORDER_SHIP, order.getId(), TRACKING_NUMBER)
                         .with(securityContext(getSecurityContext())))
@@ -344,7 +327,7 @@ class OrderControllerIT extends BaseIT {
 
     @Test
     void getMyOrders_noInputData_returnsMyOrders() throws Exception {
-        final Order order = createOrder();
+        final Order order = createOrder("AF01");
         order.setAssignedTo(userData);
         order.setStatus(CLAIMED);
         orderStorage.save(order);
@@ -365,9 +348,9 @@ class OrderControllerIT extends BaseIT {
         assertTrue(orderListResult.contains(order));
     }
 
-    private Order createOrder() {
+    private Order createOrder(String shopOrderId) {
         final Order order = new Order();
-        order.setShopOrderId("2022/001122");
+        order.setShopOrderId("2022/00-" + shopOrderId);
         order.setGoodsId("B1 example item");
         order.setQuantity(1);
         order.setStatus(NEW);
@@ -376,6 +359,7 @@ class OrderControllerIT extends BaseIT {
         order.setMetadata("{\"shipping address\" : \"nowhere\"}");
 
         final long id = orderService.createOrder(order);
+        System.out.println(">>> Order created with ID: " + id);
         return orderService.loadOrder(id);
     }
 }

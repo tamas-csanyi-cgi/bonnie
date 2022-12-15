@@ -21,7 +21,7 @@ class AuthenticationControllerIT extends BaseIT {
                         .contentType(APPLICATION_JSON)
                         .content(loginBody))
                 .andDo(print())
-                .andExpect(status().isForbidden())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
         assertNotNull(loginResult);
