@@ -14,8 +14,10 @@ export class MyOrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.orderControllerService.getMyOrders().subscribe(myOrders => {
-      this.orders = myOrders;
-    });
-  }
+      this.orders = myOrders.filter(s => {
+        return new Date(s.lastUpdate!.toString()).getTime() + 86400000 > new Date().getTime() && s.status == 'SHIPPED' || s.status!='SHIPPED'
+      });
+    });    
+  }  
 
 }

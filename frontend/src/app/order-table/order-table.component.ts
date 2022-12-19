@@ -32,12 +32,12 @@ export class OrderTableComponent implements OnInit {
   releaseOrder(order : number): void{ 
     this.orderControllerService.releaseOrder(order).subscribe();
     this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
-    this.router.navigate([this.router.url])
+    this.router.navigate([this.router.url]);
   }
 
   claimOrder(order : number): void{ 
     this.orderControllerService.assignToMe(order).subscribe();
     this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
-    this.router.navigate([this.router.url])
+    this.router.navigate([this.router.url]);
   }
 }
