@@ -25,12 +25,12 @@ services:
     restart: always
     container_name: "postgres_storage"
     environment:
-      - POSTGRES_PASSWORD: ${DB_ROOT_USERNAME}
-      - POSTGRES_USER: ${DB_ROOT_PWD}
+      - POSTGRES_USER=${DB_ROOT_USERNAME}
+      - POSTGRES_PASSWORD=${DB_ROOT_PWD}
     ports:
       - 5432:5432
     volumes:
-      - postgres_storage:/var/lib/postgresql/data
+      - postgres_storage: /var/lib/postgresql/data
   backend:
     image: bonnie-backend:latest
     container_name: "backend"
