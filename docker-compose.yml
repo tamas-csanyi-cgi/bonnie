@@ -25,8 +25,8 @@ services:
     restart: always
     container_name: "postgres_storage"
     environment:
-      - POSTGRES_USER=${DB_ROOT_USERNAME}
-      - POSTGRES_PASSWORD=${DB_ROOT_PWD}
+      - POSTGRES_USER=doodle
+      - POSTGRES_PASSWORD=doodle
     ports:
       - 5432:5432
     volumes:
