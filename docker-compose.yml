@@ -53,6 +53,6 @@ services:
     ports:
       - 8081:80
 
-  volumes:
-    postgres_storage:
-      driver: local
+volumes:
+  postgres_storage:
+    driver: local
