@@ -38,8 +38,8 @@ services:
       SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_storage:5432/
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${JASYPT_DB_DECRYPT_PWD}
-      JASYPT_ENCRYPTOR_PASSWORD: ${JASYPT_DB_CONNECTION_PWD}
+      SPRING_DATASOURCE_PASSWORD: 'ENC(BfY4m2nnz+NYaJugxcb5pg==)'
+      JASYPT_ENCRYPTOR_PASSWORD: 'yaRQ3P9qWiBUeNtinpPhvD7zqRwsg9RagDZpAAF2Yk5d:vfeUPHn'
     depends_on:
       - kafka
       - postgres_storage
