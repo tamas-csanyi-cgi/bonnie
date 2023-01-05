@@ -37,7 +37,7 @@ services:
     environment:
       SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_storage:5432/
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_USERNAME: doodle
       SPRING_DATASOURCE_PASSWORD: ENC(6KpVjqrPwKvLt/5Cjo2ZHg==)
       JASYPT_ENCRYPTOR_PASSWORD: master-password-bonnee
     depends_on:
