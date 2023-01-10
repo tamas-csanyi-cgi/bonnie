@@ -1,16 +1,9 @@
 
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:h2:mem:bonnie
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
+    driverClassName: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 bonnie:
   authentication:

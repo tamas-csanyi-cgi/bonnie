@@ -7,6 +7,7 @@ import com.cgi.bonnie.businessrules.user.UserCredentialStorage;
 import com.cgi.bonnie.businessrules.user.UserCredentials;
 import com.cgi.bonnie.businessrules.user.UserStorage;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static io.zonky.test.db.AutoConfigureEmbeddedDatabase.DatabaseProvider.ZONKY;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -29,6 +31,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Transactional
 @AutoConfigureMockMvc
 @TestInstance(PER_CLASS)
+@AutoConfigureEmbeddedDatabase(provider = ZONKY)
 @EmbeddedKafka(brokerProperties = { "listeners=PLAINTEXT://localhost:9092", "port=9092" })
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class BaseIT {
@@ -62,6 +65,10 @@ class BaseIT {
     void setup() {
         userCredentials = userCredentialStorage.findByEmail(TEST_EMAIL);
         userData = userStorage.findByEmail(TEST_EMAIL);
+        /*
+                userStorage.create(new User().withName(TEST_USER_NAME).withEmail(TEST_USER_EMAIL).withRole(TEST_USER_ROLE), TEST_USER_PASSWORD);
+        userCredentials = userCredentialStorage.findByEmail(TEST_USER_EMAIL);
+         */
     }
 
     LoginData getLoginData() {
